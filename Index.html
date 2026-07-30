@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--
+  Nakwol I Offshore Wind Farm — Weekly Management Dashboard
+  Based on B.GRIMM Weekly Dashboard Template (Dashboard_TEMPLATE.html)
+  Project-specific modules: WTG Construction Grid, Cable Progress, Operation Chart
+  Data source: data.json (falls back to FALLBACK constant if unavailable)
+-->
+<title>Nakwol I — Weekly Management Dashboard</title>
+<!-- Chart.js: used only in the Operation tab (project-specific module) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+:root {
+  --navy:#1F3A5F; --navy-dark:#14283F; --grey:#5A6472;
+  --bg:#F4F6F9; --card:#FFFFFF; --line:#E2E6EC;
+  --green:#2E7D32; --green-bg:#E8F5E9;
+  --amber:#EF6C00; --amber-bg:#FFF3E0;
+  --red:#C62828; --red-bg:#FFEBEE;
+  --blue-mid:#2563eb; --purple:#6d28d9;
+  --surface2:#F6F8FA; --muted:#5A6472; --text:#1A2433;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Segoe UI,Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}
+
+/* ── HEADER ── */
+header.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--navy-dark) 100%);color:#fff;padding:22px 28px}
+header.hero h1{margin:0 0 4px;font-size:22px;font-weight:700}
+header.hero .specs{font-size:12.5px;opacity:.85;margin-bottom:10px}
+.title-row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.badge{display:inline-block;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.35);border-radius:20px;padding:3px 12px;font-size:11.5px;font-weight:600;letter-spacing:.02em}
+.hdr-meta{font-size:12.5px;opacity:.9;margin-top:8px;display:flex;gap:18px;flex-wrap:wrap}
+
+/* ── TABS ── */
+nav.tabs{display:flex;gap:4px;border-bottom:2px solid var(--line);flex-wrap:wrap;background:#fff;padding:0 20px}
+nav.tabs button{appearance:none;border:none;background:transparent;padding:12px 20px;font-size:13.5px;font-weight:600;color:var(--grey);cursor:pointer;border-bottom:3px solid transparent;border-radius:6px 6px 0 0;margin-bottom:-2px;transition:color .15s}
+nav.tabs button.active{color:var(--navy);border-bottom-color:var(--navy)}
+nav.tabs button:hover:not(.active){color:var(--navy)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ── LAYOUT ── */
+.container{max-width:1200px;margin:0 auto;padding:20px 20px 60px}
+h2.section{font-size:15px;color:var(--navy);border-left:4px solid var(--navy);padding-left:10px;margin:26px 0 12px}
+h2.section:first-child{margin-top:0}
+
+/* ── KPI STRIP ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:18px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.kpi .lbl{font-size:11px;color:var(--grey);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px}
+.kpi .val{font-size:24px;font-weight:700;color:var(--navy)}
+.kpi .sub{font-size:11.5px;color:var(--grey);margin-top:4px}
+.kpi.green .val{color:var(--green)} .kpi.amber .val{color:var(--amber)} .kpi.red .val{color:var(--red)}
+
+/* ── CHART CARD ── */
+.chart-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:18px}
+.legend{display:flex;gap:18px;font-size:12px;margin-top:8px;flex-wrap:wrap}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{display:inline-block;border-radius:2px}
+
+/* ── TABLES ── */
+table.data{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:12.5px;margin-bottom:18px}
+table.data th{background:#EEF2F7;color:var(--navy);font-weight:700;text-align:left;padding:8px 10px;font-size:11.5px;text-transform:uppercase;letter-spacing:.03em;border-bottom:1px solid var(--line)}
+table.data td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+table.data tr:last-child td{border-bottom:none}
+table.data tr.total td{font-weight:700;background:#F7F9FC}
+table.data td.num,table.data th.num{text-align:right;white-space:nowrap}
+
+/* ── PILLS ── */
+.pill{display:inline-block;padding:2px 10px;border-radius:12px;font-size:11px;font-weight:700}
+.pill.green{color:var(--green);background:var(--green-bg)}
+.pill.amber{color:var(--amber);background:var(--amber-bg)}
+.pill.red{color:var(--red);background:var(--red-bg)}
+
+/* ── TWO-COL ── */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.panel h3{margin:0 0 10px;font-size:13px;color:var(--navy)}
+ul.attn{margin:0;padding-left:18px}
+ul.attn li{margin-bottom:8px;font-size:12.5px}
+.panel p{font-size:12.5px;margin:0 0 8px}
+.panel .src{font-size:11px;color:var(--grey);margin-top:10px}
+
+/* ── CARD ── */
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:18px}
+.card-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:14px;display:flex;align-items:center;gap:7px}
+
+/* ── PERMITS ── */
+.cp-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px}
+.cp{border-radius:10px;padding:10px 12px;font-size:12px;border:1px solid var(--line)}
+.cp .nm{font-weight:700;margin-bottom:4px}
+.cp.green{background:var(--green-bg);border-color:var(--green)}
+.cp.amber{background:var(--amber-bg);border-color:var(--amber)}
+.cp.red{background:var(--red-bg);border-color:var(--red)}
+
+/* ── MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(20,40,63,.55);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-box{background:#fff;border-radius:12px;max-width:640px;width:100%;max-height:85vh;overflow-y:auto;padding:20px 22px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.modal-box h3{font-size:15px;font-weight:800;color:var(--navy);margin:0}
+.modal-close-btn{border:none;background:none;font-size:22px;line-height:1;cursor:pointer;color:var(--muted);padding:0 4px}
+
+/* ── WEATHER ── */
+.source-note{font-size:11.5px;color:var(--grey);margin:-6px 0 10px}
+.wx-scroll{overflow-x:auto;margin-bottom:18px}
+table.wx-table{border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:10px;font-size:12px;min-width:760px}
+table.wx-table th{background:#EEF2F7;color:var(--navy);font-weight:700;padding:7px 9px;font-size:11px;text-transform:uppercase;letter-spacing:.03em;border-bottom:1px solid var(--line);white-space:nowrap}
+table.wx-table td{padding:7px 9px;border-bottom:1px solid var(--line);text-align:center;white-space:nowrap}
+table.wx-table td.day-cell{text-align:left;font-weight:600}
+table.wx-table tr.today td{background:#FFF8E1}
+table.wx-table tr.past td{color:var(--grey)}
+.wx-icon{font-size:16px;margin-right:4px}
+
+/* ── S-CURVE STAT STRIP ── */
+.sc-stat-bar{display:flex;gap:28px;justify-content:center;align-items:center;flex-wrap:wrap;padding:10px 20px;background:#EEF2F7;border-radius:8px;margin-bottom:14px}
+.sc-stat-item{display:flex;flex-direction:column;align-items:center;gap:2px}
+.sc-stat-label{font-size:10px;color:var(--grey);text-transform:uppercase;letter-spacing:.7px;font-weight:600}
+.sc-stat-val{font-size:22px;font-weight:800;line-height:1.1}
+
+/* ── CONSTRUCTION DARK PANEL ── */
+.const-panel{background:#08152a;border-radius:16px;padding:22px 24px 28px;border:1px solid #1a3a60;margin-bottom:18px}
+.const-panel-title{color:#e2eaf8;font-size:15px;font-weight:700;margin-bottom:16px}
+.const-legend{display:flex;gap:18px;margin-bottom:14px;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:6px;font-size:11px;color:#8aaccc;font-weight:600}
+.leg-sq{display:inline-block;width:14px;height:14px;border-radius:3px}
+
+/* Activity Grid */
+.grid-scroll{overflow-x:auto;border-radius:10px;margin-bottom:22px}
+table.agrid{border-collapse:separate;border-spacing:2px;white-space:nowrap}
+table.agrid th,table.agrid td{font-size:10px;color:#8aaccc}
+.ag-rowlabel{text-align:right;padding:3px 8px 3px 4px;font-weight:700;color:#c8daf0;font-size:11px;white-space:nowrap;min-width:96px}
+.ag-stat{text-align:center;padding:3px 5px;font-weight:700;min-width:44px}
+.ag-stat-hd{background:#0e2040;border-radius:4px;padding:4px 5px;font-size:10px;color:#5a8ab0}
+.ag-prog{color:#a8e050} .ag-rem{color:#d97706} .ag-rate{color:#7dd3fc}
+.ag-wnum{text-align:center;width:16px;padding:2px 1px;color:#4a6a8a;font-size:9px}
+.ag-cell{padding:1px}
+.ag-cell div{width:14px;height:14px;border-radius:3px}
+.cell-done div{background:#a8e050}
+.cell-prog div{background:#00bcd4}
+.cell-plan div{background:#162d4e}
+
+/* WTG Cards */
+.wtg-cards-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:10px}
+.wtg-card{background:#0d1f38;border:1px solid #1e3a60;border-radius:10px;padding:8px 6px 10px;text-align:center;cursor:pointer;transition:border-color .2s,transform .15s}
+.wtg-card:hover{border-color:#a8e050;transform:translateY(-2px)}
+.wtg-pct{font-size:13px;font-weight:800;margin-bottom:4px}
+.wtg-pct.p100{color:#a8e050} .wtg-pct.p50{color:#7dd3fc} .wtg-pct.p0{color:#4a6a8a}
+.wtg-svg-wrap{display:flex;justify-content:center;align-items:flex-end;height:110px}
+.wtg-name{font-size:11px;font-weight:700;color:#c8daf0;margin-top:6px}
+.wtg-stage{font-size:9.5px;color:#5a8ab0;margin-top:2px}
+
+/* Cable sub-tabs */
+.ctab-bar{display:flex;gap:3px;background:var(--surface2);padding:4px;border-radius:10px;width:fit-content}
+.ctab{padding:6px 15px;border:none;background:transparent;border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;color:var(--muted);transition:all .15s;white-space:nowrap}
+.ctab.active{background:var(--card);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.ctab:hover:not(.active){color:var(--text)}
+.cpanel{display:none}
+.cpanel.active{display:block}
+
+/* Progress rows */
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.prog-label{min-width:148px;font-size:12px;color:var(--muted);font-weight:500}
+.prog-track{flex:1;background:var(--bg);border-radius:6px;height:9px;overflow:hidden}
+.prog-fill{height:100%;border-radius:6px}
+.prog-pct{min-width:44px;text-align:right;font-size:12px;font-weight:700}
+
+/* Operation */
+.op-kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:13px;margin-bottom:18px}
+.chart-wrap-op{position:relative;height:260px;margin-bottom:12px}
+.turb-scroll{max-height:380px;overflow-y:auto;border-radius:8px;border:1px solid var(--line)}
+.turb-table{width:100%;border-collapse:collapse;font-size:12px}
+.turb-table th{background:#EEF2F7;font-size:11px;color:var(--navy);text-align:right;padding:8px 10px;border-bottom:2px solid var(--line);font-weight:700;white-space:nowrap;position:sticky;top:0;z-index:1}
+.turb-table th:first-child,.turb-table td:first-child{text-align:left;padding-left:14px;font-weight:700}
+.turb-table td{padding:6px 10px;border-bottom:1px solid var(--bg);text-align:right}
+.turb-table .total-row td{font-weight:800;background:#EEF2F7;border-top:2px solid var(--line)}
+
+/* Footer */
+footer{max-width:1200px;margin:30px auto 0;padding:14px 20px;border-top:1px solid var(--line);font-size:11.5px;color:var(--grey);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+
+@media(max-width:900px){
+  .kpi-strip{grid-template-columns:repeat(3,1fr)}
+  .wtg-cards-grid{grid-template-columns:repeat(4,1fr)}
+  .two-col{grid-template-columns:1fr}
+  .cp-strip{grid-template-columns:repeat(2,1fr)}
+}
+@media print{
+  nav.tabs{display:none}
+  .tab-panel{display:block!important;page-break-after:always}
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ HEADER ══════════ -->
+<header class="hero">
+  <div class="title-row">
+    <h1 id="hdrTitle">Nakwol I — Weekly Management Dashboard</h1>
+  </div>
+  <div class="specs" id="hdrSpecs"></div>
+  <div class="title-row">
+    <span class="badge" id="hdrPhaseBadge"></span>
+    <span class="badge" id="hdrWeekBadge"></span>
+    <span class="badge" id="hdrRevBadge"></span>
+  </div>
+  <div class="hdr-meta">
+    <span id="hdrReportWeek"></span>
+    <span id="hdrCutoff"></span>
+  </div>
+</header>
+
+<!-- ══════════ TAB NAV ══════════ -->
+<nav class="tabs">
+  <button class="active" onclick="showTab('overview',this)">1 · Overview &amp; S-Curve</button>
+  <button onclick="showTab('construction',this)">2 · Construction</button>
+  <button onclick="showTab('operation',this)">3 · Operation</button>
+  <button onclick="showTab('permits',this)">4 · Permits / Approvals</button>
+</nav>
+
+<!-- ══════════ TAB 1: OVERVIEW ══════════ -->
+<div class="tab-panel active" id="tab-overview">
+<div class="container">
+
+  <!-- KPI STRIP -->
+  <div class="kpi-strip" id="kpiStrip"></div>
+
+  <!-- S-CURVE -->
+  <h2 class="section">Progress S-Curve (Plan vs Actual vs Forecast)</h2>
+  <div class="chart-card">
+    <div class="sc-stat-bar">
+      <div class="sc-stat-item"><span class="sc-stat-label">Plan (report date)</span><span class="sc-stat-val" id="scPlanVal" style="color:var(--navy)">—</span></div>
+      <div style="width:1px;height:36px;background:var(--line)"></div>
+      <div class="sc-stat-item"><span class="sc-stat-label">Actual</span><span class="sc-stat-val" id="scActualVal" style="color:var(--green)">—</span></div>
+      <div style="width:1px;height:36px;background:var(--line)"></div>
+      <div class="sc-stat-item"><span class="sc-stat-label">Δ vs Plan</span><span class="sc-stat-val" id="scDelta">—</span></div>
+    </div>
+    <svg id="scurveSVG" viewBox="0 0 860 300" xmlns="http://www.w3.org/2000/svg"></svg>
+    <div class="legend">
+      <span><i style="width:26px;height:3px;background:var(--navy)"></i> Planned</span>
+      <span><i style="width:26px;height:3px;background:var(--red)"></i> Actual</span>
+      <span><i style="width:26px;height:3px;background:var(--amber);border-top:2px dashed var(--amber)"></i> Forecast</span>
+    </div>
+  </div>
+
+  <!-- WP VARIANCE TABLE -->
+  <h2 class="section">Work-Package Variance</h2>
+  <div id="wpNote" class="source-note"></div>
+  <table class="data" id="wpTable">
+    <thead><tr>
+      <th>Work Package</th><th class="num">Weight</th><th class="num">Plan</th>
+      <th class="num">Actual</th><th class="num">Variance</th><th>Status</th><th>Key drivers / note</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+
+  <!-- ATTENTION ITEMS + NARRATIVE -->
+  <div class="two-col">
+    <div class="panel">
+      <h3>Top Management Attention Items</h3>
+      <ul class="attn" id="attnList"></ul>
+    </div>
+    <div class="panel">
+      <h3 id="narrTitle">Headline Narrative</h3>
+      <div id="narrBody"></div>
+      <div class="src" id="narrSrc"></div>
+    </div>
+  </div>
+
+  <!-- WEATHER -->
+  <h2 class="section">Weather &amp; Site Conditions</h2>
+  <div class="source-note" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px">
+    <span>Source: Open-Meteo (ERA5/GFS) for site centroid
+      <b id="wxCoords"></b> · <span id="wx-status">Loading…</span></span>
+    <span style="display:flex;gap:6px;flex-shrink:0">
+      <button id="wx-refresh" onclick="loadWeatherData()"
+        style="padding:5px 12px;font-size:11px;font-weight:700;background:#fff;color:var(--navy);border:1px solid var(--navy);border-radius:5px;cursor:pointer">
+        🔄 Refresh
+      </button>
+      <button id="wx-maps-btn"
+        style="padding:5px 12px;font-size:11px;font-weight:700;background:#fff;color:var(--navy);border:1px solid var(--navy);border-radius:5px;cursor:pointer">
+        📍 Google Earth
+      </button>
+      <button id="wx-windy-btn"
+        style="padding:5px 12px;font-size:11px;font-weight:700;background:#fff;color:var(--navy);border:1px solid var(--navy);border-radius:5px;cursor:pointer">
+        🌦 Windy.com
+      </button>
+    </span>
+  </div>
+  <div class="wx-scroll">
+    <table class="wx-table" id="wxTable">
+      <thead><tr>
+        <th>Date</th><th>Condition</th><th>Temp Max</th><th>Temp Min</th>
+        <th>Precip</th><th>Wind Max</th><th>Gust Max</th><th>Site Risk</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ TAB 2: CONSTRUCTION ══════════ -->
+<div class="tab-panel" id="tab-construction">
+<div class="container">
+
+  <!-- KPI -->
+  <h2 class="section">Construction Progress at a Glance</h2>
+  <div class="kpi-strip" id="constKpiStrip" style="grid-template-columns:repeat(4,1fr)"></div>
+
+  <!-- WTG CONSTRUCTION GRID (dark panel) -->
+  <div class="const-panel">
+    <div class="const-panel-title">⚙ WTG Construction Status — All 64 Turbines</div>
+    <div class="const-legend">
+      <span class="leg"><span class="leg-sq" style="background:#162d4e"></span>Planned</span>
+      <span class="leg"><span class="leg-sq" style="background:#00bcd4"></span>In Progress</span>
+      <span class="leg"><span class="leg-sq" style="background:#a8e050"></span>Completed</span>
+    </div>
+    <div class="grid-scroll"><div id="activityGrid"></div></div>
+    <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:#5a8ab0;margin-bottom:12px">All 64 Wind Turbines — Construction Progress</div>
+    <div class="wtg-cards-grid" id="wtgCards"></div>
+  </div>
+
+  <!-- FOUNDATION + ICT -->
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">🏗️ Foundation &amp; WTG Progress</div>
+      <div id="foundationRows"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">💻 ICT Works — BOP System</div>
+      <div id="ictRows"></div>
+    </div>
+  </div>
+
+  <!-- CABLE -->
+  <h2 class="section">Submarine Cable &amp; Other Construction — Live OCMS</h2>
+  <div class="kpi-strip" id="cableCatStrip" style="grid-template-columns:repeat(6,1fr);margin-bottom:14px"></div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap">
+    <div style="display:flex;gap:12px;font-size:11px;color:var(--muted);flex-wrap:wrap;align-items:center">
+      <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:12px;height:7px;border-radius:2px;background:#94a3b8;opacity:.8"></span>Planned</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:12px;height:7px;border-radius:2px;background:#22d3ee"></span>In Progress</span>
+      <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:12px;height:7px;border-radius:2px;background:#22c55e"></span>Completed</span>
+      <span style="color:var(--line);font-size:14px">|</span>
+      <span style="font-size:10px;font-weight:600">Source: OCMS · Construction Status &gt; Cable and Other Construction</span>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+    <span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted)">Show status by:</span>
+    <div style="display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden">
+      <button id="cableModeBtnLaying" onclick="setCableMode('laying')" style="padding:6px 14px;font-size:11.5px;font-weight:700;border:none;cursor:pointer;background:var(--surface2);color:var(--muted)">🔗 Laying</button>
+      <button id="cableModeBtnBurial" onclick="setCableMode('burial')" style="padding:6px 14px;font-size:11.5px;font-weight:700;border:none;cursor:pointer;background:var(--blue-mid);color:#fff">⚓ Burial</button>
+    </div>
+  </div>
+  <div class="card" id="interArrayDiagramCard" style="margin-bottom:16px"></div>
+  <div class="card" id="interArrayCard" style="margin-bottom:16px"></div>
+  <div class="two-col">
+    <div class="card" id="emergencyLineCard"></div>
+    <div class="card" id="exportCableCard"></div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ TAB 3: OPERATION ══════════ -->
+<div class="tab-panel" id="tab-operation">
+<div class="container">
+
+  <h2 class="section">Power Generation Summary — 2026 YTD</h2>
+  <div class="op-kpi-grid" id="opKpis"></div>
+
+  <div class="card">
+    <div class="card-title">📋 2026 Annual Production Summary</div>
+    <div style="display:grid;grid-template-columns:80px 55px 1fr 160px 165px;align-items:center;gap:10px;padding:5px 0 8px;border-bottom:2px solid var(--line);margin-bottom:4px">
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">Month</div>
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;text-align:center">WTGs</div>
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase">Generation</div>
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;text-align:right">Monthly (kWh)</div>
+      <div style="font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;text-align:right">Cumulative (kWh)</div>
+    </div>
+    <div id="annualSummary"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="justify-content:space-between">
+      <span>📊 Monthly Power Generation &amp; Average Wind Speed</span>
+      <button onclick="openWindModal()" style="padding:5px 12px;font-size:11px;font-weight:700;background:#fff;color:var(--navy);border:1px solid var(--navy);border-radius:5px;cursor:pointer;white-space:nowrap">💨 Actual vs LiDAR</button>
+    </div>
+    <div class="chart-wrap-op"><canvas id="opChart"></canvas></div>
+    <div style="display:flex;gap:20px;justify-content:center;margin-top:10px;flex-wrap:wrap">
+      <span style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted)"><span style="display:inline-block;width:20px;height:12px;background:var(--navy);border-radius:3px;opacity:.7"></span>Power Generation (kWh)</span>
+      <span style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted)"><span style="display:inline-block;width:24px;height:3px;background:var(--amber);border-radius:2px"></span>Avg Wind Speed (m/s)</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚡ Per-Turbine Monthly Generation (kWh)</div>
+    <div class="turb-scroll"><table class="turb-table" id="turbTable"></table></div>
+    <div style="margin-top:8px;font-size:11px;color:var(--muted)" id="turbTableNote"></div>
+  </div>
+
+</div>
+</div>
+
+<!-- ══════════ TAB 4: PERMITS ══════════ -->
+<div class="tab-panel" id="tab-permits">
+<div class="container">
+
+  <div class="kpi-strip" id="permitsKpiStrip" style="grid-template-columns:repeat(4,1fr)"></div>
+
+  <h2 class="section">Critical-Path Permits / Approvals</h2>
+  <div class="cp-strip" id="cpStrip"></div>
+
+  <h2 class="section">Permits / Approvals Tracker</h2>
+  <table class="data" id="permitsTable">
+    <thead><tr>
+      <th>#</th><th>Permit / Approval</th><th>Area</th>
+      <th>Issue Date</th><th>Status</th><th>Remark</th>
+    </tr></thead>
+    <tbody></tbody>
+  </table>
+  <div class="source-note" id="permitsFootnote"></div>
+
+</div>
+</div>
+
+<!-- ══════════ FOOTER ══════════ -->
+<footer>
+  <span id="ftrLeft"></span>
+  <span id="ftrRight"></span>
+</footer>
+
+<!-- ══════════ MODAL: ACTUAL vs LIDAR WIND ══════════ -->
+<div class="modal-overlay" id="windModalOverlay" onclick="if(event.target===this)closeWindModal()">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <h3>💨 Actual vs LiDAR — Average Wind Speed</h3>
+      <button class="modal-close-btn" onclick="closeWindModal()">×</button>
+    </div>
+    <div class="source-note" id="windModalNote"></div>
+    <table class="data" id="windModalTable" style="width:100%">
+      <thead><tr><th>Month</th><th style="text-align:right">Actual (SCADA)</th><th style="text-align:right">LiDAR (Development)</th><th style="text-align:right">Δ Actual − LiDAR</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   CONFIG — Edit this block for weekly updates.
+   Percentages stored as decimals (0–1). Dates as "YYYY-MM-DD".
+   ============================================================ */
+const CONFIG = {
+
+  meta: {
+    projectName: "Nakwol I Offshore Wind Farm — Weekly Management Dashboard",
+    specsLine: "364.8 MW · 64 × 5.7 MW · Nakwol, South Korea · Owner: Nakwol Blueheart Co., Ltd. · EPC: Consortium of Hoban Blue Energy and CEEC-Korea · OE: Hanmi Global Co., Ltd.",
+    phaseBadge: "Construction Phase",
+    weekBadge: "4th Week of July 2026",
+    revBadge: "Rev. 2026-07-27",
+    reportWeekEnding: "2026-07-26",
+    dataCutoff: "2026-07-26",
+    preparedBy: "Rattanawan M. / Thanawat V. / Lee Donghyun",
+    reviewedBy: "Pollawat K.",
+    approvedBy: "Paitool P."
+  },
+
+  thresholds: { amberFloor: -0.03 },
+
+  kpi: {
+    overallPlanPct:   0.9301,
+    overallActualPct: 0.8969,
+    targetLabel: "Target COD Countdown",
+    targetDate: "2026-12-31",
+    targetDateLabel: "Target COD",
+    openItemsLabel: "WTGs In Operation",
+    openItemsValue: "26 / 64",
+    openItemsSub: "39 installed · 26 in operation"
+  },
+
+  scurve: {
+    weightsNote: "Weights per S-Curve, Overall (+BOP) blended basis: Engineering 9.75% · Procurement 19.5% · Construction 30% · BOP 40.75%. Chart, KPI tiles, and WP table all use this +BOP basis, sourced directly from the 'Overall (+BOP)' row of 0. S-Curve-Nakwol-20260724.xlsx (weekly series, one point picked per month-end; current-period point taken at the 24 Jul cut-off).",
+    // labels and data arrays: Plan/Actual/Forecast as % values (0–100), actual=null for unreported
+    labels:   ["Jan-25","Feb-25","Mar-25","Apr-25","May-25","Jun-25","Jul-25","Aug-25","Sep-25","Oct-25","Nov-25","Dec-25","Jan-26","Feb-26","Mar-26","Apr-26","May-26","Jun-26","Jul-26","Aug-26","Sep-26","Oct-26","Nov-26","Dec-26"],
+    planned:  [50.2,54.8,55.7,57.3,59.9,61.3,62.6,65.1,65.9,70.3,72.8,74.7,76.0,77.3,78.3,79.3,83.6,88.8,93.0,97.4,99.3,99.4,99.6,99.8],
+    actual:   [41.2,43.3,45.1,46.3,53.4,56.3,58.9,62.3,64.2,66.8,68.7,70.6,71.9,72.5,74.1,77.7,83.4,86.5,89.7,null,null,null,null,null],
+    forecast: [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,89.7,97.4,99.3,99.4,99.6,99.8],
+    todayIndex: 18  // index of current reporting period (Jul-26 = 4th Week), value taken at 24-Jul cutoff
+  },
+
+  wpVariance: [
+    { name: "Engineering",  weight: 0.0975, plan: 1.00,   actual: 1.00,   note: "100% complete — no outstanding engineering items" },
+    { name: "Procurement",  weight: 0.195,  plan: 1.00,   actual: 0.9873, note: "1.27% behind cumulative plan — minor residual procurement items" },
+    { name: "Construction", weight: 0.30,   plan: 0.8107, actual: 0.7531, note: "MP/SQ/SB 64/64 · TP 55/64 · KESCO(Sub) 45/64 · Tower/Nacelle/HB 39/64 · KESCO(Super) 26/64 · 26 in operation" },
+    { name: "BOP",          weight: 0.4075, plan: 0.9677, actual: 0.9349, note: "ICT/BOP systems — Network 98%, Ship Monitoring 99%, GIS Integrated Control 85%, Submarine Cable Monitoring 50%" }
+  ],
+
+  attentionItems: [
+    "Overall progress (+BOP) still Red: 89.69% actual vs. 93.01% planned (−3.32% variance) — Construction remains the main driver at 75.31% vs. 81.07% plan",
+    "Mixed marine conditions this period; July MTD window (thru 26 Jul): 13 operable days vs. 13 non-operable days",
+    "WTG in operation jumped to 26/64 (+6 this period: NW#32, #42, #43, #49, #50, #51) — KESCO's Inspection queue now clear; 9 in Static Commissioning, 4 waiting on punchlist",
+    "Submarine cable progress 51.8% overall — 120SQ inter-array laying now 9/39 lines complete (up from 5), incl. first fully-buried 120SQ segments on Strings 1–3; 400SQ burial underway on 7 sections",
+    "GIS Integrated Control (85%) and Submarine Cable Monitoring (50%) still incomplete; Network 98% (7 marine TP switches pending)"
+  ],
+
+  narrative: {
+    title: "Headline Narrative · 4th Week of July 2026",
+    paragraphs: [
+      "Overall project progress (+BOP blended) stands at 89.69% actual vs. 93.01% planned (−3.32% variance, Red). The project remains Red this period, driven primarily by Construction — the largest offshore work package — running at 75.31% actual vs. 81.07% planned. Engineering remains 100% complete; Procurement is 98.73% actual vs. 100% plan; BOP is 93.49% actual vs. 96.77% plan.",
+      "WTG installation: 39/64 turbines fully installed (Tower/Nacelle/Hub & Blade complete), up from 38 last period. 26 turbines are now in commercial operation, including 6 new this period — NW#49 (23 Jul), NW#50 (25 Jul), NW#32 (26 Jul), and NW#42/#51/#43 completing KESCO's Inspection. The KESCO's Inspection queue is now fully clear; 9 turbines are in static commissioning (NW#13, #20, #22, #23, #30, #35, #36, #45, #55), and 4 installed but waiting on M&E punchlist/commissioning (NW#4, #11, #12, #28). Foundation: all 64 MP/SQ/SB complete; TP now 55/64 (+2: NW#15, #27 completed this week); KESCO foundation inspection 45/64.",
+      "Cable progress (51.8% overall, up from 51.2%): All 11×800SQ and 20×400SQ lines remain laid. 120SQ inter-array laying advanced to 9 of 39 lines complete (up from 5) — Strings 1 and 2 now have all three 120SQ segments both laid and fully buried (100%), String 3's first two segments also complete, remainder still waiting on laying. 400SQ burial is now underway on 7 sections (26.5–78.8% each: NW#40–28, NW#60–50, NW#50–51, NW#48–36, NW#47–35, NW#46–45, NW#63–1). 800SQ burial: S1/NW#64 ~82%, S2/NW#54 ~61%, S3/NW#53 ~16%, S4/NW#62 ~27%, S5/NW#61 ~26%, S7/NW#59 just started (~0.3%); Strings 6, 8–11 burial still waiting. Export cable (1200SQ): Line 1 South 100% burial, Line 2 North 93.1% burial (25,909/27,830 m) — unchanged.",
+      "Marine conditions were mixed this period. July month-to-date: 13 operable days vs. 13 non-operable days (thru 26 Jul).",
+      "ICT (BOP systems): Network 98% (7 switches pending), Ship Monitoring 99% (RADAR not integrated), GIS Integrated Control 85% (turbine/ICCP/SHM data not yet linked), Submarine Cable Monitoring 50% (screen not implemented) — all unchanged this period. Priority for next period: continue 120SQ laying and burial, advance 400SQ/800SQ burial on remaining strings, progress the 13 remaining Static Commissioning / Waiting turbines toward operation."
+    ],
+    source: "Source: Nakwol I 4th Week of July 2026 Internal Report (reported 27 Jul 2026) · S-Curve update dated 24 Jul 2026."
+  },
+
+  weatherMeta: {
+    lat: 35.83,
+    lon: 126.41,
+    locationLabel: "Nakwol Offshore Wind Farm site centroid (approx.)",
+    googleMapsUrl: "https://earth.google.com/web/search/Song-i-ri,+Nagwol-myeon,+Yeonggwang-gun,+%e0%b8%88%e0%b8%b1%e0%b8%87%e0%b8%ab%e0%b8%a7%e0%b8%b1%e0%b8%94%e0%b8%8a%e0%b9%87%e0%b8%ad%e0%b8%a5%e0%b8%a5%e0%b8%b2%e0%b9%83%e0%b8%95%e0%b9%89/@35.38069177,126.11113496,5.77229735a,22653.56904275d,35y,-0h,0t,0r/data=CiwiJgokCbSMi_tMJzBAETkZCGs13jnAGWvWAyaS9VhAIbx5jQfzXyHAQgIIATIpCicKJQohMXFyaW8zSEtRbDNvcGw0bTRFdnpiZ3FmZTNwYW9RT2ZWIAE6AwoBMEICCABKCAiIpczQBxAB",
+    windyUrl: "https://www.windy.com/35.290/126.146/ecmwfWaves/waves?waves,35.246,126.146,12"
+  },
+  weatherData: [],
+
+  permitsKpi: { total: 32, approved: 27, inProgress: 5, overallPct: 0.84375 },
+  permitsCriticalPath: [
+    { name: "Substation — Temporary Use Permit", status: "Extended to 2026.12.31 (approved 20 Jun 2026)", color: "green" },
+    { name: "Substation — Building Use Approval Permit", status: "Change in progress; preparing Sep-2026 extension", color: "amber" },
+    { name: "Substation — Pre-Use Inspection of Elec. Installations", status: "Extension to Dec-2026 planned", color: "amber" },
+    { name: "Substation — Temp. Access Road Permit", status: "Change in progress; preparing Sep-2026 extension", color: "amber" },
+    { name: "Public Waters Occupation/Use — Plan Changes", status: "Change in progress; extension + supervision agreement required", color: "amber" },
+    { name: "Lighted Buoys — Implementation Plan Notification", status: "Change in progress; extension planned (by HBE)", color: "amber" }
+  ],
+  permitsTable: [
+    { num:1,  name:"Electric Utility License",                                                          area:"Offshore & General",           issueDate:"2023-08-01", status:"Valid",  color:"green", remark:"Construction plan approval period: Dec 2027; project preparation period: Dec 2029" },
+    { num:2,  name:"Agreement between Air Force, Army and Company",                                      area:"Offshore & General",           issueDate:"2021-05-31", status:"Closed", color:"green", remark:"Valid until removal of wind turbines and associated facilities" },
+    { num:3,  name:"Permission/Modification Approval — Occupation & Use of Public Waters (Lighted Buoys)",area:"Offshore & General",           issueDate:"2025-12-16", status:"Valid",  color:"green", remark:"Construction Jul 2022–Dec 2026; Operation Jul 2027–Jun 2040" },
+    { num:4,  name:"Notification of Implementation Plan — Occupy/Use Public Waters (Lighted Buoys)",     area:"Offshore & General",           issueDate:"2023-06-29", status:"Change in progress", color:"amber", remark:"Extension planned (by HBE)" },
+    { num:5,  name:"Permit for Occupation and Use of Public Waters and Approval for Changes",            area:"Offshore & General",           issueDate:"2023-07-24", status:"Valid",  color:"green", remark:"Construction Jun 2021–Dec 2026; Operation Jul 2026–Dec 2048" },
+    { num:6,  name:"Approval of Implementation Plans/Changes — Occupation & Use of Public Waters",       area:"Offshore & General",           issueDate:"2023-08-07", status:"Change in progress", color:"amber", remark:"Extension planned; supervision service agreement required" },
+    { num:7,  name:"Authorization of Plans for Works — Electric Installations for Wind Farm",            area:"Offshore & General",           issueDate:"2024-08-05", status:"Valid",  color:"green", remark:"Construction period revised 5 Jun 2026 (~31 Dec 2026)" },
+    { num:8,  name:"Agreement for Use of Electric Installations (Transmission & Distribution)",          area:"Offshore & General",           issueDate:"2025-07-31", status:"Valid",  color:"green", remark:"Term: 1 yr after commencement of use (started 30 Sep 2025)" },
+    { num:9,  name:"REC Sales Contract under Renewable Energy Supply Requirement (RPS)",                 area:"Offshore & General",           issueDate:"2024-02-07", status:"Valid",  color:"green", remark:"Effective from Commercial Operation Date (COD)" },
+    { num:10, name:"Permit for Development Activities — U/G Transmission Line Installation",             area:"U/G TL (Songi Island)",        issueDate:"2025-03-20", status:"Valid",  color:"green", remark:"2 Jun 2026 — Approval for amendment (Permit No. 5094)" },
+    { num:11, name:"Permission to Temporarily Use Farmland for Other Purposes",                          area:"U/G TL (Songi Island)",        issueDate:"2025-03-20", status:"Valid",  color:"green", remark:"Restoration required after 30 Jun 2048" },
+    { num:12, name:"Permit for Temporary Use of Mountain Land",                                          area:"U/G TL (Songi Island)",        issueDate:"2025-03-20", status:"Valid",  color:"green", remark:"Restoration required after 30 Jun 2048" },
+    { num:13, name:"Permission for Development Activities",                                              area:"Substation (Songi Island)",    issueDate:"2025-12-10", status:"Valid",  color:"green", remark:"Amendment approval notified 2 Jun 2026 (Permit No. 5094)" },
+    { num:14, name:"Permission for Conversion of Mountainous Districts",                                 area:"Substation (Songi Island)",    issueDate:"2025-12-08", status:"Valid",  color:"green", remark:"Amendment approval notified 2 Jun 2026" },
+    { num:15, name:"Building Permission",                                                                area:"Substation (Songi Island)",    issueDate:"2025-12-15", status:"Closed", color:"green", remark:"Construction Permit" },
+    { num:16, name:"Building Use Approval Permit",                                                       area:"Substation (Songi Island)",    issueDate:null,          status:"Change in progress", color:"amber", remark:"Preparing for the Sep-2026 extension" },
+    { num:17, name:"Pre-Use Inspection of Electric Installations",                                       area:"Substation (Songi Island)",    issueDate:"2025-12-13", status:"Change in progress", color:"amber", remark:"Applying for extension before expiry; target end of Dec 2026" },
+    { num:18, name:"Permission for Development Activities (Temp. Access Road)",                          area:"Substation (Songi Island)",    issueDate:"2025-12-13", status:"Change in progress", color:"amber", remark:"Preparing for the Sep-2026 extension" },
+    { num:19, name:"Permission for Development Activities",                                              area:"U/G TL (MJ Industries)",       issueDate:"2024-04-19", status:"Closed", color:"green", remark:"" },
+    { num:20, name:"Permission for Development Activities",                                              area:"Switching Station",            issueDate:"2021-08-20", status:"Closed", color:"green", remark:"Use Approval Certificate No. 2021-General Civil Affairs Office-New Construction Permit-110" },
+    { num:21, name:"Permission for Conversion of Mountainous Districts",                                 area:"Switching Station",            issueDate:"2025-07-16", status:"Closed", color:"green", remark:"Certificate of Use Approval" },
+    { num:22, name:"Building Permission",                                                                area:"Switching Station",            issueDate:"2025-07-30", status:"Closed", color:"green", remark:"" },
+    { num:23, name:"Building Use Approval Permit",                                                       area:"Switching Station",            issueDate:"2025-11-03", status:"Closed", color:"green", remark:"" },
+    { num:24, name:"Pre-Use Inspection of Electric Installations",                                       area:"Switching Station",            issueDate:"2026-01-02", status:"Closed", color:"green", remark:"" },
+    { num:25, name:"Announcement of Implementing Plan — Facility Project (Transmission Line)",           area:"Overhead TL & Pylon",           issueDate:"2025-07-07", status:"Closed", color:"green", remark:"Public notice of completion of onshore transmission tower construction (18 Jun 2026)" },
+    { num:26, name:"Permission for Conversion of Mountainous Districts",                                 area:"Overhead TL & Pylon",           issueDate:"2025-08-06", status:"Closed", color:"green", remark:"Restoration completion inspection approved (28 Apr 2026)" },
+    { num:27, name:"Permit for Substantial Repair of a Building",                                        area:"Office Remodeling",             issueDate:"2024-06-19", status:"Closed", color:"green", remark:"" },
+    { num:28, name:"Building Use Approval Permit",                                                       area:"Office Remodeling",             issueDate:"2026-02-23", status:"Closed", color:"green", remark:"" },
+    { num:29, name:"Permission for Development Activities — Landscaping Rest Area",                      area:"Landscape Shelter",             issueDate:"2024-07-31", status:"Valid",  color:"green", remark:"Approval notification for amendment (14 May 2026)" },
+    { num:30, name:"Certificate of Report of Plans — Electric Installations for TL",                     area:"TL Establishment Report",       issueDate:"2025-05-05", status:"Valid",  color:"green", remark:"Hongnong Sub–Gochang–Yeonggwang tap, Switching Station–Songi Sub, Songi Sub–Offshore WF (No.22-28)" },
+    { num:31, name:"Certificate of Report of Plans — Electric Installations for TL",                     area:"TL Establishment Report",       issueDate:"2025-05-05", status:"Valid",  color:"green", remark:"154kV substation (No.22-39)" },
+    { num:32, name:"Certificate of Report of Plans — Electric Installations for TL",                     area:"TL Establishment Report",       issueDate:"2025-05-05", status:"Valid",  color:"green", remark:"Seohongnong Switching Station (No.22-20)" }
+  ],
+  permitsFootnote: "Source: NW-OE-NB-MRT-0032, OE/CS Monthly Report (June 2026), Rev. 1.0, issued 10 Jul 2026 — Section 2.5 Permit Schedule Review.",
+
+  footer: {
+    dataSource: "Data source: Weekly JV progress report, site meeting minutes & data.json"
+  }
+};
+/* ============================================================
+   End of CONFIG — rendering logic below.
+   ============================================================ */
+
+// ── Data loading (data.json with FALLBACK to CONFIG) ─────────────────────────
+// Nakwol-specific data (WTG status, cable, operation) comes from data.json
+// The shape below mirrors data.json exactly.
+const FALLBACK = {
+  meta:{ weekLabel:"4th Week of July 2026", reportDate:"2026-07-26" },
+  kpis:{ overallProgress:89.69, plannedProgress:93.01, wtgInstalled:39, wtgInOperation:26,
+         monopileTotal:64, tpInstalled:55, cableBuriedStrings:6 },
+  wtgStatus:{
+    1:"op",2:"tp",3:"tp",4:"wait",5:"kescosub",6:"found",7:"found",8:"tp",9:"tp",10:"tp",11:"wait",12:"wait",
+    13:"comm",14:"found",15:"tp",16:"found",17:"tp",18:"tp",19:"kescosub",20:"comm",
+    21:"kescosub",22:"comm",23:"comm",24:"found",25:"found",26:"tp",27:"tp",28:"wait",
+    29:"op",30:"comm",31:"op",32:"op",33:"found",34:"found",35:"comm",36:"comm",
+    37:"kescosub",38:"kescosub",39:"kescosub",40:"op",41:"op",42:"op",43:"op",44:"found",
+    45:"comm",46:"op",47:"op",48:"op",49:"op",50:"op",51:"op",52:"op",53:"op",
+    54:"op",55:"comm",56:"op",57:"op",58:"op",59:"op",60:"op",61:"op",62:"op",63:"op",64:"op"
+  },
+  activities:[
+    {name:"Monopile",done:64,total:64},{name:"Sandquilt",done:64,total:64},
+    {name:"Stonebag",done:64,total:64},{name:"Trans. Piece",done:55,total:64},
+    {name:"KESCO (Sub)",done:45,total:64},{name:"Tower",done:39,total:64},
+    {name:"Nacelle",done:39,total:64},{name:"Hub & Blade",done:39,total:64},
+    {name:"KESCO (Super)",done:26,total:64}
+  ],
+  cableCategories:{ offshoreCable:51.8, substation:100, switchingStation:100, undergroundTL:100, overheadTL:100, officeBuilding:100 },
+  interArrayCable:{ pctLabel:0, strings:[
+    {id:1,segments:[{from:"S/S",to:"NW#64",size:800,layingPct:100,burialPct:82},{from:"NW#64",to:"NW#43",size:400,layingPct:100,burialPct:0},{from:"NW#43",to:"NW#32",size:400,layingPct:100,burialPct:0},{from:"NW#32",to:"NW#23",size:120,layingPct:100,burialPct:100},{from:"NW#23",to:"NW#22",size:120,layingPct:100,burialPct:100},{from:"NW#22",to:"NW#13",size:120,layingPct:100,burialPct:100}]},
+    {id:2,segments:[{from:"S/S",to:"NW#54",size:800,layingPct:100,burialPct:61.2},{from:"NW#54",to:"NW#42",size:400,layingPct:100,burialPct:0},{from:"NW#42",to:"NW#31",size:400,layingPct:100,burialPct:0},{from:"NW#31",to:"NW#30",size:120,layingPct:100,burialPct:100},{from:"NW#30",to:"NW#21",size:120,layingPct:100,burialPct:100},{from:"NW#21",to:"NW#12",size:120,layingPct:100,burialPct:100}]},
+    {id:3,segments:[{from:"S/S",to:"NW#53",size:800,layingPct:100,burialPct:15.7},{from:"NW#53",to:"NW#41",size:400,layingPct:100,burialPct:0},{from:"NW#41",to:"NW#29",size:400,layingPct:100,burialPct:0},{from:"NW#29",to:"NW#20",size:120,layingPct:100,burialPct:100},{from:"NW#20",to:"NW#11",size:120,layingPct:100,burialPct:100},{from:"NW#11",to:"NW#5",size:120,layingPct:0,burialPct:0}]},
+    {id:4,segments:[{from:"S/S",to:"NW#62",size:800,layingPct:100,burialPct:26.5},{from:"NW#62",to:"NW#40",size:400,layingPct:100,burialPct:0},{from:"NW#40",to:"NW#28",size:400,layingPct:100,burialPct:60.6},{from:"NW#28",to:"NW#19",size:120,layingPct:0,burialPct:0},{from:"NW#19",to:"NW#10",size:120,layingPct:0,burialPct:0},{from:"NW#10",to:"NW#4",size:120,layingPct:0,burialPct:0}]},
+    {id:5,segments:[{from:"S/S",to:"NW#61",size:800,layingPct:100,burialPct:25.5},{from:"NW#61",to:"NW#52",size:400,layingPct:100,burialPct:0},{from:"NW#52",to:"NW#18",size:120,layingPct:0,burialPct:0},{from:"NW#18",to:"NW#9",size:120,layingPct:0,burialPct:0},{from:"NW#9",to:"NW#3",size:120,layingPct:0,burialPct:0}]},
+    {id:6,segments:[{from:"S/S",to:"NW#60",size:800,layingPct:100,burialPct:0},{from:"NW#60",to:"NW#50",size:400,layingPct:100,burialPct:33},{from:"NW#50",to:"NW#51",size:400,layingPct:100,burialPct:76},{from:"NW#51",to:"NW#38",size:120,layingPct:0,burialPct:0},{from:"NW#38",to:"NW#39",size:120,layingPct:0,burialPct:0},{from:"NW#39",to:"NW#27",size:120,layingPct:0,burialPct:0}]},
+    {id:7,segments:[{from:"S/S",to:"NW#59",size:800,layingPct:100,burialPct:0.3},{from:"NW#59",to:"NW#49",size:400,layingPct:100,burialPct:0},{from:"NW#49",to:"NW#37",size:120,layingPct:0,burialPct:0},{from:"NW#37",to:"NW#16",size:120,layingPct:0,burialPct:0},{from:"NW#16",to:"NW#17",size:120,layingPct:0,burialPct:0}]},
+    {id:8,segments:[{from:"S/S",to:"NW#58",size:800,layingPct:100,burialPct:0},{from:"NW#58",to:"NW#48",size:400,layingPct:100,burialPct:0},{from:"NW#48",to:"NW#36",size:400,layingPct:100,burialPct:30},{from:"NW#36",to:"NW#26",size:120,layingPct:0,burialPct:0},{from:"NW#26",to:"NW#8",size:120,layingPct:0,burialPct:0},{from:"NW#8",to:"NW#2",size:120,layingPct:0,burialPct:0}]},
+    {id:9,segments:[{from:"S/S",to:"NW#57",size:800,layingPct:100,burialPct:0},{from:"NW#57",to:"NW#47",size:400,layingPct:100,burialPct:0},{from:"NW#47",to:"NW#35",size:400,layingPct:100,burialPct:29.5},{from:"NW#35",to:"NW#15",size:120,layingPct:0,burialPct:0},{from:"NW#15",to:"NW#7",size:120,layingPct:0,burialPct:0},{from:"NW#7",to:"NW#6",size:120,layingPct:0,burialPct:0}]},
+    {id:10,segments:[{from:"S/S",to:"NW#56",size:800,layingPct:100,burialPct:0},{from:"NW#56",to:"NW#46",size:400,layingPct:100,burialPct:0},{from:"NW#46",to:"NW#45",size:400,layingPct:100,burialPct:78.8},{from:"NW#45",to:"NW#34",size:120,layingPct:0,burialPct:0},{from:"NW#34",to:"NW#25",size:120,layingPct:0,burialPct:0},{from:"NW#25",to:"NW#14",size:120,layingPct:0,burialPct:0}]},
+    {id:11,segments:[{from:"S/S",to:"NW#63",size:800,layingPct:100,burialPct:0},{from:"NW#63",to:"NW#1",size:400,layingPct:100,burialPct:40},{from:"NW#1",to:"NW#55",size:400,layingPct:100,burialPct:0},{from:"NW#55",to:"NW#44",size:120,layingPct:0,burialPct:0},{from:"NW#44",to:"NW#33",size:120,layingPct:0,burialPct:0},{from:"NW#33",to:"NW#24",size:120,layingPct:0,burialPct:0}]}
+  ]},
+  emergencyLine:{ pctLabel:0, segments:[
+    {from:"NW#13",to:"NW#12",layingPct:100,burialPct:100},{from:"NW#5",to:"NW#4",layingPct:0,burialPct:0},
+    {from:"NW#3",to:"NW#2",layingPct:0,burialPct:0},{from:"NW#27",to:"NW#17",layingPct:0,burialPct:0},
+    {from:"NW#6",to:"NW#14",layingPct:0,burialPct:0},{from:"NW#14",to:"NW#24",layingPct:0,burialPct:0}
+  ]},
+  exportCable:{
+    pctLabel:96.5,
+    routes:[
+      {name:"Northern Route",from:"Song-I-do Island",to:"MJ Industries",layingPct:100,burialPct:93.1},
+      {name:"Southern Route",from:"Song-I-do Island",to:"MJ Industries",layingPct:100,burialPct:100}
+    ]
+  },
+  operation:{
+    periodLabel:"Dec 2025 – 29 Jul 2026 (MTD)",
+    totalKwh:61452790,
+    activeTurbines:25,
+    lidarWind:{
+      hubHeight:112,
+      source:"Measured from LiDAR during development @112m hub height (pre-construction wind resource baseline, typical-year cycle)",
+      byMonth:{Jan:7.82,Feb:7.72,Mar:7.62,Apr:6.42,May:6.58,Jun:4.98,Jul:6.08,Aug:6.68,Sep:6.52,Oct:6.62,Nov:7.68,Dec:7.82}
+    },
+    months:[
+      {label:"Dec-25",turbines:1, kwh:306886,  windMs:8.26},
+      {label:"Jan-26",turbines:2, kwh:3661128, windMs:7.33},
+      {label:"Feb-26",turbines:5, kwh:6157880, windMs:6.95},
+      {label:"Mar-26",turbines:5, kwh:5670292, windMs:5.53},
+      {label:"Apr-26",turbines:7, kwh:5805420, windMs:5.85},
+      {label:"May-26",turbines:11,kwh:7569026, windMs:5.43},
+      {label:"Jun-26",turbines:17,kwh:6576409, windMs:4.35},
+      {label:"Jul-26",turbines:25,kwh:25705749,windMs:6.45,note:"29 Jul 2026 (MTD)"}
+    ],
+    turbines:[
+      {name:"NW#54",dec:306886,jan:2482587,feb:1647391,mar:1181509,apr:999793, may:966006, jun:492602, jul:1498963},
+      {name:"NW#64",dec:0,     jan:1178541,feb:1424395,mar:1033952,apr:944654, may:932887, jun:472384, jul:882920},
+      {name:"NW#62",dec:null,  jan:0,      feb:1265507,mar:1130026,apr:987680, may:983872, jun:485264, jul:1367225},
+      {name:"NW#53",dec:0,     jan:0,      feb:950466, mar:1165485,apr:1013581,may:939897, jun:478799, jul:1278228},
+      {name:"NW#61",dec:null,  jan:0,      feb:870121, mar:1159320,apr:988143, may:958415, jun:401201, jul:534979},
+      {name:"NW#58",dec:null,  jan:null,   feb:null,   mar:null,   apr:415487, may:992811, jun:481608, jul:1368253},
+      {name:"NW#59",dec:null,  jan:null,   feb:null,   mar:0,      apr:456082, may:977569, jun:455432, jul:1361748},
+      {name:"NW#60",dec:null,  jan:null,   feb:null,   mar:null,   apr:0,      may:360264, jun:466032, jul:1393262},
+      {name:"NW#63",dec:null,  jan:null,   feb:null,   mar:null,   apr:0,      may:400410, jun:460570, jul:1327322},
+      {name:"NW#56",dec:null,  jan:null,   feb:null,   mar:null,   apr:0,      may:3318,   jun:524934, jul:1469593},
+      {name:"NW#1", dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:442807, jul:1502601},
+      {name:"NW#47",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:405388, jul:1440885},
+      {name:"NW#46",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:275293, jul:1548417},
+      {name:"NW#48",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:300282, jul:1355470},
+      {name:"NW#31",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:1446196},
+      {name:"NW#41",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:12858,  jul:1384903},
+      {name:"NW#57",dec:null,  jan:null,   feb:null,   mar:null,   apr:0,      may:53577,  jun:412028, jul:785928},
+      {name:"NW#29",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:8927,   jul:1182427},
+      {name:"NW#40",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:1169994},
+      {name:"NW#52",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:1143555},
+      {name:"NW#49",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:160756},
+      {name:"NW#50",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:58624},
+      {name:"NW#32",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:31357},
+      {name:"NW#51",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:11509},
+      {name:"NW#42",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:634}
+    ]
+  }
+};
+
+let D = FALLBACK;
+async function loadAndRender() {
+  try {
+    const r = await fetch("data.json");
+    if (r.ok) D = await r.json();
+  } catch(e) { /* use FALLBACK */ }
+  renderAll();
+}
+
+// ── FORMATTING HELPERS ────────────────────────────────────────────────────────
+const MONTHS = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+function fmtDate(iso) {
+  if (!iso) return "";
+  const d = new Date(iso + "T00:00:00");
+  return `${String(d.getDate()).padStart(2,"0")} ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+function fmtPct(v)  { return (v * 100).toFixed(2) + "%"; }
+function fmtVar(v)  { const p = (Math.abs(v)*100).toFixed(2)+"%"; return (v<0?"−":"+")+p; }
+function statusColor(variance) {
+  if (variance >= 0) return "green";
+  if (variance >= CONFIG.thresholds.amberFloor) return "amber";
+  return "red";
+}
+function statusLabel(c) { return {green:"Green",amber:"Amber",red:"Red"}[c]; }
+
+// ── HEADER ────────────────────────────────────────────────────────────────────
+function renderHeader() {
+  document.title = "Nakwol I — Weekly Management Dashboard";
+  document.getElementById("hdrTitle").textContent  = CONFIG.meta.projectName;
+  document.getElementById("hdrSpecs").textContent  = CONFIG.meta.specsLine;
+  document.getElementById("hdrPhaseBadge").textContent = CONFIG.meta.phaseBadge;
+  document.getElementById("hdrWeekBadge").textContent  = CONFIG.meta.weekBadge;
+  document.getElementById("hdrRevBadge").textContent   = CONFIG.meta.revBadge;
+  document.getElementById("hdrReportWeek").textContent = "Report Week Ending: " + fmtDate(CONFIG.meta.reportWeekEnding);
+  document.getElementById("hdrCutoff").textContent     = "Data Cut-off: " + fmtDate(CONFIG.meta.dataCutoff);
+  document.getElementById("ftrLeft").textContent =
+    `Prepared by ${CONFIG.meta.preparedBy} · Reviewed by ${CONFIG.meta.reviewedBy} · Approved by ${CONFIG.meta.approvedBy}`;
+  document.getElementById("ftrRight").textContent = CONFIG.footer.dataSource;
+}
+
+// ── OVERVIEW KPI STRIP ────────────────────────────────────────────────────────
+function renderKPI() {
+  const plan = CONFIG.kpi.overallPlanPct;
+  const actual = CONFIG.kpi.overallActualPct;
+  const variance = actual - plan;
+  const vColor = statusColor(variance);
+  const today = new Date();
+  const target = new Date(CONFIG.kpi.targetDate + "T00:00:00");
+  const weeksLeft = Math.max(0, Math.round((target - today) / (7*24*3600*1000)));
+  const tiles = [
+    { lbl:"Overall Plan %",    val:fmtPct(plan),     sub:"Cumulative, per Master S-Curve" },
+    { lbl:"Overall Actual %",  val:fmtPct(actual),   sub:"Cumulative, as of cut-off" },
+    { lbl:"Overall Variance",  val:fmtVar(variance), sub:statusLabel(vColor), cls:vColor },
+    { lbl:CONFIG.kpi.targetLabel, val:weeksLeft+" wks", sub:CONFIG.kpi.targetDateLabel+" ("+fmtDate(CONFIG.kpi.targetDate)+")" },
+    { lbl:CONFIG.kpi.openItemsLabel, val:CONFIG.kpi.openItemsValue, sub:CONFIG.kpi.openItemsSub }
+  ];
+  document.getElementById("kpiStrip").innerHTML = tiles.map(t =>
+    `<div class="kpi ${t.cls||""}"><div class="lbl">${t.lbl}</div><div class="val">${t.val}</div><div class="sub">${t.sub}</div></div>`
+  ).join("");
+}
+
+// ── S-CURVE (SVG — offline capable, 3 lines: Plan / Actual / Forecast) ───────
+function renderSCurve() {
+  const sc = CONFIG.scurve;
+  const todayIdx = sc.todayIndex;
+  const W=860, H=300, padL=44, padR=18, padT=18, padB=36;
+  const iW = W-padL-padR, iH = H-padT-padB;
+  const n = sc.labels.length;
+  const xi = i => padL + iW * (i / (n-1));
+  const yi = v => padT + iH * (1 - Math.max(0, Math.min(100, v)) / 100);
+
+  // Grid lines + y-axis labels
+  let grid = "";
+  [0,25,50,75,100].forEach(g => {
+    const gy = yi(g).toFixed(1);
+    grid += `<line x1="${padL}" y1="${gy}" x2="${W-padR}" y2="${gy}" stroke="#E2E6EC" stroke-width="1"/>`;
+    grid += `<text x="${padL-6}" y="${gy}" font-size="9" fill="#5A6472" text-anchor="end" dominant-baseline="middle">${g}%</text>`;
+  });
+
+  // X-axis labels (every 3rd)
+  let xlabels = "";
+  sc.labels.forEach((lbl, i) => {
+    if (i % 3 === 0 || i === n-1) {
+      xlabels += `<text x="${xi(i).toFixed(1)}" y="${H-padB+16}" font-size="9" fill="#5A6472" text-anchor="middle">${lbl}</text>`;
+    }
+  });
+
+  // Plan line
+  const planPath = sc.planned.map((v,i) => `${i===0?"M":"L"}${xi(i).toFixed(1)},${yi(v).toFixed(1)}`).join(" ");
+
+  // Actual line (skip nulls)
+  const actualPts = sc.actual.map((v,i) => ({v,i})).filter(o => o.v !== null && o.v !== undefined);
+  const actualPath = actualPts.map((o,k) => `${k===0?"M":"L"}${xi(o.i).toFixed(1)},${yi(o.v).toFixed(1)}`).join(" ");
+
+  // Forecast line (dashed, from todayIndex onward)
+  const forecastPts = sc.forecast.map((v,i) => ({v,i})).filter(o => o.v !== null && o.v !== undefined);
+  const forecastPath = forecastPts.map((o,k) => `${k===0?"M":"L"}${xi(o.i).toFixed(1)},${yi(o.v).toFixed(1)}`).join(" ");
+
+  // Today vertical line + current-week markers
+  const tx = xi(todayIdx).toFixed(1);
+  const todayLine = `<line x1="${tx}" y1="${padT}" x2="${tx}" y2="${H-padB}" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="5,4"/>
+    <text x="${tx}" y="${padT-6}" font-size="9" fill="#5A6472" text-anchor="middle">Today</text>`;
+
+  let marker = "";
+  if (actualPts.length) {
+    const last = actualPts[actualPts.length-1];
+    const cx = xi(last.i).toFixed(1);
+    const cy = yi(last.v).toFixed(1);
+    const py = yi(sc.planned[last.i]).toFixed(1);
+    marker = `
+      <circle cx="${cx}" cy="${py}" r="5" fill="var(--navy)"/>
+      <circle cx="${cx}" cy="${cy}" r="5" fill="${CONFIG.kpi.overallActualPct<CONFIG.kpi.overallPlanPct?"#C62828":"#2E7D32"}"/>
+      <text x="${cx}" y="${parseFloat(py)-10}" font-size="10" fill="var(--navy)" text-anchor="middle" font-weight="700">${sc.planned[last.i].toFixed(1)}%</text>
+      <text x="${cx}" y="${parseFloat(cy)+16}" font-size="10" fill="#C62828" text-anchor="middle" font-weight="700">${last.v.toFixed(1)}%</text>`;
+  }
+
+  document.getElementById("scurveSVG").innerHTML = `
+    ${grid}
+    <path d="${planPath}" fill="none" stroke="#1F3A5F" stroke-width="2.5"/>
+    ${actualPath ? `<path d="${actualPath}" fill="none" stroke="#C62828" stroke-width="2.5"/>` : ""}
+    ${forecastPath ? `<path d="${forecastPath}" fill="none" stroke="#EF6C00" stroke-width="2" stroke-dasharray="7,4"/>` : ""}
+    ${todayLine}
+    ${marker}
+    ${xlabels}`;
+
+  // Stat bar
+  const plan   = sc.planned[todayIdx];
+  const actual = sc.actual[todayIdx];
+  const delta  = actual - plan;
+  document.getElementById("scPlanVal").textContent   = plan.toFixed(1) + "%";
+  document.getElementById("scActualVal").textContent = actual.toFixed(1) + "%";
+  const dEl = document.getElementById("scDelta");
+  dEl.textContent = (delta >= 0 ? "+" : "−") + Math.abs(delta).toFixed(1) + "%";
+  dEl.style.color = delta >= 0 ? "var(--green)" : "var(--red)";
+}
+
+// ── WP VARIANCE TABLE ─────────────────────────────────────────────────────────
+function renderWP() {
+  document.getElementById("wpNote").textContent = CONFIG.scurve.weightsNote;
+  let totalWeight=0, totalPlan=0, totalActual=0, html="";
+  CONFIG.wpVariance.forEach(r => {
+    const variance = r.actual - r.plan;
+    const c = statusColor(variance);
+    totalWeight += r.weight; totalPlan += r.weight*r.plan; totalActual += r.weight*r.actual;
+    html += `<tr>
+      <td>${r.name}</td>
+      <td class="num">${fmtPct(r.weight)}</td>
+      <td class="num">${fmtPct(r.plan)}</td>
+      <td class="num">${fmtPct(r.actual)}</td>
+      <td class="num">${fmtVar(variance)}</td>
+      <td><span class="pill ${c}">${statusLabel(c)}</span></td>
+      <td>${r.note}</td>
+    </tr>`;
+  });
+  const tv = totalActual/totalWeight - totalPlan/totalWeight;
+  const tc = statusColor(tv);
+  html += `<tr class="total">
+    <td>Total (weighted)</td>
+    <td class="num">${fmtPct(totalWeight)}</td>
+    <td class="num">${fmtPct(totalPlan/totalWeight)}</td>
+    <td class="num">${fmtPct(totalActual/totalWeight)}</td>
+    <td class="num">${fmtVar(tv)}</td>
+    <td><span class="pill ${tc}">${statusLabel(tc)}</span></td>
+    <td>Overall project progress</td>
+  </tr>`;
+  document.querySelector("#wpTable tbody").innerHTML = html;
+}
+
+// ── ATTENTION ITEMS + NARRATIVE ───────────────────────────────────────────────
+function renderNarrative() {
+  document.getElementById("attnList").innerHTML =
+    CONFIG.attentionItems.map(t => `<li>${t}</li>`).join("");
+  document.getElementById("narrTitle").textContent = CONFIG.narrative.title;
+  document.getElementById("narrBody").innerHTML =
+    CONFIG.narrative.paragraphs.map(p => `<p>${p}</p>`).join("");
+  document.getElementById("narrSrc").textContent = CONFIG.narrative.source;
+}
+
+// ── CONSTRUCTION KPIs ─────────────────────────────────────────────────────────
+function renderConstKpi() {
+  const k = D.kpis || FALLBACK.kpis;
+  document.getElementById("constKpiStrip").innerHTML = `
+    <div class="kpi"><div class="lbl">Monopile Installed</div><div class="val green">${k.monopileTotal}<span style="font-size:15px;color:var(--grey);font-weight:400">/64</span></div><div class="sub">Foundation piles</div></div>
+    <div class="kpi"><div class="lbl">TP Installed</div><div class="val amber">${k.tpInstalled}<span style="font-size:15px;color:var(--grey);font-weight:400">/64</span></div><div class="sub">Transition pieces</div></div>
+    <div class="kpi"><div class="lbl">WTG Installed</div><div class="val" style="color:var(--blue-mid)">${k.wtgInstalled}<span style="font-size:15px;color:var(--grey);font-weight:400">/64</span></div><div class="sub">Turbines on-site</div></div>
+    <div class="kpi"><div class="lbl">WTG In Operation</div><div class="val" style="color:var(--purple)">${k.wtgInOperation}<span style="font-size:15px;color:var(--grey);font-weight:400">/64</span></div><div class="sub">Ready to generate</div></div>`;
+}
+
+// ── WTG CONSTRUCTION (Activity Grid + Cards) ──────────────────────────────────
+const DONE=2, PROG=1, PLAN=0;
+let WTG={}, commStatus={}, activities=[];
+const stageNames=["Monopile","Sandquilt","Stonebag","Trans. Piece","KESCO (Sub)","Tower","Nacelle","Hub & Blade","KESCO (Super)"];
+
+function buildFromData() {
+  const ws = D.wtgStatus || FALLBACK.wtgStatus;
+  activities = (D.activities || FALLBACK.activities).map((a,i) => ({...a,stageIdx:i}));
+  WTG={}; commStatus={};
+  for (let n=1; n<=64; n++) {
+    const st = ws[String(n)] || ws[n] || "found";
+    const s=[PLAN,PLAN,PLAN,PLAN,PLAN,PLAN,PLAN,PLAN,PLAN];
+    if (st==="mp") { s[0]=PROG; }
+    else { s[0]=s[1]=s[2]=DONE; }
+    if (["tp","kescosub","comm","wait","op","nac","kesco"].includes(st)) s[3]=DONE;
+    if (["kescosub","comm","wait","op","nac","kesco"].includes(st)) s[4]=DONE;
+    if (["comm","wait","op","nac","kesco"].includes(st)) { s[5]=DONE; s[6]=DONE; }
+    if (["comm","wait","op","kesco"].includes(st)) s[7]=DONE;
+    if (["op","kesco"].includes(st)) s[8]=DONE;
+    WTG[n]=s;
+    if (st==="op")   commStatus[n]="In Operation";
+    else if (st==="comm") commStatus[n]="Static Comm.";
+    else if (st==="wait") commStatus[n]="Punchlist ⏳";
+    else if (st==="nac")  commStatus[n]="Awaiting Blades";
+  }
+}
+
+function turbineSVG(mp,tp,tow,nac,blade) {
+  const gc = s => s===DONE?"#a8e050":s===PROG?"#00c8e0":"#162d4e";
+  const mpC=gc(mp),tpC=gc(tp),towC=gc(tow),nacC=gc(nac),blC=gc(blade);
+  return `<svg viewBox="0 0 90 148" xmlns="http://www.w3.org/2000/svg" width="72" height="118">
+    <defs><linearGradient id="wtr" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0d3a7a" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#051020" stop-opacity="0.9"/>
+    </linearGradient></defs>
+    <rect x="0" y="96" width="90" height="52" fill="url(#wtr)"/>
+    <line x1="0" y1="96" x2="90" y2="96" stroke="#3399cc" stroke-width="1.2" stroke-dasharray="5,4" opacity="0.5"/>
+    <rect x="14" y="122" width="62" height="20" rx="4" fill="${mpC}" opacity="0.92"/>
+    <rect x="14" y="122" width="62" height="5" rx="4" fill="rgba(255,255,255,0.12)"/>
+    <rect x="36" y="96" width="18" height="30" fill="${mpC}" opacity="0.85"/>
+    <rect x="26" y="74" width="38" height="24" rx="3" fill="${tpC}" opacity="0.92"/>
+    <rect x="26" y="74" width="38" height="5" rx="3" fill="rgba(255,255,255,0.1)"/>
+    <polygon points="41,10 49,10 58,74 32,74" fill="${towC}" opacity="0.92"/>
+    <polygon points="41,10 43,10 52,74 41,74" fill="rgba(255,255,255,0.06)"/>
+    <rect x="44" y="5" width="28" height="11" rx="3" fill="${nacC}" opacity="0.95"/>
+    <rect x="44" y="5" width="28" height="4" rx="3" fill="rgba(255,255,255,0.14)"/>
+    <circle cx="46" cy="10.5" r="5.5" fill="${blC}" opacity="0.95"/>
+    <circle cx="46" cy="10.5" r="2.5" fill="rgba(255,255,255,0.25)"/>
+    <ellipse cx="46" cy="10.5" rx="2.8" ry="22" fill="${blC}" opacity="0.88"/>
+    <ellipse cx="46" cy="10.5" rx="2.8" ry="22" transform="rotate(120 46 10.5)" fill="${blC}" opacity="0.88"/>
+    <ellipse cx="46" cy="10.5" rx="2.8" ry="22" transform="rotate(240 46 10.5)" fill="${blC}" opacity="0.88"/>
+    <circle cx="46" cy="10.5" r="4" fill="${blC}"/>
+  </svg>`;
+}
+
+function buildGrid() {
+  let h = `<table class="agrid"><thead><tr>
+    <th class="ag-rowlabel" style="color:#5a8ab0;font-size:10px;text-align:right;padding-right:8px">WTG No.</th>
+    <th class="ag-stat ag-stat-hd">Total</th><th class="ag-stat ag-stat-hd">Progress</th>
+    <th class="ag-stat ag-stat-hd">Remain.</th><th class="ag-stat ag-stat-hd">Rate</th>`;
+  for (let i=1; i<=64; i++) h += `<th class="ag-wnum">${i}</th>`;
+  h += "</tr></thead><tbody>";
+  activities.forEach(act => {
+    h += `<tr><td class="ag-rowlabel">${act.name}</td>
+      <td class="ag-stat" style="color:#4a6a8a">${act.total}</td>
+      <td class="ag-stat ag-prog">${act.done}</td>
+      <td class="ag-stat ag-rem">${act.total-act.done}</td>
+      <td class="ag-stat ag-rate">${(act.done/act.total*100).toFixed(2)}%</td>`;
+    for (let w=1; w<=64; w++) {
+      const s = WTG[w][act.stageIdx];
+      const cls = s===DONE?"cell-done":s===PROG?"cell-prog":"cell-plan";
+      h += `<td class="ag-cell ${cls}"><div></div></td>`;
+    }
+    h += "</tr>";
+  });
+  h += "</tbody></table>";
+  document.getElementById("activityGrid").innerHTML = h;
+}
+
+function buildCards() {
+  const physIdx = [0,1,2,3,5,6,7];
+  let h = "";
+  for (let w=1; w<=64; w++) {
+    const stages = WTG[w];
+    const physDone = physIdx.filter(i => stages[i]===DONE).length;
+    const pct = Math.round(physDone/7*1000)/10;
+    let lastStage = "Planned";
+    for (let i=8; i>=0; i--) { if (stages[i]===DONE) { lastStage=stageNames[i]; break; } }
+    if (stages[0]===PROG) lastStage = "MP Starting";
+    const pctClass = pct===100?"p100":pct>0?"p50":"p0";
+    const svg = turbineSVG(stages[0],stages[3],stages[5],stages[6],stages[7]);
+    // Card label follows construction/installation stage only (per OCMS) — no commissioning/operation status mixed in
+    const statusTxt = lastStage;
+    const statusColor = pct===100?"color:#a8e050":pct>0?"color:#7dd3fc":"color:#4a6a8a";
+    h += `<div class="wtg-card" title="NW#${w} — ${statusTxt}">
+      <div class="wtg-pct ${pctClass}">${pct}%</div>
+      <div class="wtg-svg-wrap">${svg}</div>
+      <div class="wtg-name">NW-${w}</div>
+      <div class="wtg-stage" style="${statusColor}">${statusTxt}</div>
+    </div>`;
+  }
+  document.getElementById("wtgCards").innerHTML = h;
+}
+
+// ── FOUNDATION + ICT (progress rows) ─────────────────────────────────────────
+function renderFoundationICT() {
+  const acts = D.activities || FALLBACK.activities;
+  const items = [
+    {label:"Monopile (MP)",  done:acts[0].done, total:64, color:"var(--green)"},
+    {label:"Scour Quilt (SQ)",done:acts[1].done,total:64, color:"var(--green)"},
+    {label:"Stone Bag (SB)", done:acts[2].done, total:64, color:"var(--green)"},
+    {label:"Transition Piece",done:acts[3].done,total:64, color:"#d97706"},
+    {label:"KESCO (Found.)", done:acts[4].done, total:64, color:"var(--blue-mid)"},
+    {label:"Tower",          done:acts[5].done, total:64, color:"var(--blue-mid)"},
+    {label:"Nacelle",        done:acts[6].done, total:64, color:"var(--blue-mid)"},
+    {label:"Hub & Blade",    done:acts[7].done, total:64, color:"var(--purple)"},
+    {label:"KESCO (Super.)", done:acts[8].done, total:64, color:"var(--purple)"}
+  ];
+  document.getElementById("foundationRows").innerHTML = items.map(it => {
+    const pct = (it.done/it.total*100).toFixed(1);
+    return `<div class="prog-row">
+      <div class="prog-label">${it.label}</div>
+      <div class="prog-track"><div class="prog-fill" style="width:${pct}%;background:${it.color}"></div></div>
+      <div class="prog-pct" style="color:${it.color}">${it.done}/${it.total}</div>
+    </div>`;
+  }).join("");
+
+  document.getElementById("ictRows").innerHTML = [
+    {label:"Mgmt. BLDG Control",   pct:100, note:""},
+    {label:"Virtualization",        pct:100, note:""},
+    {label:"Information Security",  pct:100, note:""},
+    {label:"EMS-RTU",              pct:100, note:""},
+    {label:"Network",              pct:98,  note:"⚠ Industrial switches pending at 16 offshore locations"},
+    {label:"Ship Monitoring Sys.", pct:99,  note:"⚠ TP#63: TOD and RADAR not installed"},
+    {label:"GIS Integrated Control",pct:80, note:"⚠ Turbine, ICCP, SHM data not linked"},
+    {label:"Submarine Cable Monitoring",pct:50,note:"⚠ Monitoring screen not implemented"},
+    {label:"Bird/Nav/Army/UPS",    pct:100, note:""}
+  ].map(it => {
+    const c = it.pct>=100?"var(--green)":it.pct>=80?"var(--blue-mid)":it.pct>=50?"#d97706":"var(--red)";
+    const noteHtml = it.note ? `<div style="font-size:10px;color:#ef4444;margin:-6px 0 9px 148px;font-weight:500">${it.note}</div>` : "";
+    return `<div class="prog-row">
+      <div class="prog-label">${it.label}</div>
+      <div class="prog-track"><div class="prog-fill" style="width:${it.pct}%;background:${c}"></div></div>
+      <div class="prog-pct" style="color:${c}">${it.pct}%</div>
+    </div>${noteHtml}`;
+  }).join("");
+}
+
+// ── CABLE BLOCK DIAGRAM (CAD-style, per NW-OFCA-EL-DRE-DRW-67004) ────────────
+const CABLE_CODE  = {800:"B",400:"C",120:"D"};
+const CABLE_COLOR = {800:"#3a6ea5",400:"#4a90d9",120:"#e05fc4"};
+const CABLE_DASH  = {800:"6,3",400:"1.5,3",120:"0"};
+
+let cableMode = "burial"; // "laying" | "burial" — which metric drives the fill/colour
+function setCableMode(mode) {
+  cableMode = mode;
+  const bLaying = document.getElementById("cableModeBtnLaying");
+  const bBurial = document.getElementById("cableModeBtnBurial");
+  if (bLaying && bBurial) {
+    bLaying.style.background = mode==="laying" ? "var(--blue-mid)" : "var(--surface2)";
+    bLaying.style.color      = mode==="laying" ? "#fff" : "var(--muted)";
+    bBurial.style.background = mode==="burial" ? "var(--blue-mid)" : "var(--surface2)";
+    bBurial.style.color      = mode==="burial" ? "#fff" : "var(--muted)";
+  }
+  renderCableDiagram();
+  renderCable();
+}
+// pull the pct for the currently-selected mode off any segment/route object
+function pctFor(obj) { return (cableMode==="laying" ? obj.layingPct : obj.burialPct) || 0; }
+function stageFor(pct) { return pct>=100 ? "completed" : pct>0 ? "progress" : "planned"; }
+
+// installed = Tower + Nacelle + Hub&Blade all complete (WTG[n][7]===DONE,
+// same definition as the "WTG Installed" KPI elsewhere in the dashboard).
+// Not-yet-installed turbines are drawn as a bare pile/foundation marker
+// (no blades) so the two states are distinguishable at a glance, even in
+// black & white print — matches the "Icon เต็ม vs เสาเปล่า" concept.
+function turbineGlyph(cx,cy,scale,installed) {
+  if (!installed) {
+    return `<g transform="translate(${cx},${cy}) scale(${scale})" stroke="#5a6c88" stroke-width="1.6" fill="none" stroke-dasharray="2,2">
+      <line x1="0" y1="14" x2="0" y2="-8"/>
+      <line x1="-6" y1="14" x2="6" y2="14"/>
+    </g>`;
+  }
+  return `<g transform="translate(${cx},${cy}) scale(${scale})" stroke="#c7d3e6" stroke-width="1.6" fill="none">
+    <line x1="0" y1="14" x2="0" y2="-1"/>
+    <circle cx="0" cy="-3" r="1.6" fill="#c7d3e6" stroke="none"/>
+    <line x1="0" y1="-3" x2="-7" y2="-8"/>
+    <line x1="0" y1="-3" x2="6" y2="-7"/>
+    <line x1="0" y1="-3" x2="2" y2="5"/>
+  </g>`;
+}
+function segStageColor(stage, size) { return stage==="completed" ? "#22c55e" : (CABLE_COLOR[size]||"#8ea3c0"); }
+function segStageOpacity(stage) { return stage==="planned" ? 0.32 : 1; }
+function segStageDash(stage, size) { return stage==="completed" ? "0" : stage==="planned" ? "3,3" : (CABLE_DASH[size]||"0"); }
+function segPctLabel(stage, pct) { return stage==="planned" ? "" : (pct%1===0?pct+"%":pct.toFixed(1)+"%"); }
+
+function buildInterArrayDiagram(iac, el) {
+  const rowH=58, topPad=44, leftPad=132, nodeGap=100, nodeR=12, ssHalf=22;
+  const maxSegs = Math.max(...iac.strings.map(s=>s.segments.length));
+  const elSegs = (el && el.segments) || [];
+
+  // pass 1: node positions (pure geometry, no rendering yet)
+  const nodePos = {};
+  iac.strings.forEach((str,ri) => {
+    const cy = topPad + ri*rowH + rowH/2;
+    str.segments.forEach((seg,si) => { nodePos[seg.to] = {cx: leftPad + (si+1)*nodeGap, cy, ri}; });
+  });
+
+  // pass 2: assign each Emergency Line link its own vertical lane in the right
+  // margin (staple-bracket routing, like the official CAD drawing) so no two
+  // links share a lane and none crosses through a turbine symbol. Links whose
+  // row-span is wider get an outer (farther-right) lane than any narrower
+  // span nested inside it, so a long-distance link routes AROUND the shorter
+  // ones instead of cutting across their bracket.
+  const rightEdge = leftPad + maxSegs*nodeGap;
+  const laneGap = 28; // > E.L label box width (22px) so adjacent lanes never touch
+  const elRoutesRaw = elSegs.map(seg => {
+    const p1 = nodePos[seg.from], p2 = nodePos[seg.to];
+    if (!p1 || !p2) return null;
+    return { seg, p1, p2, span: Math.abs(p1.ri-p2.ri) };
+  }).filter(Boolean);
+  const laneOrder = [...elRoutesRaw].sort((a,b) => a.span-b.span);
+  laneOrder.forEach((r,i) => { r.laneX = rightEdge + 18 + i*laneGap; });
+  const elRoutes = elRoutesRaw;
+  const maxLaneX = elRoutes.reduce((m,r)=>Math.max(m,r.laneX), rightEdge);
+  const W = maxLaneX + 40;
+  // when a turbine has more than one Emergency Line link, split its attach
+  // point vertically (a few px each side of centre) so the brackets fork
+  // instead of converging on the exact same pixel — mirrors how the CAD
+  // drawing staggers multi-branch RMUs.
+  const nodeElUses = {};
+  elSegs.forEach(seg => { [seg.from, seg.to].forEach(id => { nodeElUses[id] = (nodeElUses[id]||0)+1; }); });
+  const nodeElSeen = {};
+  function attachY(id, cy) {
+    const total = nodeElUses[id]||1;
+    if (total<=1) return cy;
+    const idx = nodeElSeen[id]||0; nodeElSeen[id]=idx+1;
+    return cy + (idx-(total-1)/2)*7;
+  }
+  const H = topPad + iac.strings.length*rowH + 14;
+
+  // pass 3: render string rows / cable segments / turbine nodes. The S/S
+  // (substation) box is drawn ONCE as a single tall bar spanning every row
+  // below, instead of one box per string — there's only one substation and
+  // all 11 strings connect into it.
+  let rows="";
+  iac.strings.forEach((str,ri) => {
+    const cy = topPad + ri*rowH + rowH/2;
+    rows += `<text x="${leftPad-ssHalf-14}" y="${cy+4}" text-anchor="end" font-size="10" font-weight="800" fill="#e8edf5">String ${str.id}</text>`;
+    let cx0 = leftPad;
+    str.segments.forEach(seg => {
+      const cx1 = cx0 + nodeGap;
+      const pct = pctFor(seg), stage = stageFor(pct);
+      const c = segStageColor(stage, seg.size), op = segStageOpacity(stage), dash = segStageDash(stage, seg.size);
+      const midx = (cx0+cx1)/2;
+      const pctLbl = segPctLabel(stage, pct);
+      rows += `<line x1="${cx0+ssHalf-8}" y1="${cy}" x2="${cx1-nodeR}" y2="${cy}" stroke="${c}" stroke-width="3" stroke-dasharray="${dash}" opacity="${op}"/>`;
+      rows += `<circle cx="${midx}" cy="${cy}" r="7.5" fill="#0e1a2c" stroke="${c}" stroke-width="1.2" opacity="${Math.max(op,0.55)}"/>`;
+      rows += `<text x="${midx}" y="${cy+2.5}" text-anchor="middle" font-size="7" font-weight="800" fill="${c}" opacity="${Math.max(op,0.55)}">${CABLE_CODE[seg.size]||"D"}</text>`;
+      if (pctLbl) rows += `<text x="${midx}" y="${cy-11}" text-anchor="middle" font-size="7" font-weight="700" fill="${c}">${pctLbl}</text>`;
+      const done = stage==="completed";
+      const twNum = parseInt(seg.to.replace("NW#",""),10);
+      const installed = WTG[twNum] && WTG[twNum][7]===DONE;
+      rows += `<circle cx="${cx1}" cy="${cy}" r="${nodeR}" fill="${done?'#123322':'#111a2c'}" stroke="${done?'#22c55e':'#26344c'}" stroke-width="1.3"/>`;
+      rows += turbineGlyph(cx1, cy-1, 0.78, installed);
+      rows += `<text x="${cx1}" y="${cy+19}" text-anchor="middle" font-size="6.5" font-weight="700" fill="${installed?'#9fb0cc':'#5a6c88'}">${seg.to.replace("NW#","#")}</text>`;
+      cx0 = cx1;
+    });
+  });
+
+  // single merged S/S bar spanning every string row — one substation, not 11
+  {
+    const topCy = topPad + rowH/2;
+    const botCy = topPad + (iac.strings.length-1)*rowH + rowH/2;
+    rows += `<rect x="${leftPad-ssHalf}" y="${topCy-13}" width="${ssHalf*2}" height="${botCy-topCy+26}" rx="6" fill="#1e2b42" stroke="#7c8db0" stroke-width="1.2"/>
+      <text x="${leftPad}" y="${(topCy+botCy)/2+4}" text-anchor="middle" font-size="11" font-weight="800" fill="#c7d3e6">S/S</text>`;
+  }
+
+  // pass 4: Emergency Line — orthogonal staple-bracket routing (right-angle
+  // only, exits/enters at the node circle edge, dedicated lane per link),
+  // matching NW-OFCA-EL-DRE-DRW-67004's cross-link convention.
+  const EL_COLOR = "#f97316";
+  let elLines = "";
+  elRoutes.forEach(({seg,p1,p2,laneX}) => {
+    const pct = pctFor(seg), stage = stageFor(pct);
+    const dash = stage==="completed" ? "0" : "4,3";
+    const op = stage==="planned" ? 0.55 : 1;
+    const y1 = attachY(seg.from, p1.cy), y2 = attachY(seg.to, p2.cy);
+    const x1 = p1.cx + nodeR, x2 = p2.cx + nodeR;
+    const r = 6; // corner fillet radius
+    const vy1 = y1 < y2 ? 1 : -1;
+    const path = `M ${x1} ${y1}
+      L ${laneX-r} ${y1}
+      Q ${laneX} ${y1} ${laneX} ${y1+vy1*r}
+      L ${laneX} ${y2-vy1*r}
+      Q ${laneX} ${y2} ${laneX-r} ${y2}
+      L ${x2} ${y2}`;
+    elLines += `<path d="${path}" fill="none" stroke="${EL_COLOR}" stroke-width="2" stroke-dasharray="${dash}" opacity="${op}" stroke-linecap="round"/>`;
+    const midY = (y1+y2)/2;
+    elLines += `<rect x="${laneX-11}" y="${midY-8}" width="22" height="12" rx="3" fill="#0b1220" stroke="${EL_COLOR}" stroke-width="1" opacity="${op}"/>`;
+    elLines += `<text x="${laneX}" y="${midY+1.5}" text-anchor="middle" font-size="7" font-weight="800" fill="${EL_COLOR}" opacity="${op}">E.L</text>`;
+  });
+
+  const legend = `<g font-family="Arial">
+    <circle cx="${leftPad}" cy="16" r="6" fill="none" stroke="${CABLE_COLOR[800]}" stroke-width="1.2"/><text x="${leftPad+11}" y="19" font-size="8" fill="${CABLE_COLOR[800]}" font-weight="800">B</text><text x="${leftPad+22}" y="19" font-size="8" fill="#c7d3e6">800SQ</text>
+    <circle cx="${leftPad+82}" cy="16" r="6" fill="none" stroke="${CABLE_COLOR[400]}" stroke-width="1.2"/><text x="${leftPad+93}" y="19" font-size="8" fill="${CABLE_COLOR[400]}" font-weight="800">C</text><text x="${leftPad+104}" y="19" font-size="8" fill="#c7d3e6">400SQ</text>
+    <circle cx="${leftPad+164}" cy="16" r="6" fill="none" stroke="${CABLE_COLOR[120]}" stroke-width="1.2"/><text x="${leftPad+175}" y="19" font-size="8" fill="${CABLE_COLOR[120]}" font-weight="800">D</text><text x="${leftPad+186}" y="19" font-size="8" fill="#c7d3e6">120SQ</text>
+    <line x1="${leftPad+240}" y1="16" x2="${leftPad+256}" y2="16" stroke="${EL_COLOR}" stroke-width="2" stroke-dasharray="4,3"/><text x="${leftPad+262}" y="19" font-size="8" fill="${EL_COLOR}" font-weight="800">E.L</text>
+    <text x="${leftPad+310}" y="19" font-size="7.5" fill="#8ea3c0">Dashed/faded = Planned · full colour = In Progress · green glow / solid E.L = Completed — showing ${cableMode==="laying"?"LAYING":"BURIAL"}</text>
+    ${turbineGlyph(leftPad+6, 32, 0.55, true)}<text x="${leftPad+18}" y="35" font-size="8" fill="#c7d3e6">WTG Installed</text>
+    ${turbineGlyph(leftPad+118, 32, 0.55, false)}<text x="${leftPad+130}" y="35" font-size="8" fill="#5a6c88">WTG Not Yet Installed</text>
+  </g>`;
+
+  return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="min-width:900px;display:block" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="0" width="${W}" height="${H}" fill="#0b1220" rx="8"/>
+    ${legend}
+    ${rows}
+    ${elLines}
+  </svg>`;
+}
+
+function buildStringCards(iac) {
+  return (iac.strings||[]).map(str => {
+    const sizes = [800,400,120];
+    const bySize = {};
+    str.segments.forEach(seg => { (bySize[seg.size] = bySize[seg.size]||[]).push(seg); });
+    const laid = str.segments.filter(s=>pctFor(s)>=100).length;
+    const done = str.segments.filter(s=>stageFor(pctFor(s))==="completed").length;
+    const lines = sizes.filter(sz=>bySize[sz]).map(sz => {
+      const segs = bySize[sz];
+      const avgPct = segs.reduce((a,s)=>a+pctFor(s),0)/segs.length;
+      const c = CABLE_COLOR[sz];
+      return `<div style="font-size:10px;color:var(--text)">${CABLE_CODE[sz]} · ${sz}SQ ${cableMode}: <span style="color:${c};font-weight:700">${avgPct%1===0?avgPct:avgPct.toFixed(1)}%</span></div>`;
+    }).join("");
+    const pct = Math.round(str.segments.reduce((a,s)=>a+pctFor(s),0)/str.segments.length);
+    return `<div style="background:var(--surface2);border:1px solid var(--line);border-radius:8px;padding:10px 12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">
+        <div style="font-size:11px;font-weight:800;color:var(--text)">String ${str.id}</div>
+        <div style="font-size:9.5px;color:var(--muted)">${laid}/${str.segments.length} ${cableMode==="laying"?"laid":"buried"} · ${done}/${str.segments.length} complete</div>
+      </div>
+      ${lines}
+      <div style="width:100%;height:5px;background:var(--bg);border-radius:3px;overflow:hidden;margin-top:6px">
+        <div style="width:${pct}%;height:100%;background:${done===str.segments.length?'#22c55e':'#22d3ee'};border-radius:3px"></div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function renderCableDiagram() {
+  const iac = D.interArrayCable || FALLBACK.interArrayCable || {strings:[]};
+  const el  = D.emergencyLine   || FALLBACK.emergencyLine   || {segments:[]};
+  const card = document.getElementById("interArrayDiagramCard");
+  if (!card) return;
+  card.innerHTML = `<div class="card-title">🗺️ Inter Array Cable — Block Diagram <span style="font-size:11px;color:var(--muted);font-weight:600;margin-left:6px">redrawn from NW-OFCA-EL-DRE-DRW-67004</span></div>
+    <div style="font-size:10px;color:var(--muted);margin-bottom:10px">Live status overlay: circle-letter = cable spec (B/C/D per legend), colour intensity + glow = ${cableMode} progress from Internal Report / OCMS · orange = Emergency Line</div>
+    <div style="overflow-x:auto;margin-bottom:14px">${buildInterArrayDiagram(iac, el)}</div>
+    <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);margin-bottom:8px">Per-String Status Cards</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px">${buildStringCards(iac)}</div>`;
+}
+
+// ── CABLE PROGRESS (unified OCMS-style layout) ────────────────────────────────
+function renderCable() {
+  const cats  = D.cableCategories || FALLBACK.cableCategories || {};
+  const iac   = D.interArrayCable || FALLBACK.interArrayCable || {strings:[]};
+  const el    = D.emergencyLine   || FALLBACK.emergencyLine   || {segments:[]};
+  const exp   = D.exportCable     || FALLBACK.exportCable     || {routes:[]};
+
+  const STAGE_BG   = { completed:"#22c55e", progress:"#22d3ee", planned:"rgba(148,163,184,.14)" };
+  const STAGE_TEXT = { completed:"#052e16", progress:"#083344", planned:"#94a3b8" };
+
+  function fmtPct(v) { return (v%1===0) ? v+"%" : v.toFixed(1)+"%"; }
+
+  function nodeChip(label) {
+    const isSS = label==="S/S";
+    return `<span style="display:inline-block;padding:3px 7px;border-radius:5px;font-size:10px;font-weight:800;background:${isSS?"rgba(139,92,246,.16)":"rgba(148,163,184,.12)"};color:${isSS?"var(--purple)":"var(--text)"};white-space:nowrap">${label}</span>`;
+  }
+  function connChip(s) {
+    const pct = pctFor(s), stage = stageFor(pct);
+    const bg = STAGE_BG[stage]||STAGE_BG.planned, tc = STAGE_TEXT[stage]||STAGE_TEXT.planned;
+    const label = stage==="planned" ? "—" : fmtPct(pct);
+    const sizeTag = s.size ? `<span style="opacity:.7;font-size:8px;font-weight:700">${s.size}SQ</span>` : "";
+    return `<span title="${cableMode} ${label}" style="display:inline-flex;align-items:center;gap:3px;padding:2px 6px;border-radius:10px;font-size:9.5px;font-weight:700;background:${bg};color:${tc};white-space:nowrap">${sizeTag}${label}</span>`;
+  }
+  function connArrow() {
+    return `<span style="color:var(--muted);font-size:10px">→</span>`;
+  }
+
+  // top category strip
+  const catStrip = document.getElementById("cableCatStrip");
+  if (catStrip) {
+    const cells = [
+      ["Offshore Cable", cats.offshoreCable],
+      ["Substation", cats.substation],
+      ["Switching Station", cats.switchingStation],
+      ["Underground TL", cats.undergroundTL],
+      ["Overhead TL", cats.overheadTL],
+      ["Office Building", cats.officeBuilding]
+    ];
+    catStrip.innerHTML = cells.map(([lbl,v]) => {
+      const c = v>=100 ? "var(--green)" : v>=50 ? "var(--blue-mid)" : "var(--amber)";
+      return `<div class="kpi"><div class="lbl">${lbl}</div><div class="val" style="font-size:19px;color:${c}">${v!=null?fmtPct(v):"—"}</div></div>`;
+    }).join("");
+  }
+
+  // Inter Array Cable — unified String rows (800SQ → 400SQ → 120SQ continuous route)
+  const iacCard = document.getElementById("interArrayCard");
+  if (iacCard) {
+    const rows = (iac.strings||[]).map(str => {
+      let chain = nodeChip(str.segments[0].from);
+      str.segments.forEach(s => { chain += connArrow()+connChip(s)+connArrow()+nodeChip(s.to); });
+      return `<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 4px;border-bottom:1px solid var(--bg)">
+        <div style="flex:0 0 60px;font-size:10.5px;font-weight:800;color:var(--muted);text-transform:uppercase">String ${str.id}</div>
+        <div style="display:flex;align-items:center;gap:4px;flex-wrap:wrap">${chain}</div>
+      </div>`;
+    }).join("");
+    iacCard.innerHTML = `<div class="card-title">⚡ Inter Array Cable</div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:8px">Per String, continuous route S/S → 800SQ → 400SQ → 120SQ · chip = one cable segment, colour = laying/burial status</div>
+      <div style="display:flex;gap:16px;font-size:9.5px;color:var(--muted);margin-bottom:6px">
+        <span>800SQ</span><span>400SQ</span><span>120SQ</span>
+      </div>
+      ${rows}`;
+  }
+
+  // Emergency Line
+  const elCard = document.getElementById("emergencyLineCard");
+  if (elCard) {
+    const chips = (el.segments||[]).map(s => `<div style="display:flex;align-items:center;gap:4px">${nodeChip(s.from)}${connChip(s)}${nodeChip(s.to)}</div>`).join("");
+    elCard.innerHTML = `<div class="card-title">🚨 Emergency Line</div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:10px">120SQ backup cross-links between adjacent string ends</div>
+      <div style="display:flex;flex-direction:column;gap:8px">${chips}</div>`;
+  }
+
+  // Export Cable
+  const expCard = document.getElementById("exportCableCard");
+  if (expCard) {
+    const rows = (exp.routes||[]).map(r => {
+      const pct = pctFor(r), stage = stageFor(pct);
+      const bg = STAGE_BG[stage]||STAGE_BG.planned;
+      const w = pct||0;
+      return `<div style="margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:4px">
+          <span style="font-weight:700">${r.name}</span>
+          <span style="font-weight:700;color:${stage==="completed"?"var(--green)":"var(--blue-mid)"}">${fmtPct(pct)}</span>
+        </div>
+        <div style="font-size:9.5px;color:var(--muted);margin-bottom:4px">${r.from} → ${r.to}</div>
+        <div style="width:100%;height:8px;background:var(--bg);border-radius:3px;overflow:hidden">
+          <div style="width:${w}%;height:100%;background:${bg};border-radius:3px"></div>
+        </div>
+      </div>`;
+    }).join("");
+    expCard.innerHTML = `<div class="card-title">🔌 Export Cable</div>
+      <div style="font-size:10px;color:var(--muted);margin-bottom:10px">154 kV · Song-I-do Island → MJ Industries (Northern / Southern)</div>
+      ${rows}`;
+  }
+}
+
+// ── OPERATION ─────────────────────────────────────────────────────────────────
+function renderOpKpis() {
+  const op = D.operation || FALLBACK.operation;
+  const months = op.months;
+  const lastFull = months[months.length-2];
+  const current  = months[months.length-1];
+  document.getElementById("opKpis").innerHTML = `
+    <div class="kpi green"><div class="lbl">Total Generation (All-Time)</div>
+      <div class="val" style="font-size:20px;color:var(--green)">${op.totalKwh.toLocaleString("en")}<span style="font-size:12px;font-weight:400;color:var(--grey)"> kWh</span></div>
+      <div class="sub">${op.periodLabel||""}</div></div>
+    <div class="kpi"><div class="lbl">Active Turbines (Current)</div>
+      <div class="val" style="color:var(--blue-mid)">${current.turbines}<span style="font-size:15px;font-weight:400;color:var(--grey)">/64</span></div>
+      <div class="sub">As of ${current.note||current.label}</div></div>
+    <div class="kpi amber"><div class="lbl">Best Month (${lastFull.label})</div>
+      <div class="val" style="font-size:18px;color:var(--amber)">${lastFull.kwh.toLocaleString("en")}<span style="font-size:12px;font-weight:400;color:var(--grey)"> kWh</span></div>
+      <div class="sub">${lastFull.turbines} turbines running</div></div>
+    <div class="kpi"><div class="lbl">Avg Wind Speed (${lastFull.label})</div>
+      <div class="val" style="color:var(--purple)">${lastFull.windMs}<span style="font-size:15px;font-weight:400;color:var(--grey)"> m/s</span></div>
+      <div class="sub">Full month average</div></div>`;
+}
+
+function renderAnnualSummary() {
+  const op = D.operation || FALLBACK.operation;
+  const maxKwh = Math.max(...op.months.map(m => m.kwh));
+  let cumulative = 0, h = "";
+  op.months.forEach(m => {
+    cumulative += m.kwh;
+    const barPct = (m.kwh/maxKwh*100).toFixed(1);
+    const isPartial = !!m.note;
+    const barColor = isPartial?"#d97706":"var(--navy)";
+    const noteHtml = isPartial?`<span style="font-size:9px;color:var(--grey);font-weight:400"> (${m.note})</span>`:"";
+    h += `<div style="display:grid;grid-template-columns:80px 55px 1fr 160px 165px;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--bg)">
+      <div style="font-size:12px;font-weight:700">${m.label}${noteHtml}</div>
+      <div style="font-size:11px;color:var(--muted);text-align:center">${m.turbines}/64</div>
+      <div style="background:var(--bg);border-radius:4px;height:9px;overflow:hidden">
+        <div style="width:${barPct}%;height:100%;background:${barColor};border-radius:4px;opacity:.8"></div></div>
+      <div style="font-size:12px;font-weight:700;text-align:right;font-variant-numeric:tabular-nums">${m.kwh.toLocaleString("en")}</div>
+      <div style="font-size:11px;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums">${cumulative.toLocaleString("en")}</div>
+    </div>`;
+  });
+  const lastFull = op.months[op.months.length-2];
+  const avgPerTurb = Math.round(lastFull.kwh/lastFull.turbines);
+  const bestMonth = op.months.reduce((a,b) => b.kwh>a.kwh?b:a);
+  h += `<div style="display:grid;grid-template-columns:80px 55px 1fr 160px 165px;align-items:center;gap:10px;padding:10px 0 2px;border-top:2px solid var(--line);margin-top:4px">
+    <div style="font-size:12px;font-weight:800;color:var(--navy)">ALL-TIME TOTAL</div><div></div><div></div>
+    <div style="font-size:15px;font-weight:800;text-align:right;color:var(--green)">${op.totalKwh.toLocaleString("en")}</div>
+    <div style="font-size:11px;text-align:right;color:var(--muted)">kWh</div>
+  </div>
+  <div style="display:flex;gap:20px;flex-wrap:wrap;margin-top:14px;padding:12px 14px;background:var(--surface2);border-radius:8px;border:1px solid var(--line)">
+    <div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600">Best Month</div>
+      <div style="font-size:18px;font-weight:800;color:var(--green)">${maxKwh.toLocaleString("en")}<span style="font-size:12px;font-weight:400;color:var(--muted)"> kWh</span></div>
+      <div style="font-size:10px;color:var(--muted)">${bestMonth.label}</div></div>
+    <div style="width:1px;background:var(--line)"></div>
+    <div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600">Avg per Turbine (${lastFull.label})</div>
+      <div style="font-size:18px;font-weight:800;color:var(--purple)">${avgPerTurb.toLocaleString("en")}<span style="font-size:12px;font-weight:400;color:var(--muted)"> kWh</span></div>
+      <div style="font-size:10px;color:var(--muted)">${lastFull.turbines} turbines</div></div>
+    <div style="width:1px;background:var(--line)"></div>
+    <div><div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;font-weight:600">Monthly Avg (all months)</div>
+      <div style="font-size:18px;font-weight:800;color:var(--amber)">${Math.round(op.totalKwh/op.months.length).toLocaleString("en")}<span style="font-size:12px;font-weight:400;color:var(--muted)"> kWh</span></div>
+      <div style="font-size:10px;color:var(--muted)">${op.months[0].label} – ${op.months[op.months.length-1].label}</div></div>
+  </div>`;
+  document.getElementById("annualSummary").innerHTML = h;
+}
+
+let opChart = null;
+function renderOpChart() {
+  const op = D.operation || FALLBACK.operation;
+  const labels  = op.months.map(m => m.note?m.label+"*":m.label);
+  const kwhData = op.months.map(m => m.kwh);
+  const windData = op.months.map(m => m.windMs);
+  if (opChart) opChart.destroy();
+  opChart = new Chart(document.getElementById("opChart").getContext("2d"), {
+    type:"bar",
+    data:{labels, datasets:[
+      {type:"bar",  label:"Generation (kWh)", data:kwhData,  backgroundColor:"rgba(31,58,95,0.7)",  borderColor:"#1F3A5F", borderWidth:1, borderRadius:5, yAxisID:"y",  order:2},
+      {type:"line", label:"Wind Speed (m/s)", data:windData, borderColor:"#EF6C00", backgroundColor:"rgba(239,108,0,0.1)", borderWidth:2.5, pointRadius:5, pointBackgroundColor:"#EF6C00", pointBorderColor:"#fff", pointBorderWidth:2, tension:0.3, yAxisID:"y2", order:1}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,interaction:{mode:"index",intersect:false},
+      plugins:{legend:{display:false},tooltip:{backgroundColor:"#fff",borderColor:"var(--line)",borderWidth:1,titleColor:"var(--text)",bodyColor:"var(--grey)",padding:10,
+        callbacks:{label:ctx=>ctx.dataset.label+": "+(ctx.datasetIndex===0?(ctx.parsed.y.toLocaleString("en")+" kWh"):(ctx.parsed.y+" m/s"))}}},
+      scales:{
+        x:{grid:{color:"#F4F6F9"},ticks:{color:"var(--grey)",font:{size:11}},border:{display:false}},
+        y:{position:"left",grid:{color:"#E2E6EC"},ticks:{color:"#1F3A5F",font:{size:11},callback:v=>v>=1e6?(v/1e6).toFixed(1)+"M":v>=1e3?(v/1e3).toFixed(0)+"k":v},border:{display:false},title:{display:true,text:"kWh",color:"var(--grey)",font:{size:11}}},
+        y2:{position:"right",grid:{drawOnChartArea:false},ticks:{color:"#EF6C00",font:{size:11},callback:v=>v+" m/s"},border:{display:false},title:{display:true,text:"m/s",color:"var(--grey)",font:{size:11}},min:0,max:12}
+      }
+    }
+  });
+
+  // Turbine table — month keys/labels derive from op.months so this stays in
+  // sync automatically as new months are appended in future updates.
+  const turbs = op.turbines;
+  const mKeys   = op.months.map(m => m.label.slice(0,3).toLowerCase());
+  const mLabels = op.months.map(m => m.note ? m.label+"*" : m.label);
+  const fmt = v => v?v.toLocaleString("en"):`<span style="color:#ccc">—</span>`;
+  let th = `<thead><tr><th>Turbine</th>${mLabels.map(m=>`<th>${m}</th>`).join("")}<th>Total</th></tr></thead><tbody>`;
+  let colTotals = mKeys.map(()=>0), grandTotal=0;
+  turbs.forEach(t => {
+    const rowTotal = mKeys.reduce((s,k)=>s+(t[k]||0),0);
+    grandTotal+=rowTotal;
+    mKeys.forEach((k,i) => { colTotals[i]+=(t[k]||0); });
+    th+=`<tr><td>${t.name}</td>${mKeys.map(k=>`<td>${fmt(t[k])}</td>`).join("")}<td style="font-weight:700;color:var(--navy)">${fmt(rowTotal)}</td></tr>`;
+  });
+  th+=`<tr class="total-row"><td>TOTAL</td>${colTotals.map(v=>`<td>${fmt(v)}</td>`).join("")}<td>${fmt(grandTotal)}</td></tr>`;
+  th+="</tbody>";
+  document.getElementById("turbTable").innerHTML = th;
+
+  const current = op.months[op.months.length-1];
+  document.getElementById("turbTableNote").textContent = current.note
+    ? `* ${current.label} data as of ${current.note} (month-to-date)`
+    : "";
+}
+
+// ── ACTUAL vs LIDAR WIND MODAL ──────────────────────────────────────────────
+function openWindModal() {
+  const op = D.operation || FALLBACK.operation;
+  const lidar = (op.lidarWind && op.lidarWind.byMonth) || {};
+  const rows = op.months.map(m => {
+    const monKey = m.label.slice(0,3);
+    const lidarVal = lidar[monKey];
+    const diff = (lidarVal!=null && m.windMs!=null) ? (m.windMs - lidarVal) : null;
+    const diffStr = diff==null ? "—" : (diff>=0?"+":"")+diff.toFixed(2);
+    const diffColor = diff==null ? "var(--muted)" : diff>=0 ? "var(--green)" : "var(--red)";
+    return `<tr>
+      <td>${m.label}${m.note?"*":""}</td>
+      <td style="text-align:right">${m.windMs!=null?m.windMs.toFixed(2):"—"}</td>
+      <td style="text-align:right">${lidarVal!=null?lidarVal.toFixed(2):"—"}</td>
+      <td style="text-align:right;color:${diffColor};font-weight:700">${diffStr}</td>
+    </tr>`;
+  }).join("");
+  document.querySelector("#windModalTable tbody").innerHTML = rows;
+  document.getElementById("windModalNote").textContent = (op.lidarWind && op.lidarWind.source) || "";
+  document.getElementById("windModalOverlay").classList.add("open");
+}
+function closeWindModal() {
+  document.getElementById("windModalOverlay").classList.remove("open");
+}
+
+// ── PERMITS ───────────────────────────────────────────────────────────────────
+function renderPermits() {
+  const k = CONFIG.permitsKpi;
+  document.getElementById("permitsKpiStrip").innerHTML = `
+    <div class="kpi"><div class="lbl">Total Permits</div><div class="val">${k.total}</div></div>
+    <div class="kpi green"><div class="lbl">Approved</div><div class="val">${k.approved}</div></div>
+    <div class="kpi amber"><div class="lbl">In Progress</div><div class="val">${k.inProgress}</div></div>
+    <div class="kpi"><div class="lbl">Overall Permit %</div><div class="val">${fmtPct(k.overallPct)}</div></div>`;
+
+  document.getElementById("cpStrip").innerHTML = CONFIG.permitsCriticalPath.map(p =>
+    `<div class="cp ${p.color}"><div class="nm">${p.name}</div><div>${p.status}</div></div>`
+  ).join("");
+
+  document.querySelector("#permitsTable tbody").innerHTML = CONFIG.permitsTable.map(r =>
+    `<tr>
+      <td>${r.num}</td>
+      <td>${r.name}</td>
+      <td>${r.area}</td>
+      <td>${fmtDate(r.issueDate)}</td>
+      <td><span class="pill ${r.color}">${r.status}</span></td>
+      <td>${r.remark}</td>
+    </tr>`
+  ).join("");
+
+  document.getElementById("permitsFootnote").textContent = CONFIG.permitsFootnote;
+}
+
+// ── TAB SWITCHING ─────────────────────────────────────────────────────────────
+let opBuilt = false;
+function showTab(name, btn) {
+  document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll("nav.tabs button").forEach(b => b.classList.remove("active"));
+  document.getElementById("tab-"+name).classList.add("active");
+  btn.classList.add("active");
+  if (name==="operation" && !opBuilt) { renderAnnualSummary(); renderOpChart(); opBuilt=true; }
+}
+// ── WEATHER ───────────────────────────────────────────────────────────────────
+const WX_ICONS={0:"☀️",1:"🌤️",2:"⛅",3:"☁️",45:"🌫️",48:"🌫️",51:"🌦️",53:"🌦️",55:"🌧️",61:"🌧️",63:"🌧️",65:"🌧️",80:"🌦️",81:"🌧️",82:"⛈️",95:"⛈️",96:"⛈️",99:"⛈️"};
+const WX_LABELS={0:"Clear",1:"Mostly clear",2:"Partly cloudy",3:"Overcast",45:"Fog",51:"Light drizzle",53:"Drizzle",55:"Dense drizzle",61:"Light rain",63:"Rain",65:"Heavy rain",80:"Rain showers",81:"Rain showers",82:"Violent showers",95:"Thunderstorm",96:"Thunderstorm (hail)",99:"Thunderstorm"};
+const WX_DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+function wxRisk(d) {
+  const r=[];
+  if(d.precip>=20)r.push("Heavy rain"); else if(d.precip>=5)r.push("Rain");
+  if(d.windMax>=15)r.push("High wind");
+  if([95,96,99].includes(d.code))r.push("Storm");
+  return r.length?r.join(", "):"—";
+}
+function transformOpenMeteo(daily) {
+  const todayISO=new Date().toISOString().slice(0,10);
+  return daily.time.map((date,i)=>({
+    date, period:date<todayISO?"last":date===todayISO?"this":"next",
+    tMax:Math.round(daily.temperature_2m_max[i]),
+    tMin:Math.round(daily.temperature_2m_min[i]),
+    precip:Math.round(daily.precipitation_sum[i]*10)/10,
+    windMax:Math.round(daily.wind_speed_10m_max[i]*10)/10,
+    gustMax:Math.round(daily.wind_gusts_10m_max[i]*10)/10,
+    code:daily.weathercode[i]
+  }));
+}
+function renderWeatherPanel(rows, opts) {
+  opts=opts||{};
+  const todayISO=new Date().toISOString().slice(0,10);
+  document.querySelector("#wxTable tbody").innerHTML = rows.map(d => {
+    const isToday=d.date===todayISO, isPast=d.date<todayISO;
+    const d2=new Date(d.date+"T00:00:00");
+    const dayStr=`${WX_DOW[d2.getDay()]} ${String(d2.getDate()).padStart(2,"0")} ${MONTHS[d2.getMonth()]}`;
+    return `<tr class="${isToday?"today":isPast?"past":""}">
+      <td class="day-cell">${dayStr}${isToday?" (today)":""}</td>
+      <td><span class="wx-icon">${WX_ICONS[d.code]||"•"}</span>${WX_LABELS[d.code]||"—"}</td>
+      <td>${d.tMax}°C</td><td>${d.tMin}°C</td>
+      <td>${d.precip} mm</td><td>${d.windMax} m/s</td><td>${d.gustMax} m/s</td>
+      <td>${wxRisk(d)}</td>
+    </tr>`;
+  }).join("");
+  const s=document.getElementById("wx-status");
+  if(opts.live) s.textContent="Live forecast loaded "+new Date().toLocaleString("en-GB",{hour:"2-digit",minute:"2-digit",day:"2-digit",month:"short",year:"numeric"});
+  else if(opts.error) s.textContent="Offline — no cached data available";
+}
+async function loadWeatherData() {
+  document.getElementById("wx-status").textContent="Refreshing…";
+  const{lat,lon}=CONFIG.weatherMeta;
+  const url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max,weathercode&wind_speed_unit=ms&timezone=Asia%2FSeoul&past_days=7&forecast_days=14`;
+  try {
+    const res=await fetch(url,{cache:"no-store"});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    const json=await res.json();
+    const rows=transformOpenMeteo(json.daily);
+    renderWeatherPanel(rows,{live:true});
+    CONFIG.weatherData=rows;
+  } catch(err) {
+    if(CONFIG.weatherData&&CONFIG.weatherData.length) renderWeatherPanel(CONFIG.weatherData,{error:true});
+    else {
+      document.getElementById("wx-status").textContent="Unable to load weather (offline, no cache)";
+      document.querySelector("#wxTable tbody").innerHTML=
+        `<tr><td colspan="8" style="text-align:center;color:var(--grey);padding:20px">No weather data — connect to internet and click Refresh.</td></tr>`;
+    }
+  }
+}
+function renderWeatherStatic() {
+  const{lat,lon,locationLabel,googleMapsUrl,windyUrl}=CONFIG.weatherMeta;
+  document.getElementById("wxCoords").textContent=`${lat.toFixed(4)}°N, ${lon.toFixed(4)}°E (${locationLabel})`;
+  document.getElementById("wx-maps-btn").onclick=()=>window.open(googleMapsUrl||`https://www.google.com/maps?q=${lat},${lon}`,"_blank");
+  document.getElementById("wx-windy-btn").onclick=()=>window.open(windyUrl||`https://www.windy.com/${lat}/${lon}?${lat},${lon},11`,"_blank");
+}
+
+// ── BOOT ──────────────────────────────────────────────────────────────────────
+function renderAll() {
+  renderHeader();
+  renderKPI();
+  renderSCurve();
+  renderWP();
+  renderNarrative();
+  renderPermits();
+  renderWeatherStatic();
+  loadWeatherData();
+  renderConstKpi();
+  buildFromData();
+  buildGrid();
+  buildCards();
+  renderFoundationICT();
+  renderCableDiagram();
+  renderCable();
+  renderOpKpis();
+  // Operation charts rendered lazily (on tab click)
+}
+
+loadAndRender();
+</script>
+</body>
+</html>
