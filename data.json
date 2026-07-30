@@ -179,6 +179,14 @@
     "periodLabel": "Dec 2025 – 29 Jul 2026 (MTD)",
     "totalKwh": 61452790,
     "activeTurbines": 25,
+    "lidarWind": {
+      "hubHeight": 112,
+      "source": "Measured from LiDAR during development @112m hub height (pre-construction wind resource baseline, typical-year cycle)",
+      "byMonth": {
+        "Jan": 7.82, "Feb": 7.72, "Mar": 7.62, "Apr": 6.42, "May": 6.58, "Jun": 4.98,
+        "Jul": 6.08, "Aug": 6.68, "Sep": 6.52, "Oct": 6.62, "Nov": 7.68, "Dec": 7.82
+      }
+    },
     "months": [
       { "label": "Dec-25", "turbines": 1,  "kwh": 306886,   "windMs": 8.26 },
       { "label": "Jan-26", "turbines": 2,  "kwh": 3661128,  "windMs": 7.33 },

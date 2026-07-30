@@ -95,6 +95,13 @@ ul.attn li{margin-bottom:8px;font-size:12.5px}
 .cp.amber{background:var(--amber-bg);border-color:var(--amber)}
 .cp.red{background:var(--red-bg);border-color:var(--red)}
 
+/* ── MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(20,40,63,.55);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal-box{background:#fff;border-radius:12px;max-width:640px;width:100%;max-height:85vh;overflow-y:auto;padding:20px 22px;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+.modal-box h3{font-size:15px;font-weight:800;color:var(--navy);margin:0}
+.modal-close-btn{border:none;background:none;font-size:22px;line-height:1;cursor:pointer;color:var(--muted);padding:0 4px}
+
 /* ── WEATHER ── */
 .source-note{font-size:11.5px;color:var(--grey);margin:-6px 0 10px}
 .wx-scroll{overflow-x:auto;margin-bottom:18px}
@@ -272,7 +279,7 @@ footer{max-width:1200px;margin:30px auto 0;padding:14px 20px;border-top:1px soli
       </button>
       <button id="wx-maps-btn"
         style="padding:5px 12px;font-size:11px;font-weight:700;background:#fff;color:var(--navy);border:1px solid var(--navy);border-radius:5px;cursor:pointer">
-        📍 Google Maps
+        📍 Google Earth
       </button>
       <button id="wx-windy-btn"
         style="padding:5px 12px;font-size:11px;font-weight:700;background:#fff;color:var(--navy);border:1px solid var(--navy);border-radius:5px;cursor:pointer">
@@ -375,7 +382,10 @@ footer{max-width:1200px;margin:30px auto 0;padding:14px 20px;border-top:1px soli
   </div>
 
   <div class="card">
-    <div class="card-title">📊 Monthly Power Generation &amp; Average Wind Speed</div>
+    <div class="card-title" style="justify-content:space-between">
+      <span>📊 Monthly Power Generation &amp; Average Wind Speed</span>
+      <button onclick="openWindModal()" style="padding:5px 12px;font-size:11px;font-weight:700;background:#fff;color:var(--navy);border:1px solid var(--navy);border-radius:5px;cursor:pointer;white-space:nowrap">💨 Actual vs LiDAR</button>
+    </div>
     <div class="chart-wrap-op"><canvas id="opChart"></canvas></div>
     <div style="display:flex;gap:20px;justify-content:center;margin-top:10px;flex-wrap:wrap">
       <span style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--muted)"><span style="display:inline-block;width:20px;height:12px;background:var(--navy);border-radius:3px;opacity:.7"></span>Power Generation (kWh)</span>
@@ -386,7 +396,7 @@ footer{max-width:1200px;margin:30px auto 0;padding:14px 20px;border-top:1px soli
   <div class="card">
     <div class="card-title">⚡ Per-Turbine Monthly Generation (kWh)</div>
     <div class="turb-scroll"><table class="turb-table" id="turbTable"></table></div>
-    <div style="margin-top:8px;font-size:11px;color:var(--muted)">* Jun-26 data as of 28 June 2026 (partial month — KEPCO generation restriction active 24 Jun–7 Jul)</div>
+    <div style="margin-top:8px;font-size:11px;color:var(--muted)" id="turbTableNote"></div>
   </div>
 
 </div>
@@ -420,6 +430,21 @@ footer{max-width:1200px;margin:30px auto 0;padding:14px 20px;border-top:1px soli
   <span id="ftrRight"></span>
 </footer>
 
+<!-- ══════════ MODAL: ACTUAL vs LIDAR WIND ══════════ -->
+<div class="modal-overlay" id="windModalOverlay" onclick="if(event.target===this)closeWindModal()">
+  <div class="modal-box">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+      <h3>💨 Actual vs LiDAR — Average Wind Speed</h3>
+      <button class="modal-close-btn" onclick="closeWindModal()">×</button>
+    </div>
+    <div class="source-note" id="windModalNote"></div>
+    <table class="data" id="windModalTable" style="width:100%">
+      <thead><tr><th>Month</th><th style="text-align:right">Actual (SCADA)</th><th style="text-align:right">LiDAR (Development)</th><th style="text-align:right">Δ Actual − LiDAR</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
 <script>
 /* ============================================================
    CONFIG — Edit this block for weekly updates.
@@ -429,7 +454,7 @@ const CONFIG = {
 
   meta: {
     projectName: "Nakwol I Offshore Wind Farm — Weekly Management Dashboard",
-    specsLine: "320 MW · 64 × 5 MW · Nakwol, South Korea · Owner: B.GRIMM · EPC: Samsung C&T JV · OE: IMC",
+    specsLine: "364.8 MW · 64 × 5.7 MW · Nakwol, South Korea · Owner: Nakwol Blueheart Co., Ltd. · EPC: Consortium of Hoban Blue Energy and CEEC-Korea · OE: Hanmi Global Co., Ltd.",
     phaseBadge: "Construction Phase",
     weekBadge: "4th Week of July 2026",
     revBadge: "Rev. 2026-07-27",
@@ -494,8 +519,8 @@ const CONFIG = {
     lat: 35.83,
     lon: 126.41,
     locationLabel: "Nakwol Offshore Wind Farm site centroid (approx.)",
-    googleMapsUrl: "",
-    windyUrl: ""
+    googleMapsUrl: "https://earth.google.com/web/search/Song-i-ri,+Nagwol-myeon,+Yeonggwang-gun,+%e0%b8%88%e0%b8%b1%e0%b8%87%e0%b8%ab%e0%b8%a7%e0%b8%b1%e0%b8%94%e0%b8%8a%e0%b9%87%e0%b8%ad%e0%b8%a5%e0%b8%a5%e0%b8%b2%e0%b9%83%e0%b8%95%e0%b9%89/@35.38069177,126.11113496,5.77229735a,22653.56904275d,35y,-0h,0t,0r/data=CiwiJgokCbSMi_tMJzBAETkZCGs13jnAGWvWAyaS9VhAIbx5jQfzXyHAQgIIATIpCicKJQohMXFyaW8zSEtRbDNvcGw0bTRFdnpiZ3FmZTNwYW9RT2ZWIAE6AwoBMEICCABKCAiIpczQBxAB",
+    windyUrl: "https://www.windy.com/35.290/126.146/ecmwfWaves/waves?waves,35.246,126.146,12"
   },
   weatherData: [],
 
@@ -605,6 +630,11 @@ const FALLBACK = {
     periodLabel:"Dec 2025 – 29 Jul 2026 (MTD)",
     totalKwh:61452790,
     activeTurbines:25,
+    lidarWind:{
+      hubHeight:112,
+      source:"Measured from LiDAR during development @112m hub height (pre-construction wind resource baseline, typical-year cycle)",
+      byMonth:{Jan:7.82,Feb:7.72,Mar:7.62,Apr:6.42,May:6.58,Jun:4.98,Jul:6.08,Aug:6.68,Sep:6.52,Oct:6.62,Nov:7.68,Dec:7.82}
+    },
     months:[
       {label:"Dec-25",turbines:1, kwh:306886,  windMs:8.26},
       {label:"Jan-26",turbines:2, kwh:3661128, windMs:7.33},
@@ -1063,13 +1093,14 @@ function buildInterArrayDiagram(iac, el) {
   }
   const H = topPad + iac.strings.length*rowH + 14;
 
-  // pass 3: render string rows / cable segments / turbine nodes
+  // pass 3: render string rows / cable segments / turbine nodes. The S/S
+  // (substation) box is drawn ONCE as a single tall bar spanning every row
+  // below, instead of one box per string — there's only one substation and
+  // all 11 strings connect into it.
   let rows="";
   iac.strings.forEach((str,ri) => {
     const cy = topPad + ri*rowH + rowH/2;
     rows += `<text x="${leftPad-ssHalf-14}" y="${cy+4}" text-anchor="end" font-size="10" font-weight="800" fill="#e8edf5">String ${str.id}</text>`;
-    rows += `<rect x="${leftPad-ssHalf}" y="${cy-13}" width="${ssHalf*2}" height="26" rx="4" fill="#1e2b42" stroke="#7c8db0" stroke-width="1.2"/>
-      <text x="${leftPad}" y="${cy+3}" text-anchor="middle" font-size="8" font-weight="800" fill="#c7d3e6">S/S</text>`;
     let cx0 = leftPad;
     str.segments.forEach(seg => {
       const cx1 = cx0 + nodeGap;
@@ -1088,6 +1119,14 @@ function buildInterArrayDiagram(iac, el) {
       cx0 = cx1;
     });
   });
+
+  // single merged S/S bar spanning every string row — one substation, not 11
+  {
+    const topCy = topPad + rowH/2;
+    const botCy = topPad + (iac.strings.length-1)*rowH + rowH/2;
+    rows += `<rect x="${leftPad-ssHalf}" y="${topCy-13}" width="${ssHalf*2}" height="${botCy-topCy+26}" rx="6" fill="#1e2b42" stroke="#7c8db0" stroke-width="1.2"/>
+      <text x="${leftPad}" y="${(topCy+botCy)/2+4}" text-anchor="middle" font-size="11" font-weight="800" fill="#c7d3e6">S/S</text>`;
+  }
 
   // pass 4: Emergency Line — orthogonal staple-bracket routing (right-angle
   // only, exits/enters at the node circle edge, dedicated lane per link),
@@ -1370,6 +1409,36 @@ function renderOpChart() {
   th+=`<tr class="total-row"><td>TOTAL</td>${colTotals.map(v=>`<td>${fmt(v)}</td>`).join("")}<td>${fmt(grandTotal)}</td></tr>`;
   th+="</tbody>";
   document.getElementById("turbTable").innerHTML = th;
+
+  const current = op.months[op.months.length-1];
+  document.getElementById("turbTableNote").textContent = current.note
+    ? `* ${current.label} data as of ${current.note} (month-to-date)`
+    : "";
+}
+
+// ── ACTUAL vs LIDAR WIND MODAL ──────────────────────────────────────────────
+function openWindModal() {
+  const op = D.operation || FALLBACK.operation;
+  const lidar = (op.lidarWind && op.lidarWind.byMonth) || {};
+  const rows = op.months.map(m => {
+    const monKey = m.label.slice(0,3);
+    const lidarVal = lidar[monKey];
+    const diff = (lidarVal!=null && m.windMs!=null) ? (m.windMs - lidarVal) : null;
+    const diffStr = diff==null ? "—" : (diff>=0?"+":"")+diff.toFixed(2);
+    const diffColor = diff==null ? "var(--muted)" : diff>=0 ? "var(--green)" : "var(--red)";
+    return `<tr>
+      <td>${m.label}${m.note?"*":""}</td>
+      <td style="text-align:right">${m.windMs!=null?m.windMs.toFixed(2):"—"}</td>
+      <td style="text-align:right">${lidarVal!=null?lidarVal.toFixed(2):"—"}</td>
+      <td style="text-align:right;color:${diffColor};font-weight:700">${diffStr}</td>
+    </tr>`;
+  }).join("");
+  document.querySelector("#windModalTable tbody").innerHTML = rows;
+  document.getElementById("windModalNote").textContent = (op.lidarWind && op.lidarWind.source) || "";
+  document.getElementById("windModalOverlay").classList.add("open");
+}
+function closeWindModal() {
+  document.getElementById("windModalOverlay").classList.remove("open");
 }
 
 // ── PERMITS ───────────────────────────────────────────────────────────────────
