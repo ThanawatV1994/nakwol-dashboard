@@ -1034,7 +1034,18 @@ function setCableMode(mode) {
 function pctFor(obj) { return (cableMode==="laying" ? obj.layingPct : obj.burialPct) || 0; }
 function stageFor(pct) { return pct>=100 ? "completed" : pct>0 ? "progress" : "planned"; }
 
-function turbineGlyph(cx,cy,scale) {
+// installed = Tower + Nacelle + Hub&Blade all complete (WTG[n][7]===DONE,
+// same definition as the "WTG Installed" KPI elsewhere in the dashboard).
+// Not-yet-installed turbines are drawn as a bare pile/foundation marker
+// (no blades) so the two states are distinguishable at a glance, even in
+// black & white print — matches the "Icon เต็ม vs เสาเปล่า" concept.
+function turbineGlyph(cx,cy,scale,installed) {
+  if (!installed) {
+    return `<g transform="translate(${cx},${cy}) scale(${scale})" stroke="#5a6c88" stroke-width="1.6" fill="none" stroke-dasharray="2,2">
+      <line x1="0" y1="14" x2="0" y2="-8"/>
+      <line x1="-6" y1="14" x2="6" y2="14"/>
+    </g>`;
+  }
   return `<g transform="translate(${cx},${cy}) scale(${scale})" stroke="#c7d3e6" stroke-width="1.6" fill="none">
     <line x1="0" y1="14" x2="0" y2="-1"/>
     <circle cx="0" cy="-3" r="1.6" fill="#c7d3e6" stroke="none"/>
@@ -1113,9 +1124,11 @@ function buildInterArrayDiagram(iac, el) {
       rows += `<text x="${midx}" y="${cy+2.5}" text-anchor="middle" font-size="7" font-weight="800" fill="${c}" opacity="${Math.max(op,0.55)}">${CABLE_CODE[seg.size]||"D"}</text>`;
       if (pctLbl) rows += `<text x="${midx}" y="${cy-11}" text-anchor="middle" font-size="7" font-weight="700" fill="${c}">${pctLbl}</text>`;
       const done = stage==="completed";
+      const twNum = parseInt(seg.to.replace("NW#",""),10);
+      const installed = WTG[twNum] && WTG[twNum][7]===DONE;
       rows += `<circle cx="${cx1}" cy="${cy}" r="${nodeR}" fill="${done?'#123322':'#111a2c'}" stroke="${done?'#22c55e':'#26344c'}" stroke-width="1.3"/>`;
-      rows += turbineGlyph(cx1, cy-1, 0.78);
-      rows += `<text x="${cx1}" y="${cy+19}" text-anchor="middle" font-size="6.5" font-weight="700" fill="#9fb0cc">${seg.to.replace("NW#","#")}</text>`;
+      rows += turbineGlyph(cx1, cy-1, 0.78, installed);
+      rows += `<text x="${cx1}" y="${cy+19}" text-anchor="middle" font-size="6.5" font-weight="700" fill="${installed?'#9fb0cc':'#5a6c88'}">${seg.to.replace("NW#","#")}</text>`;
       cx0 = cx1;
     });
   });
@@ -1159,6 +1172,8 @@ function buildInterArrayDiagram(iac, el) {
     <circle cx="${leftPad+164}" cy="16" r="6" fill="none" stroke="${CABLE_COLOR[120]}" stroke-width="1.2"/><text x="${leftPad+175}" y="19" font-size="8" fill="${CABLE_COLOR[120]}" font-weight="800">D</text><text x="${leftPad+186}" y="19" font-size="8" fill="#c7d3e6">120SQ</text>
     <line x1="${leftPad+240}" y1="16" x2="${leftPad+256}" y2="16" stroke="${EL_COLOR}" stroke-width="2" stroke-dasharray="4,3"/><text x="${leftPad+262}" y="19" font-size="8" fill="${EL_COLOR}" font-weight="800">E.L</text>
     <text x="${leftPad+310}" y="19" font-size="7.5" fill="#8ea3c0">Dashed/faded = Planned · full colour = In Progress · green glow / solid E.L = Completed — showing ${cableMode==="laying"?"LAYING":"BURIAL"}</text>
+    ${turbineGlyph(leftPad+6, 32, 0.55, true)}<text x="${leftPad+18}" y="35" font-size="8" fill="#c7d3e6">WTG Installed</text>
+    ${turbineGlyph(leftPad+118, 32, 0.55, false)}<text x="${leftPad+130}" y="35" font-size="8" fill="#5a6c88">WTG Not Yet Installed</text>
   </g>`;
 
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="min-width:900px;display:block" xmlns="http://www.w3.org/2000/svg">
