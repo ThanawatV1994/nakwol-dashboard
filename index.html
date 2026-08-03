@@ -456,10 +456,10 @@ const CONFIG = {
     projectName: "Nakwol I Offshore Wind Farm — Weekly Management Dashboard",
     specsLine: "364.8 MW · 64 × 5.7 MW · Nakwol, South Korea · Owner: Nakwol Blueheart Co., Ltd. · EPC: Consortium of Hoban Blue Energy and CEEC-Korea · OE: Hanmi Global Co., Ltd.",
     phaseBadge: "Construction Phase",
-    weekBadge: "4th Week of July 2026",
-    revBadge: "Rev. 2026-07-27",
-    reportWeekEnding: "2026-07-26",
-    dataCutoff: "2026-07-26",
+    weekBadge: "5th Week of July 2026",
+    revBadge: "Rev. 2026-08-03",
+    reportWeekEnding: "2026-08-02",
+    dataCutoff: "2026-08-02",
     preparedBy: "Rattanawan M. / Thanawat V. / Lee Donghyun",
     reviewedBy: "Pollawat K.",
     approvedBy: "Paitool P."
@@ -468,51 +468,51 @@ const CONFIG = {
   thresholds: { amberFloor: -0.03 },
 
   kpi: {
-    overallPlanPct:   0.9301,
-    overallActualPct: 0.8969,
+    overallPlanPct:   0.9392,
+    overallActualPct: 0.9128,
     targetLabel: "Target COD Countdown",
     targetDate: "2026-12-31",
     targetDateLabel: "Target COD",
     openItemsLabel: "WTGs In Operation",
-    openItemsValue: "26 / 64",
-    openItemsSub: "39 installed · 26 in operation"
+    openItemsValue: "33 / 64",
+    openItemsSub: "42 installed · 33 in operation"
   },
 
   scurve: {
-    weightsNote: "Weights per S-Curve, Overall (+BOP) blended basis: Engineering 9.75% · Procurement 19.5% · Construction 30% · BOP 40.75%. Chart, KPI tiles, and WP table all use this +BOP basis, sourced directly from the 'Overall (+BOP)' row of 0. S-Curve-Nakwol-20260724.xlsx (weekly series, one point picked per month-end; current-period point taken at the 24 Jul cut-off).",
+    weightsNote: "Weights per S-Curve, Overall (+BOP) blended basis: Engineering 9.75% · Procurement 19.5% · Construction 30% · BOP 40.75%. Chart, KPI tiles, and WP table all use this +BOP basis, sourced directly from the 'Overall (+BOP)' row of 0. S-Curve-Nakwol-20260731.xlsx (weekly series, one point picked per month-end; current-period point taken at the 31 Jul cut-off).",
     // labels and data arrays: Plan/Actual/Forecast as % values (0–100), actual=null for unreported
     labels:   ["Jan-25","Feb-25","Mar-25","Apr-25","May-25","Jun-25","Jul-25","Aug-25","Sep-25","Oct-25","Nov-25","Dec-25","Jan-26","Feb-26","Mar-26","Apr-26","May-26","Jun-26","Jul-26","Aug-26","Sep-26","Oct-26","Nov-26","Dec-26"],
-    planned:  [50.2,54.8,55.7,57.3,59.9,61.3,62.6,65.1,65.9,70.3,72.8,74.7,76.0,77.3,78.3,79.3,83.6,88.8,93.0,97.4,99.3,99.4,99.6,99.8],
-    actual:   [41.2,43.3,45.1,46.3,53.4,56.3,58.9,62.3,64.2,66.8,68.7,70.6,71.9,72.5,74.1,77.7,83.4,86.5,89.7,null,null,null,null,null],
-    forecast: [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,89.7,97.4,99.3,99.4,99.6,99.8],
-    todayIndex: 18  // index of current reporting period (Jul-26 = 4th Week), value taken at 24-Jul cutoff
+    planned:  [50.2,54.8,55.7,57.3,59.9,61.2,62.5,65.1,65.9,70.3,72.8,74.7,76.0,77.3,78.3,79.3,83.6,88.8,93.9,97.4,99.3,99.5,99.7,99.8],
+    actual:   [41.1,43.3,45.1,46.3,53.4,56.3,58.9,62.3,64.2,66.8,68.7,70.6,71.9,72.5,74.1,77.7,83.4,86.5,91.3,null,null,null,null,null],
+    forecast: [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,91.3,97.4,99.3,99.5,99.7,99.8],
+    todayIndex: 18  // index of current reporting period (Jul-26 = 5th Week), value taken at 31-Jul cutoff
   },
 
   wpVariance: [
     { name: "Engineering",  weight: 0.0975, plan: 1.00,   actual: 1.00,   note: "100% complete — no outstanding engineering items" },
-    { name: "Procurement",  weight: 0.195,  plan: 1.00,   actual: 0.9873, note: "1.27% behind cumulative plan — minor residual procurement items" },
-    { name: "Construction", weight: 0.30,   plan: 0.8107, actual: 0.7531, note: "MP/SQ/SB 64/64 · TP 55/64 · KESCO(Sub) 45/64 · Tower/Nacelle/HB 39/64 · KESCO(Super) 26/64 · 26 in operation" },
-    { name: "BOP",          weight: 0.4075, plan: 0.9677, actual: 0.9349, note: "ICT/BOP systems — Network 98%, Ship Monitoring 99%, GIS Integrated Control 85%, Submarine Cable Monitoring 50%" }
+    { name: "Procurement",  weight: 0.195,  plan: 1.00,   actual: 1.00,   note: "100% complete this period — up from 98.73%, no outstanding procurement items" },
+    { name: "Construction", weight: 0.30,   plan: 0.8372, actual: 0.7821, note: "MP/SQ/SB 64/64 · TP 60/64 · KESCO(Sub) 44/64 · Tower/Nacelle/HB 42/64 · KESCO(Super) 33/64 · 33 in operation" },
+    { name: "BOP",          weight: 0.4075, plan: 0.9706, actual: 0.9465, note: "ICT/BOP systems — Network 98%, Ship Monitoring 99%, GIS Integrated Control 85%, Submarine Cable Monitoring 50%" }
   ],
 
   attentionItems: [
-    "Overall progress (+BOP) still Red: 89.69% actual vs. 93.01% planned (−3.32% variance) — Construction remains the main driver at 75.31% vs. 81.07% plan",
-    "Mixed marine conditions this period; July MTD window (thru 26 Jul): 13 operable days vs. 13 non-operable days",
-    "WTG in operation jumped to 26/64 (+6 this period: NW#32, #42, #43, #49, #50, #51) — KESCO's Inspection queue now clear; 9 in Static Commissioning, 4 waiting on punchlist",
-    "Submarine cable progress 51.8% overall — 120SQ inter-array laying now 9/39 lines complete (up from 5), incl. first fully-buried 120SQ segments on Strings 1–3; 400SQ burial underway on 7 sections",
-    "GIS Integrated Control (85%) and Submarine Cable Monitoring (50%) still incomplete; Network 98% (7 marine TP switches pending)"
+    "Overall progress (+BOP) improved to Amber this period (from Red): 91.28% actual vs. 93.92% planned (−2.64% variance) — Construction remains the main gap at 78.21% vs. 83.72% plan (−5.51%, still Red)",
+    "Procurement reached 100% cumulative this period (up from 98.73%) — work package now fully complete",
+    "WTG in operation reached 33/64 (+7 this period) — installation now complete on 42/64; 3 turbines in Static Commissioning, 6 installed but waiting on M&E punchlist",
+    "Submarine cable progress 56.8% overall — 120SQ inter-array laying now 12/39 lines complete (up from 9); all 11×800SQ and 20×400SQ lines remain 100% laid",
+    "Export Cable Line 2 (North) burial reported at 75.8%, down from 93.1% last period — worth confirming with the site team before wide circulation"
   ],
 
   narrative: {
-    title: "Headline Narrative · 4th Week of July 2026",
+    title: "Headline Narrative · 5th Week of July 2026",
     paragraphs: [
-      "Overall project progress (+BOP blended) stands at 89.69% actual vs. 93.01% planned (−3.32% variance, Red). The project remains Red this period, driven primarily by Construction — the largest offshore work package — running at 75.31% actual vs. 81.07% planned. Engineering remains 100% complete; Procurement is 98.73% actual vs. 100% plan; BOP is 93.49% actual vs. 96.77% plan.",
-      "WTG installation: 39/64 turbines fully installed (Tower/Nacelle/Hub & Blade complete), up from 38 last period. 26 turbines are now in commercial operation, including 6 new this period — NW#49 (23 Jul), NW#50 (25 Jul), NW#32 (26 Jul), and NW#42/#51/#43 completing KESCO's Inspection. The KESCO's Inspection queue is now fully clear; 9 turbines are in static commissioning (NW#13, #20, #22, #23, #30, #35, #36, #45, #55), and 4 installed but waiting on M&E punchlist/commissioning (NW#4, #11, #12, #28). Foundation: all 64 MP/SQ/SB complete; TP now 55/64 (+2: NW#15, #27 completed this week); KESCO foundation inspection 45/64.",
-      "Cable progress (51.8% overall, up from 51.2%): All 11×800SQ and 20×400SQ lines remain laid. 120SQ inter-array laying advanced to 9 of 39 lines complete (up from 5) — Strings 1 and 2 now have all three 120SQ segments both laid and fully buried (100%), String 3's first two segments also complete, remainder still waiting on laying. 400SQ burial is now underway on 7 sections (26.5–78.8% each: NW#40–28, NW#60–50, NW#50–51, NW#48–36, NW#47–35, NW#46–45, NW#63–1). 800SQ burial: S1/NW#64 ~82%, S2/NW#54 ~61%, S3/NW#53 ~16%, S4/NW#62 ~27%, S5/NW#61 ~26%, S7/NW#59 just started (~0.3%); Strings 6, 8–11 burial still waiting. Export cable (1200SQ): Line 1 South 100% burial, Line 2 North 93.1% burial (25,909/27,830 m) — unchanged.",
-      "Marine conditions were mixed this period. July month-to-date: 13 operable days vs. 13 non-operable days (thru 26 Jul).",
-      "ICT (BOP systems): Network 98% (7 switches pending), Ship Monitoring 99% (RADAR not integrated), GIS Integrated Control 85% (turbine/ICCP/SHM data not yet linked), Submarine Cable Monitoring 50% (screen not implemented) — all unchanged this period. Priority for next period: continue 120SQ laying and burial, advance 400SQ/800SQ burial on remaining strings, progress the 13 remaining Static Commissioning / Waiting turbines toward operation."
+      "Overall project progress (+BOP blended) stands at 91.28% actual vs. 93.92% planned (−2.64% variance), moving the project status from Red to Amber this period. Engineering and Procurement are both 100% complete — Procurement reached full completion this period, up from 98.73%. Construction — the largest offshore work package — remains the primary gap at 78.21% actual vs. 83.72% planned (−5.51%, Red). BOP is 94.65% actual vs. 97.06% planned (−2.41%, Amber).",
+      "WTG installation: 42/64 turbines fully installed (Tower/Nacelle/Hub & Blade complete), up from 39 last period. 33 turbines are now in commercial operation (+7), including NW#51 (27 Jul), NW#42 (29 Jul), NW#43 (31 Jul), NW#55 (31 Jul), NW#45 (31 Jul) and NW#23 (2 Aug) explicitly confirmed this period. 3 turbines remain in Static Commissioning (NW#12, #20, #30), and 6 installed but waiting on M&E punchlist (NW#4, #5, #11, #16, #26, #28). Foundation: all 64 MP/SQ/SB complete; TP now 60/64 (+5); KESCO foundation inspection 44/64.",
+      "Cable progress (56.8% overall, up from 51.8%): All 11×800SQ and 20×400SQ lines remain 100% laid. 120SQ inter-array laying advanced to 12 of 39 lines complete (up from 9) — String 4 segments NW#28–NW#19 and NW#10–NW#4, plus Emergency Line NW#5–NW#4, completed both laying and burial this period. Export cable (1200SQ): Line 1 South 100% burial (unchanged); Line 2 North 75.8% burial (previously reported 93.1%).",
+      "Marine conditions for July closed at 18 operable days vs. 13 non-operable days for the month.",
+      "ICT (BOP systems): Network 98% (7 marine TP switches pending), Ship Monitoring 99% (RADAR not integrated), GIS Integrated Control 85% (turbine/ICCP/SHM data not yet linked), Submarine Cable Monitoring 50% (screen not implemented) — all unchanged this period. Priority for next period: continue 120SQ laying and burial on the remaining strings, progress the 6 turbines awaiting M&E punchlist and 3 in Static Commissioning toward operation, and complete the remaining 4 TP and 31 KESCO(Super) inspections."
     ],
-    source: "Source: Nakwol I 4th Week of July 2026 Internal Report (reported 27 Jul 2026) · S-Curve update dated 24 Jul 2026."
+    source: "Source: Nakwol I 5th Week of July 2026 Internal Report (reported 3 Aug 2026) · S-Curve update dated 31 Jul 2026."
   },
 
   weatherMeta: {
@@ -581,31 +581,31 @@ const CONFIG = {
 // Nakwol-specific data (WTG status, cable, operation) comes from data.json
 // The shape below mirrors data.json exactly.
 const FALLBACK = {
-  meta:{ weekLabel:"4th Week of July 2026", reportDate:"2026-07-26" },
-  kpis:{ overallProgress:89.69, plannedProgress:93.01, wtgInstalled:39, wtgInOperation:26,
-         monopileTotal:64, tpInstalled:55, cableBuriedStrings:6 },
+  meta:{ weekLabel:"5th Week of July 2026", reportDate:"2026-08-02" },
+  kpis:{ overallProgress:91.28, plannedProgress:93.92, wtgInstalled:42, wtgInOperation:33,
+         monopileTotal:64, tpInstalled:60, cableBuriedStrings:0 },
   wtgStatus:{
-    1:"op",2:"tp",3:"tp",4:"wait",5:"kescosub",6:"found",7:"found",8:"tp",9:"tp",10:"tp",11:"wait",12:"wait",
-    13:"comm",14:"found",15:"tp",16:"found",17:"tp",18:"tp",19:"kescosub",20:"comm",
-    21:"kescosub",22:"comm",23:"comm",24:"found",25:"found",26:"tp",27:"tp",28:"wait",
-    29:"op",30:"comm",31:"op",32:"op",33:"found",34:"found",35:"comm",36:"comm",
-    37:"kescosub",38:"kescosub",39:"kescosub",40:"op",41:"op",42:"op",43:"op",44:"found",
-    45:"comm",46:"op",47:"op",48:"op",49:"op",50:"op",51:"op",52:"op",53:"op",
-    54:"op",55:"comm",56:"op",57:"op",58:"op",59:"op",60:"op",61:"op",62:"op",63:"op",64:"op"
+    1:"op",2:"tp",3:"tp",4:"wait",5:"wait",6:"found",7:"tp",8:"tp",9:"tp",10:"tp",11:"wait",12:"comm",
+    13:"op",14:"tp",15:"tp",16:"wait",17:"tp",18:"tp",19:"tp",20:"comm",
+    21:"tp",22:"op",23:"op",24:"found",25:"tp",26:"wait",27:"tp",28:"wait",
+    29:"op",30:"comm",31:"op",32:"op",33:"found",34:"found",35:"op",36:"op",
+    37:"tp",38:"kescosub",39:"kescosub",40:"op",41:"op",42:"op",43:"op",44:"tp",
+    45:"op",46:"op",47:"op",48:"op",49:"op",50:"op",51:"op",52:"op",53:"op",
+    54:"op",55:"op",56:"op",57:"op",58:"op",59:"op",60:"op",61:"op",62:"op",63:"op",64:"op"
   },
   activities:[
     {name:"Monopile",done:64,total:64},{name:"Sandquilt",done:64,total:64},
-    {name:"Stonebag",done:64,total:64},{name:"Trans. Piece",done:55,total:64},
-    {name:"KESCO (Sub)",done:45,total:64},{name:"Tower",done:39,total:64},
-    {name:"Nacelle",done:39,total:64},{name:"Hub & Blade",done:39,total:64},
-    {name:"KESCO (Super)",done:26,total:64}
+    {name:"Stonebag",done:64,total:64},{name:"Trans. Piece",done:60,total:64},
+    {name:"KESCO (Sub)",done:44,total:64},{name:"Tower",done:42,total:64},
+    {name:"Nacelle",done:42,total:64},{name:"Hub & Blade",done:42,total:64},
+    {name:"KESCO (Super)",done:33,total:64}
   ],
-  cableCategories:{ offshoreCable:51.8, substation:100, switchingStation:100, undergroundTL:100, overheadTL:100, officeBuilding:100 },
+  cableCategories:{ offshoreCable:56.8, substation:100, switchingStation:100, undergroundTL:100, overheadTL:100, officeBuilding:100 },
   interArrayCable:{ pctLabel:0, strings:[
     {id:1,segments:[{from:"S/S",to:"NW#64",size:800,layingPct:100,burialPct:82},{from:"NW#64",to:"NW#43",size:400,layingPct:100,burialPct:0},{from:"NW#43",to:"NW#32",size:400,layingPct:100,burialPct:0},{from:"NW#32",to:"NW#23",size:120,layingPct:100,burialPct:100},{from:"NW#23",to:"NW#22",size:120,layingPct:100,burialPct:100},{from:"NW#22",to:"NW#13",size:120,layingPct:100,burialPct:100}]},
     {id:2,segments:[{from:"S/S",to:"NW#54",size:800,layingPct:100,burialPct:61.2},{from:"NW#54",to:"NW#42",size:400,layingPct:100,burialPct:0},{from:"NW#42",to:"NW#31",size:400,layingPct:100,burialPct:0},{from:"NW#31",to:"NW#30",size:120,layingPct:100,burialPct:100},{from:"NW#30",to:"NW#21",size:120,layingPct:100,burialPct:100},{from:"NW#21",to:"NW#12",size:120,layingPct:100,burialPct:100}]},
     {id:3,segments:[{from:"S/S",to:"NW#53",size:800,layingPct:100,burialPct:15.7},{from:"NW#53",to:"NW#41",size:400,layingPct:100,burialPct:0},{from:"NW#41",to:"NW#29",size:400,layingPct:100,burialPct:0},{from:"NW#29",to:"NW#20",size:120,layingPct:100,burialPct:100},{from:"NW#20",to:"NW#11",size:120,layingPct:100,burialPct:100},{from:"NW#11",to:"NW#5",size:120,layingPct:0,burialPct:0}]},
-    {id:4,segments:[{from:"S/S",to:"NW#62",size:800,layingPct:100,burialPct:26.5},{from:"NW#62",to:"NW#40",size:400,layingPct:100,burialPct:0},{from:"NW#40",to:"NW#28",size:400,layingPct:100,burialPct:60.6},{from:"NW#28",to:"NW#19",size:120,layingPct:0,burialPct:0},{from:"NW#19",to:"NW#10",size:120,layingPct:0,burialPct:0},{from:"NW#10",to:"NW#4",size:120,layingPct:0,burialPct:0}]},
+    {id:4,segments:[{from:"S/S",to:"NW#62",size:800,layingPct:100,burialPct:26.5},{from:"NW#62",to:"NW#40",size:400,layingPct:100,burialPct:0},{from:"NW#40",to:"NW#28",size:400,layingPct:100,burialPct:60.6},{from:"NW#28",to:"NW#19",size:120,layingPct:100,burialPct:100},{from:"NW#19",to:"NW#10",size:120,layingPct:0,burialPct:0},{from:"NW#10",to:"NW#4",size:120,layingPct:100,burialPct:100}]},
     {id:5,segments:[{from:"S/S",to:"NW#61",size:800,layingPct:100,burialPct:25.5},{from:"NW#61",to:"NW#52",size:400,layingPct:100,burialPct:0},{from:"NW#52",to:"NW#18",size:120,layingPct:0,burialPct:0},{from:"NW#18",to:"NW#9",size:120,layingPct:0,burialPct:0},{from:"NW#9",to:"NW#3",size:120,layingPct:0,burialPct:0}]},
     {id:6,segments:[{from:"S/S",to:"NW#60",size:800,layingPct:100,burialPct:0},{from:"NW#60",to:"NW#50",size:400,layingPct:100,burialPct:33},{from:"NW#50",to:"NW#51",size:400,layingPct:100,burialPct:76},{from:"NW#51",to:"NW#38",size:120,layingPct:0,burialPct:0},{from:"NW#38",to:"NW#39",size:120,layingPct:0,burialPct:0},{from:"NW#39",to:"NW#27",size:120,layingPct:0,burialPct:0}]},
     {id:7,segments:[{from:"S/S",to:"NW#59",size:800,layingPct:100,burialPct:0.3},{from:"NW#59",to:"NW#49",size:400,layingPct:100,burialPct:0},{from:"NW#49",to:"NW#37",size:120,layingPct:0,burialPct:0},{from:"NW#37",to:"NW#16",size:120,layingPct:0,burialPct:0},{from:"NW#16",to:"NW#17",size:120,layingPct:0,burialPct:0}]},
@@ -615,21 +615,21 @@ const FALLBACK = {
     {id:11,segments:[{from:"S/S",to:"NW#63",size:800,layingPct:100,burialPct:0},{from:"NW#63",to:"NW#1",size:400,layingPct:100,burialPct:40},{from:"NW#1",to:"NW#55",size:400,layingPct:100,burialPct:0},{from:"NW#55",to:"NW#44",size:120,layingPct:0,burialPct:0},{from:"NW#44",to:"NW#33",size:120,layingPct:0,burialPct:0},{from:"NW#33",to:"NW#24",size:120,layingPct:0,burialPct:0}]}
   ]},
   emergencyLine:{ pctLabel:0, segments:[
-    {from:"NW#13",to:"NW#12",layingPct:100,burialPct:100},{from:"NW#5",to:"NW#4",layingPct:0,burialPct:0},
+    {from:"NW#13",to:"NW#12",layingPct:100,burialPct:100},{from:"NW#5",to:"NW#4",layingPct:100,burialPct:100},
     {from:"NW#3",to:"NW#2",layingPct:0,burialPct:0},{from:"NW#27",to:"NW#17",layingPct:0,burialPct:0},
     {from:"NW#6",to:"NW#14",layingPct:0,burialPct:0},{from:"NW#14",to:"NW#24",layingPct:0,burialPct:0}
   ]},
   exportCable:{
-    pctLabel:96.5,
+    pctLabel:87.9,
     routes:[
-      {name:"Northern Route",from:"Song-I-do Island",to:"MJ Industries",layingPct:100,burialPct:93.1},
+      {name:"Northern Route",from:"Song-I-do Island",to:"MJ Industries",layingPct:100,burialPct:75.8},
       {name:"Southern Route",from:"Song-I-do Island",to:"MJ Industries",layingPct:100,burialPct:100}
     ]
   },
   operation:{
-    periodLabel:"Dec 2025 – 29 Jul 2026 (MTD)",
-    totalKwh:61452790,
-    activeTurbines:25,
+    periodLabel:"Dec 2025 – 2 Aug 2026 (MTD)",
+    totalKwh:61947646,
+    activeTurbines:29,
     lidarWind:{
       hubHeight:112,
       source:"Measured from LiDAR during development @112m hub height (pre-construction wind resource baseline, typical-year cycle)",
@@ -643,34 +643,39 @@ const FALLBACK = {
       {label:"Apr-26",turbines:7, kwh:5805420, windMs:5.85},
       {label:"May-26",turbines:11,kwh:7569026, windMs:5.43},
       {label:"Jun-26",turbines:17,kwh:6576409, windMs:4.35},
-      {label:"Jul-26",turbines:25,kwh:25705749,windMs:6.45,note:"29 Jul 2026 (MTD)"}
+      {label:"Jul-26",turbines:28,kwh:25766461,windMs:6.43},
+      {label:"Aug-26",turbines:29,kwh:434144,  windMs:3.89,note:"2 Aug 2026 (MTD)"}
     ],
     turbines:[
-      {name:"NW#54",dec:306886,jan:2482587,feb:1647391,mar:1181509,apr:999793, may:966006, jun:492602, jul:1498963},
-      {name:"NW#64",dec:0,     jan:1178541,feb:1424395,mar:1033952,apr:944654, may:932887, jun:472384, jul:882920},
-      {name:"NW#62",dec:null,  jan:0,      feb:1265507,mar:1130026,apr:987680, may:983872, jun:485264, jul:1367225},
-      {name:"NW#53",dec:0,     jan:0,      feb:950466, mar:1165485,apr:1013581,may:939897, jun:478799, jul:1278228},
-      {name:"NW#61",dec:null,  jan:0,      feb:870121, mar:1159320,apr:988143, may:958415, jun:401201, jul:534979},
-      {name:"NW#58",dec:null,  jan:null,   feb:null,   mar:null,   apr:415487, may:992811, jun:481608, jul:1368253},
-      {name:"NW#59",dec:null,  jan:null,   feb:null,   mar:0,      apr:456082, may:977569, jun:455432, jul:1361748},
-      {name:"NW#60",dec:null,  jan:null,   feb:null,   mar:null,   apr:0,      may:360264, jun:466032, jul:1393262},
-      {name:"NW#63",dec:null,  jan:null,   feb:null,   mar:null,   apr:0,      may:400410, jun:460570, jul:1327322},
-      {name:"NW#56",dec:null,  jan:null,   feb:null,   mar:null,   apr:0,      may:3318,   jun:524934, jul:1469593},
-      {name:"NW#1", dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:442807, jul:1502601},
-      {name:"NW#47",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:405388, jul:1440885},
-      {name:"NW#46",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:275293, jul:1548417},
-      {name:"NW#48",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:300282, jul:1355470},
-      {name:"NW#31",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:1446196},
-      {name:"NW#41",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:12858,  jul:1384903},
-      {name:"NW#57",dec:null,  jan:null,   feb:null,   mar:null,   apr:0,      may:53577,  jun:412028, jul:785928},
-      {name:"NW#29",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:8927,   jul:1182427},
-      {name:"NW#40",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:1169994},
-      {name:"NW#52",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:1143555},
-      {name:"NW#49",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:160756},
-      {name:"NW#50",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:58624},
-      {name:"NW#32",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:31357},
-      {name:"NW#51",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:11509},
-      {name:"NW#42",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:634}
+      {name:"NW#54",dec:306886,jan:2482587,feb:1647391,mar:1181509,apr:999793, may:966006, jun:492602, jul:1500673,aug:14142},
+      {name:"NW#64",dec:0,     jan:1178541,feb:1424395,mar:1033952,apr:944654, may:932887, jun:472384, jul:885552, aug:20112},
+      {name:"NW#62",dec:null,  jan:0,      feb:1265507,mar:1130026,apr:987680, may:983872, jun:485264, jul:1370169,aug:18256},
+      {name:"NW#53",dec:0,     jan:0,      feb:950466, mar:1165485,apr:1013581,may:939897, jun:478799, jul:1279542,aug:13711},
+      {name:"NW#61",dec:null,  jan:0,      feb:870121, mar:1159320,apr:988143, may:958415, jun:401201, jul:537463, aug:16158},
+      {name:"NW#58",dec:null,  jan:null,   feb:null,   mar:null,   apr:415487, may:992811, jun:481608, jul:1371465,aug:19376},
+      {name:"NW#59",dec:null,  jan:null,   feb:null,   mar:0,      apr:456082, may:977569, jun:455432, jul:1364286,aug:17263},
+      {name:"NW#60",dec:null,  jan:null,   feb:null,   mar:null,   apr:0,      may:360264, jun:466032, jul:1395179,aug:15700},
+      {name:"NW#63",dec:null,  jan:null,   feb:null,   mar:null,   apr:0,      may:400410, jun:460570, jul:1330567,aug:20172},
+      {name:"NW#56",dec:null,  jan:null,   feb:null,   mar:null,   apr:0,      may:3318,   jun:524934, jul:1472871,aug:19881},
+      {name:"NW#1", dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:442807, jul:1505672,aug:19396},
+      {name:"NW#47",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:405388, jul:1444571,aug:20686},
+      {name:"NW#46",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:275293, jul:1552273,aug:20494},
+      {name:"NW#48",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:300282, jul:1358537,aug:19123},
+      {name:"NW#31",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:1447423,aug:11931},
+      {name:"NW#41",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:12858,  jul:1386257,aug:11015},
+      {name:"NW#57",dec:null,  jan:null,   feb:null,   mar:null,   apr:0,      may:53577,  jun:412028, jul:788997, aug:18595},
+      {name:"NW#29",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:8927,   jul:1184689,aug:15307},
+      {name:"NW#40",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:1171803,aug:13139},
+      {name:"NW#52",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:1145636,aug:14917},
+      {name:"NW#49",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:163458, aug:17151},
+      {name:"NW#50",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:61170,  aug:16706},
+      {name:"NW#32",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:32397,  aug:13198},
+      {name:"NW#51",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:13479,  aug:15795},
+      {name:"NW#42",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:1932,   aug:9631},
+      {name:"NW#43",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:388,    aug:7651},
+      {name:"NW#55",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:8,      aug:5095},
+      {name:"NW#23",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:0,      aug:4950},
+      {name:"NW#45",dec:null,  jan:null,   feb:null,   mar:null,   apr:null,   may:null,   jun:null,   jul:4,      aug:4593}
     ]
   }
 };
