@@ -460,10 +460,10 @@ const CONFIG = {
     projectName: "Nakwol I Offshore Wind Farm — Weekly Management Dashboard",
     specsLine: "364.8 MW · 64 × 5.7 MW · Nakwol, South Korea · Owner: Nakwol Blueheart Co., Ltd. · EPC: Consortium of Hoban Blue Energy and CEEC-Korea · OE: Hanmi Global Co., Ltd.",
     phaseBadge: "Construction Phase",
-    weekBadge: "1st Week of October 2026",
-    revBadge: "Rev. 2026-10-05",
-    reportWeekEnding: "2026-10-04",
-    dataCutoff: "2026-10-04",
+    weekBadge: "2nd Week of October 2026",
+    revBadge: "Rev. 2026-10-12",
+    reportWeekEnding: "2026-10-11",
+    dataCutoff: "2026-10-11",
     preparedBy: "Rattanawan M. / Thanawat V. / Lee Donghyun",
     reviewedBy: "Pollawat K.",
     approvedBy: "Paitool P."
@@ -472,52 +472,52 @@ const CONFIG = {
   thresholds: { amberFloor: -0.03 },
 
   kpi: {
-    overallPlanPct:   0.9867,
-    overallActualPct: 0.9773,
+    overallPlanPct:   0.9870,
+    overallActualPct: 0.9835,
     targetLabel: "Target COD Countdown",
     targetDate: "2026-12-31",
     targetDateLabel: "Target COD",
     openItemsLabel: "WTGs In Operation",
     openItemsValue: "45 / 64",
-    openItemsSub: "62 installed · 45 in operation"
+    openItemsSub: "63 installed · 45 in operation"
   },
 
   scurve: {
-    weightsNote: "Weights per S-Curve, Overall (+BOP) blended basis: Engineering 9.75% · Procurement 19.5% · Construction 30% · BOP 40.75%. Chart, KPI tiles, and WP table all use this +BOP basis, sourced directly from the 'Overall (+BOP)' row of 0. S-Curve-Nakwol-20261002.xlsx (weekly series, one point picked per month-end; current-period point taken at the 2 Oct cut-off). Month rollover: Sep-26 is now closed at last period's value (Plan 97.08% / Actual 97.48%); Oct-26 is the new current-period point.",
+    weightsNote: "Weights per S-Curve, Overall (+BOP) blended basis: Engineering 9.75% · Procurement 19.5% · Construction 30% · BOP 40.75%. Chart, KPI tiles, and WP table all use this +BOP basis, sourced directly from the 'Overall (+BOP)' row of 0. S-Curve-Nakwol-20261009.xlsx (weekly series, one point picked per month-end; current-period point taken at the 9 Oct cut-off). Sep-26 remains closed at Plan 97.08% / Actual 97.48%; Oct-26 continues as the current-period point.",
     // labels and data arrays: Plan/Actual/Forecast as % values (0–100), actual=null for unreported
     labels:   ["Jan-25","Feb-25","Mar-25","Apr-25","May-25","Jun-25","Jul-25","Aug-25","Sep-25","Oct-25","Nov-25","Dec-25","Jan-26","Feb-26","Mar-26","Apr-26","May-26","Jun-26","Jul-26","Aug-26","Sep-26","Oct-26","Nov-26","Dec-26"],
     planned:  [50.2,54.8,55.7,57.3,59.9,61.2,62.5,65.1,65.9,70.3,72.8,74.7,76.0,77.3,78.3,79.3,83.6,88.8,93.9,96.7,97.1,98.7,99.7,99.8],
-    actual:   [41.1,43.3,45.1,46.3,53.4,56.3,58.9,62.3,64.2,66.8,68.7,70.6,71.9,72.5,74.1,77.7,83.4,86.5,91.3,95.0,97.5,97.7,null,null],
-    forecast: [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,97.7,99.7,99.8],
-    todayIndex: 21  // index of current reporting period (Oct-26 = 1st Week of Oct), value taken at 2-Oct cutoff
+    actual:   [41.1,43.3,45.1,46.3,53.4,56.3,58.9,62.3,64.2,66.8,68.7,70.6,71.9,72.5,74.1,77.7,83.4,86.5,91.3,95.0,97.5,98.4,null,null],
+    forecast: [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,98.4,99.7,99.8],
+    todayIndex: 21  // index of current reporting period (Oct-26 = 2nd Week of Oct), value taken at 9-Oct cutoff
   },
 
   wpVariance: [
     { name: "Engineering",  weight: 0.0975, plan: 1.00,   actual: 1.00,   note: "100% complete — no outstanding engineering items" },
     { name: "Procurement",  weight: 0.195,  plan: 1.00,   actual: 1.00,   note: "100% complete — no outstanding procurement items" },
-    { name: "Construction", weight: 0.30,   plan: 0.9778, actual: 0.9523, note: "MP/SQ/SB 64/64 · TP 64/64 · KESCO(Sub) 64/64 · Tower/Nacelle/HB 62/64 · KESCO(Super) 45/64 · 45 in operation" },
-    { name: "BOP",          weight: 0.4075, plan: 0.9836, actual: 0.9794, note: "ICT/BOP systems — Network 98%, Ship Monitoring 99%, GIS Integrated Control 85%, Submarine Cable Monitoring 50%" }
+    { name: "Construction", weight: 0.30,   plan: 0.9789, actual: 0.9687, note: "MP/SQ/SB 64/64 · TP 64/64 · KESCO(Sub) 64/64 · Tower/Nacelle/HB 63/64 · KESCO(Super) 45/64 · 45 in operation" },
+    { name: "BOP",          weight: 0.4075, plan: 0.9836, actual: 0.9827, note: "ICT/BOP systems — Network 98%, Ship Monitoring 99%, GIS Integrated Control 85%, Submarine Cable Monitoring 50%" }
   ],
 
   attentionItems: [
-    "Overall progress (+BOP) slipped back to Amber: 97.73% actual vs. 98.67% planned (−0.94% variance) — actual rose +0.25 pt but the plan curve stepped up +1.59 pt as October's planned ramp (Construction plan 97.78%) kicked in; Construction gap is now −2.55% (95.23% vs. 97.78%), approaching the −3% Red threshold",
-    "WTG installed reached 62/64 (+2: NW#33, NW#44; matches the report's own summary line); only NW#21 and NW#24 are not yet installed",
-    "WTG in-operation total unchanged at 45/64 for the first time in 2 weeks of gains — but 11 turbines are now in Static Commissioning (M&E complete), up from 4, so the next batch of operation dates should follow in coming weeks",
-    "Submarine cable progress flat at 72.2% — 120SQ laying unchanged at 31/39 (no new completions; remaining 8 lines still waiting); String 10 and others unchanged",
-    "Report data-quality note: the 'Marine Condition (October)' block shows 13 operable / 14 non-operable days — identical to last week's September cumulative and impossible for a 4-day October, so it appears copied over un-updated; not used for this dashboard. Fleet: Hansan 1 grew to 42 units (+2)"
+    "Overall progress (+BOP) improved but stays Amber: 98.35% actual vs. 98.70% planned (−0.35% variance, improved from −0.94% last period) — Construction gap narrowed to −1.02% (96.87% vs. 97.89%) from −2.55%, and BOP is now essentially on plan (−0.09%)",
+    "WTG installed reached 63/64 (+1: NW#24; matches the report's own summary line) — only NW#21 remains to be installed",
+    "WTG in-operation total unchanged at 45/64 for a 2nd week with no new operation dates; 12 turbines are now in Static Commissioning with M&E complete (up from 11, +NW#34) and 6 still await M&E punchlists — conversion to operation is the key next milestone",
+    "Submarine cable progress advanced to 73.2% (from 72.2%) — 120SQ laying reached 34/39 lines (+3: NW#34–NW#25, NW#25–NW#14, Emergency Line NW#6–NW#14); export Line 2 burial rose to 77.9% (from 75.8%)",
+    "October weather so far (11 days): 7 operable vs. 4 non-operable — a better ratio than September; Fleet: Hansan 1 grew to 43 units (+1)"
   ],
 
   narrative: {
-    title: "Headline Narrative · 1st Week of October 2026",
+    title: "Headline Narrative · 2nd Week of October 2026",
     paragraphs: [
-      "Overall project progress (+BOP blended) stands at 97.73% actual vs. 98.67% planned (−0.94% variance, Amber), after last period's brief Green reading (+0.40%). Actual progress still advanced (+0.25 pt), but the plan baseline moved up faster (+1.59 pt) as the October plan ramp began, so the gap re-opened. Engineering and Procurement remain 100% complete. Construction is 95.23% actual vs. 97.78% planned (−2.55%, Amber, close to the −3% Red floor). BOP is unchanged at 97.94% actual vs. 98.36% planned (−0.42%).",
-      "S-Curve month rollover: with the 2 Oct cut-off now in October, Sep-26 is frozen at its last reported value (Plan 97.08% / Actual 97.48%) and Oct-26 becomes the current-period point. WTG Foundation, TP, KESCO foundation inspection, WTG pre-assembly and its KESCO inspection are all 100% complete (64/64).",
-      "WTG installation: 62/64 turbines fully installed (+2: NW#33, NW#44), matching the report's own summary line; NW#21 and NW#24 are the only turbines not yet installed. The 'WTG in operation' total is unchanged at 45/64 (all with explicit operation dates). Commissioning pipeline: 11 turbines are in Static Commissioning with M&E punchlists complete (NW#2, #3, #4, #7, #9, #10, #12, #14, #15, #18, #27 — up from 4), and 6 installed turbines are still waiting on M&E punchlists (NW#6, #17, #25, #33, #34, #44).",
-      "Cable progress is flat at 72.2% overall: all 11×800SQ and 20×400SQ lines remain 100% laid, and 120SQ inter-array laying holds at 31 of 39 lines (no new completions; the 8 remaining lines — Strings 10 and 11 and the last two Emergency Line segments — are still waiting). No burial percentages changed this period.",
-      "Generation: September closed at 24,026,157 kWh (45 turbines) and October month-to-date (thru 6 Oct) is already 9,631,783 kWh with strong wind (7.41 m/s average). All-time generation is 107,987,452 kWh. Note the report's 'Marine Condition (October)' figures (13 operable / 14 non-operable) duplicate last week's September numbers and look un-updated, so weather statistics are omitted this period.",
-      "ICT (BOP systems): Network 98% (1 offshore TP switch remaining), Ship Monitoring 99% (RADAR not integrated), GIS Integrated Control 85% (turbine/ICCP/SHM data not yet linked), Submarine Cable Monitoring 50% (screen not implemented) — unchanged this period. Fleet grew to Hansan 1: 42 units (+2). Priority for next period: convert the 11 Static-Commissioning turbines to operation, clear the M&E punchlists on the remaining 6, install NW#21/NW#24, and restart 120SQ laying/burial."
+      "Overall project progress (+BOP blended) stands at 98.35% actual vs. 98.70% planned (−0.35% variance, Amber), narrowing from last period's −0.94% as actual progress advanced +0.62 pt against a +0.03 pt plan move. Engineering and Procurement remain 100% complete. Construction is 96.87% actual vs. 97.89% planned (−1.02%, Amber, recovering from −2.55%). BOP is 98.27% actual vs. 98.36% planned (−0.09%, effectively on plan, up from −0.42%).",
+      "WTG Foundation, TP, KESCO foundation inspection, WTG pre-assembly and its KESCO inspection all remain 100% complete (64/64).",
+      "WTG installation: 63/64 turbines fully installed (+1: NW#24), matching the report's own summary line; NW#21 is the only turbine not yet installed. The 'WTG in operation' total is unchanged at 45/64 (all with explicit operation dates). Commissioning pipeline: 12 turbines are in Static Commissioning with M&E punchlists complete (NW#2, #3, #4, #7, #9, #10, #12, #14, #15, #18, #27, #34 — NW#34 newly added) and 6 installed turbines are still waiting on M&E punchlists (NW#6, #17, #24, #25, #33, #44).",
+      "Cable progress advanced to 73.2% overall (up from 72.2%): all 11×800SQ and 20×400SQ lines remain 100% laid, and 120SQ inter-array laying reached 34 of 39 lines (+3: String 10 segments NW#34–NW#25 and NW#25–NW#14, plus Emergency Line NW#6–NW#14). Burial advanced on several strings — String 5 (72.7%→74.6%), String 7 (83.4%→84.8%), String 8 (82.4%→85.7%), String 9 (84.6%→87.8%), String 11 (83.1%→87.5%) — and the 400SQ NW#43–NW#32 segment reached 100% burial. Export Line 2 (North) burial rose from 75.8% to 77.9%. The remaining 5 unlaid 120SQ lines are NW#45–NW#34, the three String 11 segments and Emergency Line NW#14–NW#24.",
+      "Generation: October month-to-date (thru 11 Oct) is 10,715,712 kWh from 45 active turbines (5.56 m/s average wind); September closed at 24,026,157 kWh. All-time generation is 109,071,381 kWh. Marine conditions for October so far (11 days): 7 operable vs. 4 non-operable.",
+      "ICT (BOP systems): Network 98% (1 offshore TP switch remaining), Ship Monitoring 99% (RADAR not integrated), GIS Integrated Control 85% (turbine/ICCP/SHM data not yet linked), Submarine Cable Monitoring 50% (screen not implemented) — unchanged this period. Fleet: Hansan 1 grew to 43 units (+1). Priority for next period: convert Static-Commissioning turbines to operation, clear the remaining M&E punchlists, install NW#21, and complete the last 5 lines of 120SQ laying."
     ],
-    source: "Source: Nakwol I 1st Week of October 2026 Internal Report (period 28 Sep–4 Oct 2026, reported 5 Oct 2026) · S-Curve update dated 2 Oct 2026 · WTG Production Summary thru 6 Oct 2026."
+    source: "Source: Nakwol I 2nd Week of October 2026 Internal Report (period 5–11 Oct 2026, reported 12 Oct 2026) · S-Curve update dated 9 Oct 2026 · WTG Production Summary thru 11 Oct 2026."
   },
 
   weatherMeta: {
@@ -588,15 +588,15 @@ const CONFIG = {
 const FALLBACK = {
   "meta": {
     "reportTitle": "Nakwol I Offshore Wind Project",
-    "weekNumber": 14,
-    "weekLabel": "1st Week of October 2026",
-    "reportDate": "2026-10-04",
+    "weekNumber": 15,
+    "weekLabel": "2nd Week of October 2026",
+    "reportDate": "2026-10-11",
     "updatedBy": "Project Team"
   },
   "kpis": {
-    "overallProgress": 97.73,
-    "plannedProgress": 98.67,
-    "wtgInstalled": 62,
+    "overallProgress": 98.35,
+    "plannedProgress": 98.7,
+    "wtgInstalled": 63,
     "wtgTotal": 64,
     "wtgInOperation": 45,
     "monopileTotal": 64,
@@ -653,7 +653,7 @@ const FALLBACK = {
       93.92,
       96.7,
       97.08,
-      98.67,
+      98.7,
       99.65,
       99.83
     ],
@@ -679,7 +679,7 @@ const FALLBACK = {
       91.28,
       94.96,
       97.48,
-      97.73,
+      98.35,
       null,
       null
     ],
@@ -705,7 +705,7 @@ const FALLBACK = {
       null,
       null,
       null,
-      97.73,
+      98.35,
       99.65,
       99.83
     ],
@@ -735,7 +735,7 @@ const FALLBACK = {
     "21": "tp",
     "22": "op",
     "23": "op",
-    "24": "tp",
+    "24": "wait",
     "25": "wait",
     "26": "op",
     "27": "comm",
@@ -745,7 +745,7 @@ const FALLBACK = {
     "31": "op",
     "32": "op",
     "33": "wait",
-    "34": "wait",
+    "34": "comm",
     "35": "op",
     "36": "op",
     "37": "op",
@@ -825,7 +825,7 @@ const FALLBACK = {
     "NW#19": "2026-09-25"
   },
   "cableCategories": {
-    "offshoreCable": 72.2,
+    "offshoreCable": 73.2,
     "substation": 100,
     "switchingStation": 100,
     "undergroundTL": 100,
@@ -857,7 +857,7 @@ const FALLBACK = {
             "to": "NW#32",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 0
+            "burialPct": 100
           },
           {
             "from": "NW#32",
@@ -1031,7 +1031,7 @@ const FALLBACK = {
             "to": "NW#61",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 72.7
+            "burialPct": 74.6
           },
           {
             "from": "NW#61",
@@ -1118,7 +1118,7 @@ const FALLBACK = {
             "to": "NW#59",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 83.4
+            "burialPct": 84.8
           },
           {
             "from": "NW#59",
@@ -1158,7 +1158,7 @@ const FALLBACK = {
             "to": "NW#58",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 82.4
+            "burialPct": 85.7
           },
           {
             "from": "NW#58",
@@ -1205,7 +1205,7 @@ const FALLBACK = {
             "to": "NW#57",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 84.6
+            "burialPct": 87.8
           },
           {
             "from": "NW#57",
@@ -1279,15 +1279,15 @@ const FALLBACK = {
             "from": "NW#34",
             "to": "NW#25",
             "size": 120,
-            "layingPct": 0,
-            "burialPct": 0
+            "layingPct": 100,
+            "burialPct": 100
           },
           {
             "from": "NW#25",
             "to": "NW#14",
             "size": 120,
-            "layingPct": 0,
-            "burialPct": 0
+            "layingPct": 100,
+            "burialPct": 100
           }
         ]
       },
@@ -1299,7 +1299,7 @@ const FALLBACK = {
             "to": "NW#63",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 83.1
+            "burialPct": 87.5
           },
           {
             "from": "NW#63",
@@ -1370,8 +1370,8 @@ const FALLBACK = {
       {
         "from": "NW#6",
         "to": "NW#14",
-        "layingPct": 0,
-        "burialPct": 0
+        "layingPct": 100,
+        "burialPct": 100
       },
       {
         "from": "NW#14",
@@ -1382,14 +1382,14 @@ const FALLBACK = {
     ]
   },
   "exportCable": {
-    "pctLabel": 87.9,
+    "pctLabel": 89.0,
     "routes": [
       {
         "name": "Northern Route",
         "from": "Song-I-do Island",
         "to": "MJ Industries",
         "layingPct": 100,
-        "burialPct": 75.8
+        "burialPct": 77.9
       },
       {
         "name": "Southern Route",
@@ -1428,17 +1428,17 @@ const FALLBACK = {
     },
     {
       "name": "Tower",
-      "done": 62,
+      "done": 63,
       "total": 64
     },
     {
       "name": "Nacelle",
-      "done": 62,
+      "done": 63,
       "total": 64
     },
     {
       "name": "Hub & Blade",
-      "done": 62,
+      "done": 63,
       "total": 64
     },
     {
@@ -1448,8 +1448,8 @@ const FALLBACK = {
     }
   ],
   "operation": {
-    "periodLabel": "Dec 2025 – 6 Oct 2026 (MTD)",
-    "totalKwh": 107987452,
+    "periodLabel": "Dec 2025 – 11 Oct 2026 (MTD)",
+    "totalKwh": 109071381,
     "activeTurbines": 45,
     "lidarWind": {
       "hubHeight": 112,
@@ -1533,9 +1533,9 @@ const FALLBACK = {
       {
         "label": "Oct-26",
         "turbines": 45,
-        "kwh": 9631783,
-        "windMs": 7.41,
-        "note": "6 Oct 2026 (MTD)"
+        "kwh": 10715712,
+        "windMs": 5.56,
+        "note": "11 Oct 2026 (MTD)"
       }
     ],
     "turbines": [
@@ -1551,7 +1551,7 @@ const FALLBACK = {
         "jul": 1500673,
         "aug": 467674,
         "sep": 684747,
-        "oct": 123516
+        "oct": 145515
       },
       {
         "name": "NW#64",
@@ -1565,7 +1565,7 @@ const FALLBACK = {
         "jul": 885552,
         "aug": 467408,
         "sep": 653444,
-        "oct": 113200
+        "oct": 130311
       },
       {
         "name": "NW#62",
@@ -1579,7 +1579,7 @@ const FALLBACK = {
         "jul": 1370169,
         "aug": 450999,
         "sep": 568532,
-        "oct": 109646
+        "oct": 128750
       },
       {
         "name": "NW#53",
@@ -1593,7 +1593,7 @@ const FALLBACK = {
         "jul": 1279542,
         "aug": 419421,
         "sep": 636126,
-        "oct": 117933
+        "oct": 137031
       },
       {
         "name": "NW#61",
@@ -1607,7 +1607,7 @@ const FALLBACK = {
         "jul": 537463,
         "aug": 415336,
         "sep": 644230,
-        "oct": 118026
+        "oct": 137075
       },
       {
         "name": "NW#58",
@@ -1621,7 +1621,7 @@ const FALLBACK = {
         "jul": 1371465,
         "aug": 395109,
         "sep": 682134,
-        "oct": 337276
+        "oct": 359647
       },
       {
         "name": "NW#59",
@@ -1635,7 +1635,7 @@ const FALLBACK = {
         "jul": 1364286,
         "aug": 413857,
         "sep": 694398,
-        "oct": 336452
+        "oct": 356131
       },
       {
         "name": "NW#60",
@@ -1649,7 +1649,7 @@ const FALLBACK = {
         "jul": 1395179,
         "aug": 65401,
         "sep": 262049,
-        "oct": 112928
+        "oct": 132011
       },
       {
         "name": "NW#63",
@@ -1663,7 +1663,7 @@ const FALLBACK = {
         "jul": 1330567,
         "aug": 427392,
         "sep": 563227,
-        "oct": 271025
+        "oct": 287761
       },
       {
         "name": "NW#56",
@@ -1677,7 +1677,7 @@ const FALLBACK = {
         "jul": 1472871,
         "aug": 424737,
         "sep": 722519,
-        "oct": 345800
+        "oct": 370621
       },
       {
         "name": "NW#1",
@@ -1691,7 +1691,7 @@ const FALLBACK = {
         "jul": 1505672,
         "aug": 416340,
         "sep": 629383,
-        "oct": 310294
+        "oct": 328038
       },
       {
         "name": "NW#47",
@@ -1705,7 +1705,7 @@ const FALLBACK = {
         "jul": 1444571,
         "aug": 427070,
         "sep": 765557,
-        "oct": 362301
+        "oct": 386742
       },
       {
         "name": "NW#46",
@@ -1719,7 +1719,7 @@ const FALLBACK = {
         "jul": 1552273,
         "aug": 407117,
         "sep": 803670,
-        "oct": 371993
+        "oct": 400556
       },
       {
         "name": "NW#48",
@@ -1733,7 +1733,7 @@ const FALLBACK = {
         "jul": 1358537,
         "aug": 424488,
         "sep": 719724,
-        "oct": 352740
+        "oct": 377034
       },
       {
         "name": "NW#31",
@@ -1747,7 +1747,7 @@ const FALLBACK = {
         "jul": 1447423,
         "aug": 459065,
         "sep": 713967,
-        "oct": 127096
+        "oct": 151712
       },
       {
         "name": "NW#41",
@@ -1761,7 +1761,7 @@ const FALLBACK = {
         "jul": 1386257,
         "aug": 338270,
         "sep": 238619,
-        "oct": 108406
+        "oct": 119932
       },
       {
         "name": "NW#57",
@@ -1775,7 +1775,7 @@ const FALLBACK = {
         "jul": 788997,
         "aug": 391313,
         "sep": 655954,
-        "oct": 330931
+        "oct": 352416
       },
       {
         "name": "NW#29",
@@ -1789,7 +1789,7 @@ const FALLBACK = {
         "jul": 1184689,
         "aug": 427083,
         "sep": 773050,
-        "oct": 122800
+        "oct": 147325
       },
       {
         "name": "NW#40",
@@ -1803,7 +1803,7 @@ const FALLBACK = {
         "jul": 1171803,
         "aug": 404545,
         "sep": 717071,
-        "oct": 109367
+        "oct": 131486
       },
       {
         "name": "NW#52",
@@ -1817,7 +1817,7 @@ const FALLBACK = {
         "jul": 1145636,
         "aug": 372053,
         "sep": 730554,
-        "oct": 124866
+        "oct": 139396
       },
       {
         "name": "NW#49",
@@ -1831,7 +1831,7 @@ const FALLBACK = {
         "jul": 163458,
         "aug": 385639,
         "sep": 745917,
-        "oct": 342600
+        "oct": 363923
       },
       {
         "name": "NW#50",
@@ -1845,7 +1845,7 @@ const FALLBACK = {
         "jul": 61170,
         "aug": 426397,
         "sep": 297137,
-        "oct": 86214
+        "oct": 107284
       },
       {
         "name": "NW#32",
@@ -1859,7 +1859,7 @@ const FALLBACK = {
         "jul": 32397,
         "aug": 487789,
         "sep": 770401,
-        "oct": 125858
+        "oct": 150782
       },
       {
         "name": "NW#51",
@@ -1873,7 +1873,7 @@ const FALLBACK = {
         "jul": 13479,
         "aug": 372032,
         "sep": 703940,
-        "oct": 110476
+        "oct": 130262
       },
       {
         "name": "NW#42",
@@ -1887,7 +1887,7 @@ const FALLBACK = {
         "jul": 1932,
         "aug": 342881,
         "sep": 696774,
-        "oct": 119570
+        "oct": 141389
       },
       {
         "name": "NW#43",
@@ -1901,7 +1901,7 @@ const FALLBACK = {
         "jul": 388,
         "aug": 342429,
         "sep": 707990,
-        "oct": 117370
+        "oct": 139840
       },
       {
         "name": "NW#55",
@@ -1915,7 +1915,7 @@ const FALLBACK = {
         "jul": 8,
         "aug": 401334,
         "sep": 749495,
-        "oct": 349030
+        "oct": 375200
       },
       {
         "name": "NW#23",
@@ -1929,7 +1929,7 @@ const FALLBACK = {
         "jul": 0,
         "aug": 345978,
         "sep": 856287,
-        "oct": 142055
+        "oct": 172591
       },
       {
         "name": "NW#45",
@@ -1943,7 +1943,7 @@ const FALLBACK = {
         "jul": 4,
         "aug": 389424,
         "sep": 836651,
-        "oct": 374900
+        "oct": 406201
       },
       {
         "name": "NW#22",
@@ -1957,7 +1957,7 @@ const FALLBACK = {
         "jul": null,
         "aug": 396998,
         "sep": 821465,
-        "oct": 141136
+        "oct": 169586
       },
       {
         "name": "NW#36",
@@ -1971,7 +1971,7 @@ const FALLBACK = {
         "jul": null,
         "aug": 278191,
         "sep": 788201,
-        "oct": 359844
+        "oct": 385156
       },
       {
         "name": "NW#13",
@@ -1985,7 +1985,7 @@ const FALLBACK = {
         "jul": null,
         "aug": 362093,
         "sep": 798572,
-        "oct": 158824
+        "oct": 181965
       },
       {
         "name": "NW#35",
@@ -1999,7 +1999,7 @@ const FALLBACK = {
         "jul": null,
         "aug": 270147,
         "sep": 822580,
-        "oct": 371970
+        "oct": 400019
       },
       {
         "name": "NW#28",
@@ -2013,7 +2013,7 @@ const FALLBACK = {
         "jul": null,
         "aug": null,
         "sep": 186653,
-        "oct": 130901
+        "oct": 155551
       },
       {
         "name": "NW#30",
@@ -2027,7 +2027,7 @@ const FALLBACK = {
         "jul": null,
         "aug": null,
         "sep": 181514,
-        "oct": 129225
+        "oct": 155710
       },
       {
         "name": "NW#8",
@@ -2041,7 +2041,7 @@ const FALLBACK = {
         "jul": null,
         "aug": null,
         "sep": 204345,
-        "oct": 381363
+        "oct": 413990
       },
       {
         "name": "NW#11",
@@ -2055,7 +2055,7 @@ const FALLBACK = {
         "jul": null,
         "aug": null,
         "sep": 176071,
-        "oct": 148211
+        "oct": 177752
       },
       {
         "name": "NW#20",
@@ -2069,7 +2069,7 @@ const FALLBACK = {
         "jul": null,
         "aug": null,
         "sep": 155692,
-        "oct": 95596
+        "oct": 144752
       },
       {
         "name": "NW#26",
@@ -2083,7 +2083,7 @@ const FALLBACK = {
         "jul": null,
         "aug": null,
         "sep": 170975,
-        "oct": 367778
+        "oct": 393962
       },
       {
         "name": "NW#16",
@@ -2097,7 +2097,7 @@ const FALLBACK = {
         "jul": null,
         "aug": null,
         "sep": 100585,
-        "oct": 349966
+        "oct": 375855
       },
       {
         "name": "NW#37",
@@ -2111,7 +2111,7 @@ const FALLBACK = {
         "jul": null,
         "aug": null,
         "sep": 96201,
-        "oct": 353138
+        "oct": 378390
       },
       {
         "name": "NW#5",
@@ -2125,7 +2125,7 @@ const FALLBACK = {
         "jul": null,
         "aug": null,
         "sep": 92723,
-        "oct": 182462
+        "oct": 215305
       },
       {
         "name": "NW#38",
@@ -2139,7 +2139,7 @@ const FALLBACK = {
         "jul": null,
         "aug": null,
         "sep": 73883,
-        "oct": 119173
+        "oct": 144091
       },
       {
         "name": "NW#39",
@@ -2153,7 +2153,7 @@ const FALLBACK = {
         "jul": null,
         "aug": null,
         "sep": 70066,
-        "oct": 125987
+        "oct": 149533
       },
       {
         "name": "NW#19",
@@ -2167,7 +2167,7 @@ const FALLBACK = {
         "jul": null,
         "aug": null,
         "sep": 63084,
-        "oct": 141540
+        "oct": 167133
       }
     ]
   }
