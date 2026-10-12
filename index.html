@@ -502,7 +502,7 @@ const CONFIG = {
   attentionItems: [
     "Overall progress (+BOP) improved but stays Amber: 98.35% actual vs. 98.70% planned (−0.35% variance, improved from −0.94% last period) — Construction gap narrowed to −1.02% (96.87% vs. 97.89%) from −2.55%, and BOP is now essentially on plan (−0.09%)",
     "WTG installed reached 63/64 (+1: NW#24; matches the report's own summary line) — only NW#21 remains to be installed",
-    "WTG in-operation total unchanged at 45/64 for a 2nd week with no new operation dates; 12 turbines are now in Static Commissioning with M&E complete (up from 11, +NW#34) and 6 still await M&E punchlists — conversion to operation is the key next milestone",
+    "WTG in-operation total unchanged at 45/64 for a 2nd week with no new operation dates; 17 turbines are now in Static Commissioning with M&E complete (up from 11 last week; NW#17, #24, #25, #33, #44 and #34 newly cleared) and only 1 (NW#6) still awaits its M&E punchlist — conversion to operation is the key next milestone",
     "Submarine cable progress advanced to 73.2% (from 72.2%) — 120SQ laying reached 34/39 lines (+3: NW#34–NW#25, NW#25–NW#14, Emergency Line NW#6–NW#14); export Line 2 burial rose to 77.9% (from 75.8%)",
     "October weather so far (11 days): 7 operable vs. 4 non-operable — a better ratio than September; Fleet: Hansan 1 grew to 43 units (+1)"
   ],
@@ -512,10 +512,10 @@ const CONFIG = {
     paragraphs: [
       "Overall project progress (+BOP blended) stands at 98.35% actual vs. 98.70% planned (−0.35% variance, Amber), narrowing from last period's −0.94% as actual progress advanced +0.62 pt against a +0.03 pt plan move. Engineering and Procurement remain 100% complete. Construction is 96.87% actual vs. 97.89% planned (−1.02%, Amber, recovering from −2.55%). BOP is 98.27% actual vs. 98.36% planned (−0.09%, effectively on plan, up from −0.42%).",
       "WTG Foundation, TP, KESCO foundation inspection, WTG pre-assembly and its KESCO inspection all remain 100% complete (64/64).",
-      "WTG installation: 63/64 turbines fully installed (+1: NW#24), matching the report's own summary line; NW#21 is the only turbine not yet installed. The 'WTG in operation' total is unchanged at 45/64 (all with explicit operation dates). Commissioning pipeline: 12 turbines are in Static Commissioning with M&E punchlists complete (NW#2, #3, #4, #7, #9, #10, #12, #14, #15, #18, #27, #34 — NW#34 newly added) and 6 installed turbines are still waiting on M&E punchlists (NW#6, #17, #24, #25, #33, #44).",
+      "WTG installation: 63/64 turbines fully installed (+1: NW#24), matching the report's own summary line; NW#21 is the only turbine not yet installed. The 'WTG in operation' total is unchanged at 45/64 (all with explicit operation dates). Commissioning pipeline: 17 turbines have M&E punchlists complete and are in (or ready for) commissioning (NW#2, #3, #4, #7, #9, #10, #12, #14, #15, #17, #18, #24, #25, #27, #33, #34, #44 — 6 more cleared this period: NW#17, #24, #25, #33, #34, #44), and only NW#6 is still waiting on its M&E punchlist.",
       "Cable progress advanced to 73.2% overall (up from 72.2%): all 11×800SQ and 20×400SQ lines remain 100% laid, and 120SQ inter-array laying reached 34 of 39 lines (+3: String 10 segments NW#34–NW#25 and NW#25–NW#14, plus Emergency Line NW#6–NW#14). Burial advanced on several strings — String 5 (72.7%→74.6%), String 7 (83.4%→84.8%), String 8 (82.4%→85.7%), String 9 (84.6%→87.8%), String 11 (83.1%→87.5%) — and the 400SQ NW#43–NW#32 segment reached 100% burial. Export Line 2 (North) burial rose from 75.8% to 77.9%. The remaining 5 unlaid 120SQ lines are NW#45–NW#34, the three String 11 segments and Emergency Line NW#14–NW#24.",
       "Generation: October month-to-date (thru 11 Oct) is 10,715,712 kWh from 45 active turbines (5.56 m/s average wind); September closed at 24,026,157 kWh. All-time generation is 109,071,381 kWh. Marine conditions for October so far (11 days): 7 operable vs. 4 non-operable.",
-      "ICT (BOP systems): Network 98% (1 offshore TP switch remaining), Ship Monitoring 99% (RADAR not integrated), GIS Integrated Control 85% (turbine/ICCP/SHM data not yet linked), Submarine Cable Monitoring 50% (screen not implemented) — unchanged this period. Fleet: Hansan 1 grew to 43 units (+1). Priority for next period: convert Static-Commissioning turbines to operation, clear the remaining M&E punchlists, install NW#21, and complete the last 5 lines of 120SQ laying."
+      "ICT (BOP systems): Network 98% (1 offshore TP switch remaining), Ship Monitoring 99% (RADAR not integrated), GIS Integrated Control 85% (turbine/ICCP/SHM data not yet linked), Submarine Cable Monitoring 50% (screen not implemented) — unchanged this period. Fleet: Hansan 1 grew to 43 units (+1). Priority for next period: convert the 17 M&E-complete turbines to operation, clear NW#6's M&E punchlist, install NW#21, and complete the last 5 lines of 120SQ laying."
     ],
     source: "Source: Nakwol I 2nd Week of October 2026 Internal Report (period 5–11 Oct 2026, reported 12 Oct 2026) · S-Curve update dated 9 Oct 2026 · WTG Production Summary thru 11 Oct 2026."
   },
@@ -728,15 +728,15 @@ const FALLBACK = {
     "14": "comm",
     "15": "comm",
     "16": "op",
-    "17": "wait",
+    "17": "comm",
     "18": "comm",
     "19": "op",
     "20": "op",
     "21": "tp",
     "22": "op",
     "23": "op",
-    "24": "wait",
-    "25": "wait",
+    "24": "comm",
+    "25": "comm",
     "26": "op",
     "27": "comm",
     "28": "op",
@@ -744,7 +744,7 @@ const FALLBACK = {
     "30": "op",
     "31": "op",
     "32": "op",
-    "33": "wait",
+    "33": "comm",
     "34": "comm",
     "35": "op",
     "36": "op",
@@ -755,7 +755,7 @@ const FALLBACK = {
     "41": "op",
     "42": "op",
     "43": "op",
-    "44": "wait",
+    "44": "comm",
     "45": "op",
     "46": "op",
     "47": "op",
