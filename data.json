@@ -1,17 +1,17 @@
 {
   "meta": {
     "reportTitle": "Nakwol I Offshore Wind Project",
-    "weekNumber": 15,
-    "weekLabel": "2nd Week of October 2026",
-    "reportDate": "2026-10-11",
+    "weekNumber": 16,
+    "weekLabel": "3rd Week of October 2026",
+    "reportDate": "2026-10-18",
     "updatedBy": "Project Team"
   },
   "kpis": {
-    "overallProgress": 98.35,
-    "plannedProgress": 98.7,
-    "wtgInstalled": 63,
+    "overallProgress": 98.8,
+    "plannedProgress": 98.71,
+    "wtgInstalled": 64,
     "wtgTotal": 64,
-    "wtgInOperation": 45,
+    "wtgInOperation": 49,
     "monopileTotal": 64,
     "tpInstalled": 64,
     "cableStringTotal": 11,
@@ -66,7 +66,7 @@
       93.92,
       96.7,
       97.08,
-      98.7,
+      98.71,
       99.65,
       99.83
     ],
@@ -92,7 +92,7 @@
       91.28,
       94.96,
       97.48,
-      98.35,
+      98.8,
       null,
       null
     ],
@@ -118,7 +118,7 @@
       null,
       null,
       null,
-      98.35,
+      98.8,
       99.65,
       99.83
     ],
@@ -126,32 +126,32 @@
   },
   "wtgStatus": {
     "1": "op",
-    "2": "comm",
-    "3": "comm",
-    "4": "comm",
+    "2": "op",
+    "3": "op",
+    "4": "op",
     "5": "op",
     "6": "wait",
-    "7": "comm",
+    "7": "kesco",
     "8": "op",
-    "9": "comm",
-    "10": "comm",
+    "9": "op",
+    "10": "kesco",
     "11": "op",
     "12": "comm",
     "13": "op",
     "14": "comm",
-    "15": "comm",
+    "15": "kesco",
     "16": "op",
-    "17": "comm",
-    "18": "comm",
+    "17": "kesco",
+    "18": "kesco",
     "19": "op",
     "20": "op",
-    "21": "tp",
+    "21": "wait",
     "22": "op",
     "23": "op",
     "24": "comm",
     "25": "comm",
     "26": "op",
-    "27": "comm",
+    "27": "kesco",
     "28": "op",
     "29": "op",
     "30": "op",
@@ -235,10 +235,14 @@
     "NW#39": "2026-09-22",
     "NW#5": "2026-09-23",
     "NW#38": "2026-09-23",
-    "NW#19": "2026-09-25"
+    "NW#19": "2026-09-25",
+    "NW#2": "2026-10-16",
+    "NW#3": "2026-10-17",
+    "NW#4": "2026-10-17",
+    "NW#9": "2026-10-17"
   },
   "cableCategories": {
-    "offshoreCable": 73.2,
+    "offshoreCable": 74.8,
     "substation": 100,
     "switchingStation": 100,
     "undergroundTL": 100,
@@ -531,7 +535,7 @@
             "to": "NW#59",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 84.8
+            "burialPct": 86.8
           },
           {
             "from": "NW#59",
@@ -712,7 +716,7 @@
             "to": "NW#63",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 87.5
+            "burialPct": 88.5
           },
           {
             "from": "NW#63",
@@ -732,15 +736,15 @@
             "from": "NW#55",
             "to": "NW#44",
             "size": 120,
-            "layingPct": 0,
-            "burialPct": 0
+            "layingPct": 100,
+            "burialPct": 100
           },
           {
             "from": "NW#44",
             "to": "NW#33",
             "size": 120,
-            "layingPct": 0,
-            "burialPct": 0
+            "layingPct": 100,
+            "burialPct": 100
           },
           {
             "from": "NW#33",
@@ -795,14 +799,14 @@
     ]
   },
   "exportCable": {
-    "pctLabel": 89.0,
+    "pctLabel": 97.0,
     "routes": [
       {
         "name": "Northern Route",
         "from": "Song-I-do Island",
         "to": "MJ Industries",
         "layingPct": 100,
-        "burialPct": 77.9
+        "burialPct": 94
       },
       {
         "name": "Southern Route",
@@ -841,29 +845,29 @@
     },
     {
       "name": "Tower",
-      "done": 63,
+      "done": 64,
       "total": 64
     },
     {
       "name": "Nacelle",
-      "done": 63,
+      "done": 64,
       "total": 64
     },
     {
       "name": "Hub & Blade",
-      "done": 63,
+      "done": 64,
       "total": 64
     },
     {
       "name": "KESCO (Super)",
-      "done": 45,
+      "done": 55,
       "total": 64
     }
   ],
   "operation": {
-    "periodLabel": "Dec 2025 – 11 Oct 2026 (MTD)",
-    "totalKwh": 109071381,
-    "activeTurbines": 45,
+    "periodLabel": "Dec 2025 – 18 Oct 2026 (MTD)",
+    "totalKwh": 117694032,
+    "activeTurbines": 49,
     "lidarWind": {
       "hubHeight": 112,
       "source": "Measured from LiDAR during development @112m hub height (pre-construction wind resource baseline, typical-year cycle)",
@@ -945,10 +949,10 @@
       },
       {
         "label": "Oct-26",
-        "turbines": 45,
-        "kwh": 10715712,
-        "windMs": 5.56,
-        "note": "11 Oct 2026 (MTD)"
+        "turbines": 49,
+        "kwh": 19338363,
+        "windMs": 6.21,
+        "note": "18 Oct 2026 (MTD)"
       }
     ],
     "turbines": [
@@ -964,7 +968,7 @@
         "jul": 1500673,
         "aug": 467674,
         "sep": 684747,
-        "oct": 145515
+        "oct": 252366
       },
       {
         "name": "NW#64",
@@ -978,7 +982,7 @@
         "jul": 885552,
         "aug": 467408,
         "sep": 653444,
-        "oct": 130311
+        "oct": 252285
       },
       {
         "name": "NW#62",
@@ -992,7 +996,7 @@
         "jul": 1370169,
         "aug": 450999,
         "sep": 568532,
-        "oct": 128750
+        "oct": 251248
       },
       {
         "name": "NW#53",
@@ -1006,7 +1010,7 @@
         "jul": 1279542,
         "aug": 419421,
         "sep": 636126,
-        "oct": 137031
+        "oct": 222900
       },
       {
         "name": "NW#61",
@@ -1020,7 +1024,7 @@
         "jul": 537463,
         "aug": 415336,
         "sep": 644230,
-        "oct": 137075
+        "oct": 247020
       },
       {
         "name": "NW#58",
@@ -1034,7 +1038,7 @@
         "jul": 1371465,
         "aug": 395109,
         "sep": 682134,
-        "oct": 359647
+        "oct": 676268
       },
       {
         "name": "NW#59",
@@ -1048,7 +1052,7 @@
         "jul": 1364286,
         "aug": 413857,
         "sep": 694398,
-        "oct": 356131
+        "oct": 669805
       },
       {
         "name": "NW#60",
@@ -1062,7 +1066,7 @@
         "jul": 1395179,
         "aug": 65401,
         "sep": 262049,
-        "oct": 132011
+        "oct": 248109
       },
       {
         "name": "NW#63",
@@ -1076,7 +1080,7 @@
         "jul": 1330567,
         "aug": 427392,
         "sep": 563227,
-        "oct": 287761
+        "oct": 576864
       },
       {
         "name": "NW#56",
@@ -1090,7 +1094,7 @@
         "jul": 1472871,
         "aug": 424737,
         "sep": 722519,
-        "oct": 370621
+        "oct": 688634
       },
       {
         "name": "NW#1",
@@ -1104,7 +1108,7 @@
         "jul": 1505672,
         "aug": 416340,
         "sep": 629383,
-        "oct": 328038
+        "oct": 638408
       },
       {
         "name": "NW#47",
@@ -1118,7 +1122,7 @@
         "jul": 1444571,
         "aug": 427070,
         "sep": 765557,
-        "oct": 386742
+        "oct": 699494
       },
       {
         "name": "NW#46",
@@ -1132,7 +1136,7 @@
         "jul": 1552273,
         "aug": 407117,
         "sep": 803670,
-        "oct": 400556
+        "oct": 713360
       },
       {
         "name": "NW#48",
@@ -1146,7 +1150,7 @@
         "jul": 1358537,
         "aug": 424488,
         "sep": 719724,
-        "oct": 377034
+        "oct": 687492
       },
       {
         "name": "NW#31",
@@ -1160,7 +1164,7 @@
         "jul": 1447423,
         "aug": 459065,
         "sep": 713967,
-        "oct": 151712
+        "oct": 258644
       },
       {
         "name": "NW#41",
@@ -1174,7 +1178,7 @@
         "jul": 1386257,
         "aug": 338270,
         "sep": 238619,
-        "oct": 119932
+        "oct": 157556
       },
       {
         "name": "NW#57",
@@ -1188,7 +1192,7 @@
         "jul": 788997,
         "aug": 391313,
         "sep": 655954,
-        "oct": 352416
+        "oct": 660467
       },
       {
         "name": "NW#29",
@@ -1202,7 +1206,7 @@
         "jul": 1184689,
         "aug": 427083,
         "sep": 773050,
-        "oct": 147325
+        "oct": 256381
       },
       {
         "name": "NW#40",
@@ -1216,7 +1220,7 @@
         "jul": 1171803,
         "aug": 404545,
         "sep": 717071,
-        "oct": 131486
+        "oct": 237638
       },
       {
         "name": "NW#52",
@@ -1244,7 +1248,7 @@
         "jul": 163458,
         "aug": 385639,
         "sep": 745917,
-        "oct": 363923
+        "oct": 675875
       },
       {
         "name": "NW#50",
@@ -1258,7 +1262,7 @@
         "jul": 61170,
         "aug": 426397,
         "sep": 297137,
-        "oct": 107284
+        "oct": 192181
       },
       {
         "name": "NW#32",
@@ -1272,7 +1276,7 @@
         "jul": 32397,
         "aug": 487789,
         "sep": 770401,
-        "oct": 150782
+        "oct": 260931
       },
       {
         "name": "NW#51",
@@ -1286,7 +1290,7 @@
         "jul": 13479,
         "aug": 372032,
         "sep": 703940,
-        "oct": 130262
+        "oct": 225011
       },
       {
         "name": "NW#42",
@@ -1300,7 +1304,7 @@
         "jul": 1932,
         "aug": 342881,
         "sep": 696774,
-        "oct": 141389
+        "oct": 245238
       },
       {
         "name": "NW#43",
@@ -1314,7 +1318,7 @@
         "jul": 388,
         "aug": 342429,
         "sep": 707990,
-        "oct": 139840
+        "oct": 251633
       },
       {
         "name": "NW#55",
@@ -1328,7 +1332,7 @@
         "jul": 8,
         "aug": 401334,
         "sep": 749495,
-        "oct": 375200
+        "oct": 672163
       },
       {
         "name": "NW#23",
@@ -1342,7 +1346,7 @@
         "jul": 0,
         "aug": 345978,
         "sep": 856287,
-        "oct": 172591
+        "oct": 279389
       },
       {
         "name": "NW#45",
@@ -1356,7 +1360,7 @@
         "jul": 4,
         "aug": 389424,
         "sep": 836651,
-        "oct": 406201
+        "oct": 716464
       },
       {
         "name": "NW#22",
@@ -1370,7 +1374,7 @@
         "jul": null,
         "aug": 396998,
         "sep": 821465,
-        "oct": 169586
+        "oct": 276399
       },
       {
         "name": "NW#36",
@@ -1384,7 +1388,7 @@
         "jul": null,
         "aug": 278191,
         "sep": 788201,
-        "oct": 385156
+        "oct": 704648
       },
       {
         "name": "NW#13",
@@ -1398,7 +1402,7 @@
         "jul": null,
         "aug": 362093,
         "sep": 798572,
-        "oct": 181965
+        "oct": 224278
       },
       {
         "name": "NW#35",
@@ -1412,7 +1416,7 @@
         "jul": null,
         "aug": 270147,
         "sep": 822580,
-        "oct": 400019
+        "oct": 719100
       },
       {
         "name": "NW#28",
@@ -1426,7 +1430,7 @@
         "jul": null,
         "aug": null,
         "sep": 186653,
-        "oct": 155551
+        "oct": 261686
       },
       {
         "name": "NW#30",
@@ -1440,7 +1444,7 @@
         "jul": null,
         "aug": null,
         "sep": 181514,
-        "oct": 155710
+        "oct": 264507
       },
       {
         "name": "NW#8",
@@ -1454,7 +1458,7 @@
         "jul": null,
         "aug": null,
         "sep": 204345,
-        "oct": 413990
+        "oct": 738247
       },
       {
         "name": "NW#11",
@@ -1468,7 +1472,7 @@
         "jul": null,
         "aug": null,
         "sep": 176071,
-        "oct": 177752
+        "oct": 288835
       },
       {
         "name": "NW#20",
@@ -1482,7 +1486,7 @@
         "jul": null,
         "aug": null,
         "sep": 155692,
-        "oct": 144752
+        "oct": 259200
       },
       {
         "name": "NW#26",
@@ -1496,7 +1500,7 @@
         "jul": null,
         "aug": null,
         "sep": 170975,
-        "oct": 393962
+        "oct": 718132
       },
       {
         "name": "NW#16",
@@ -1510,7 +1514,7 @@
         "jul": null,
         "aug": null,
         "sep": 100585,
-        "oct": 375855
+        "oct": 699458
       },
       {
         "name": "NW#37",
@@ -1524,7 +1528,7 @@
         "jul": null,
         "aug": null,
         "sep": 96201,
-        "oct": 378390
+        "oct": 695934
       },
       {
         "name": "NW#5",
@@ -1538,7 +1542,7 @@
         "jul": null,
         "aug": null,
         "sep": 92723,
-        "oct": 215305
+        "oct": 354464
       },
       {
         "name": "NW#38",
@@ -1552,7 +1556,7 @@
         "jul": null,
         "aug": null,
         "sep": 73883,
-        "oct": 144091
+        "oct": 250829
       },
       {
         "name": "NW#39",
@@ -1566,7 +1570,7 @@
         "jul": null,
         "aug": null,
         "sep": 70066,
-        "oct": 149533
+        "oct": 265729
       },
       {
         "name": "NW#19",
@@ -1580,7 +1584,63 @@
         "jul": null,
         "aug": null,
         "sep": 63084,
-        "oct": 167133
+        "oct": 279880
+      },
+      {
+        "name": "NW#2",
+        "dec": null,
+        "jan": null,
+        "feb": null,
+        "mar": null,
+        "apr": null,
+        "may": null,
+        "jun": null,
+        "jul": null,
+        "aug": null,
+        "sep": null,
+        "oct": 168695
+      },
+      {
+        "name": "NW#3",
+        "dec": null,
+        "jan": null,
+        "feb": null,
+        "mar": null,
+        "apr": null,
+        "may": null,
+        "jun": null,
+        "jul": null,
+        "aug": null,
+        "sep": null,
+        "oct": 41581
+      },
+      {
+        "name": "NW#4",
+        "dec": null,
+        "jan": null,
+        "feb": null,
+        "mar": null,
+        "apr": null,
+        "may": null,
+        "jun": null,
+        "jul": null,
+        "aug": null,
+        "sep": null,
+        "oct": 39191
+      },
+      {
+        "name": "NW#9",
+        "dec": null,
+        "jan": null,
+        "feb": null,
+        "mar": null,
+        "apr": null,
+        "may": null,
+        "jun": null,
+        "jul": null,
+        "aug": null,
+        "sep": null,
+        "oct": 34350
       }
     ]
   }
