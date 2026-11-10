@@ -1,17 +1,17 @@
 {
   "meta": {
     "reportTitle": "Nakwol I Offshore Wind Project",
-    "weekNumber": 18,
-    "weekLabel": "5th Week of October 2026",
-    "reportDate": "2026-11-01",
+    "weekNumber": 19,
+    "weekLabel": "1st Week of November 2026",
+    "reportDate": "2026-11-08",
     "updatedBy": "Project Team"
   },
   "kpis": {
-    "overallProgress": 99.04,
-    "plannedProgress": 99.46,
+    "overallProgress": 99.31,
+    "plannedProgress": 99.52,
     "wtgInstalled": 64,
     "wtgTotal": 64,
-    "wtgInOperation": 55,
+    "wtgInOperation": 56,
     "monopileTotal": 64,
     "tpInstalled": 64,
     "cableStringTotal": 11,
@@ -67,7 +67,7 @@
       96.7,
       97.08,
       99.46,
-      99.65,
+      99.52,
       99.83
     ],
     "actual": [
@@ -93,7 +93,7 @@
       94.96,
       97.48,
       99.04,
-      null,
+      99.31,
       null
     ],
     "forecast": [
@@ -118,11 +118,11 @@
       null,
       null,
       null,
-      99.04,
-      99.65,
+      null,
+      99.31,
       99.83
     ],
-    "todayIndex": 21
+    "todayIndex": 22
   },
   "wtgStatus": {
     "1": "op",
@@ -138,14 +138,14 @@
     "11": "op",
     "12": "comm",
     "13": "op",
-    "14": "comm",
+    "14": "wait",
     "15": "op",
     "16": "op",
     "17": "op",
     "18": "op",
     "19": "op",
     "20": "op",
-    "21": "wait",
+    "21": "comm",
     "22": "op",
     "23": "op",
     "24": "comm",
@@ -157,8 +157,8 @@
     "30": "op",
     "31": "op",
     "32": "op",
-    "33": "comm",
-    "34": "kesco",
+    "33": "op",
+    "34": "comm",
     "35": "op",
     "36": "op",
     "37": "op",
@@ -245,10 +245,11 @@
     "NW#17": "2026-10-30",
     "NW#18": "2026-11-01",
     "NW#15": "2026-11-01",
-    "NW#27": "2026-11-01"
+    "NW#27": "2026-11-01",
+    "33": "2026-11-03"
   },
   "cableCategories": {
-    "offshoreCable": 89.8,
+    "offshoreCable": 96.2,
     "substation": 100,
     "switchingStation": 100,
     "undergroundTL": 100,
@@ -266,14 +267,14 @@
             "to": "NW#64",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 97.2
+            "burialPct": 100.0
           },
           {
             "from": "NW#64",
             "to": "NW#43",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 95.6
+            "burialPct": 100.0
           },
           {
             "from": "NW#43",
@@ -313,21 +314,21 @@
             "to": "NW#54",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 86.8
+            "burialPct": 100.0
           },
           {
             "from": "NW#54",
             "to": "NW#42",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 95.2
+            "burialPct": 100.0
           },
           {
             "from": "NW#42",
             "to": "NW#31",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 94.9
+            "burialPct": 100.0
           },
           {
             "from": "NW#31",
@@ -360,21 +361,21 @@
             "to": "NW#53",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 90.7
+            "burialPct": 100.0
           },
           {
             "from": "NW#53",
             "to": "NW#41",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 11.8
+            "burialPct": 100.0
           },
           {
             "from": "NW#41",
             "to": "NW#29",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 27.3
+            "burialPct": 100.0
           },
           {
             "from": "NW#29",
@@ -407,21 +408,21 @@
             "to": "NW#62",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 74.3
+            "burialPct": 100.0
           },
           {
             "from": "NW#62",
             "to": "NW#40",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 90.1
+            "burialPct": 100.0
           },
           {
             "from": "NW#40",
             "to": "NW#28",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 71.6
+            "burialPct": 76.0
           },
           {
             "from": "NW#28",
@@ -454,14 +455,14 @@
             "to": "NW#61",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 83.8
+            "burialPct": 100.0
           },
           {
             "from": "NW#61",
             "to": "NW#52",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 97.1
+            "burialPct": 100.0
           },
           {
             "from": "NW#52",
@@ -494,7 +495,7 @@
             "to": "NW#60",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 96.0
+            "burialPct": 100.0
           },
           {
             "from": "NW#60",
@@ -508,7 +509,7 @@
             "to": "NW#51",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 76.0
+            "burialPct": 100.0
           },
           {
             "from": "NW#51",
@@ -541,14 +542,14 @@
             "to": "NW#59",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 93.4
+            "burialPct": 100.0
           },
           {
             "from": "NW#59",
             "to": "NW#49",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 80.8
+            "burialPct": 100.0
           },
           {
             "from": "NW#49",
@@ -581,21 +582,21 @@
             "to": "NW#58",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 95.7
+            "burialPct": 100.0
           },
           {
             "from": "NW#58",
             "to": "NW#48",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 55.2
+            "burialPct": 100.0
           },
           {
             "from": "NW#48",
             "to": "NW#36",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 30.0
+            "burialPct": 100.0
           },
           {
             "from": "NW#36",
@@ -628,21 +629,21 @@
             "to": "NW#57",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 94.2
+            "burialPct": 100.0
           },
           {
             "from": "NW#57",
             "to": "NW#47",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 0
+            "burialPct": 100.0
           },
           {
             "from": "NW#47",
             "to": "NW#35",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 29.5
+            "burialPct": 100.0
           },
           {
             "from": "NW#35",
@@ -675,21 +676,21 @@
             "to": "NW#56",
             "size": 800,
             "layingPct": 100,
-            "burialPct": 98.2
+            "burialPct": 100.0
           },
           {
             "from": "NW#56",
             "to": "NW#46",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 0
+            "burialPct": 100.0
           },
           {
             "from": "NW#46",
             "to": "NW#45",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 78.8
+            "burialPct": 100.0
           },
           {
             "from": "NW#45",
@@ -729,14 +730,14 @@
             "to": "NW#1",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 40.0
+            "burialPct": 100.0
           },
           {
             "from": "NW#1",
             "to": "NW#55",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 3.5
+            "burialPct": 100.0
           },
           {
             "from": "NW#55",
@@ -756,8 +757,8 @@
             "from": "NW#33",
             "to": "NW#24",
             "size": 120,
-            "layingPct": 0,
-            "burialPct": 0
+            "layingPct": 100,
+            "burialPct": 100.0
           }
         ]
       }
@@ -805,14 +806,14 @@
     ]
   },
   "exportCable": {
-    "pctLabel": 98.7,
+    "pctLabel": 100.0,
     "routes": [
       {
         "name": "Northern Route",
         "from": "Song-I-do Island",
         "to": "MJ Industries",
         "layingPct": 100,
-        "burialPct": 97.3
+        "burialPct": 100
       },
       {
         "name": "Southern Route",
@@ -871,9 +872,9 @@
     }
   ],
   "operation": {
-    "periodLabel": "Dec 2025 – 2 Nov 2026 (MTD)",
-    "totalKwh": 142907923,
-    "activeTurbines": 55,
+    "periodLabel": "Dec 2025 – 8 Nov 2026 (MTD)",
+    "totalKwh": 158596185,
+    "activeTurbines": 56,
     "lidarWind": {
       "hubHeight": 112,
       "source": "Measured from LiDAR during development @112m hub height (pre-construction wind resource baseline, typical-year cycle)",
@@ -961,10 +962,10 @@
       },
       {
         "label": "Nov-26",
-        "turbines": 55,
-        "kwh": 3573081,
-        "windMs": 5.75,
-        "note": "2 Nov 2026 (MTD)"
+        "turbines": 56,
+        "kwh": 19261343,
+        "windMs": 6.62,
+        "note": "8 Nov 2026 (MTD)"
       }
     ],
     "turbines": [
@@ -981,7 +982,7 @@
         "aug": 467674,
         "sep": 684747,
         "oct": 595257,
-        "nov": 74541
+        "nov": 371768
       },
       {
         "name": "NW#64",
@@ -996,7 +997,7 @@
         "aug": 467408,
         "sep": 653444,
         "oct": 561882,
-        "nov": 72136
+        "nov": 369014
       },
       {
         "name": "NW#62",
@@ -1011,7 +1012,7 @@
         "aug": 450999,
         "sep": 568532,
         "oct": 593057,
-        "nov": 70341
+        "nov": 360701
       },
       {
         "name": "NW#53",
@@ -1026,7 +1027,7 @@
         "aug": 419421,
         "sep": 636126,
         "oct": 541785,
-        "nov": 68836
+        "nov": 343973
       },
       {
         "name": "NW#61",
@@ -1041,7 +1042,7 @@
         "aug": 415336,
         "sep": 644230,
         "oct": 591124,
-        "nov": 60082
+        "nov": 339120
       },
       {
         "name": "NW#58",
@@ -1056,7 +1057,7 @@
         "aug": 395109,
         "sep": 682134,
         "oct": 1191393,
-        "nov": 72480
+        "nov": 356345
       },
       {
         "name": "NW#59",
@@ -1071,7 +1072,7 @@
         "aug": 413857,
         "sep": 694398,
         "oct": 1223523,
-        "nov": 65293
+        "nov": 345438
       },
       {
         "name": "NW#60",
@@ -1086,7 +1087,7 @@
         "aug": 65401,
         "sep": 262049,
         "oct": 513145,
-        "nov": 65705
+        "nov": 352420
       },
       {
         "name": "NW#63",
@@ -1101,7 +1102,7 @@
         "aug": 427392,
         "sep": 563227,
         "oct": 1108820,
-        "nov": 67172
+        "nov": 361916
       },
       {
         "name": "NW#56",
@@ -1116,7 +1117,7 @@
         "aug": 424737,
         "sep": 722519,
         "oct": 1224423,
-        "nov": 78597
+        "nov": 368342
       },
       {
         "name": "NW#1",
@@ -1131,7 +1132,7 @@
         "aug": 416340,
         "sep": 629383,
         "oct": 1140540,
-        "nov": 67928
+        "nov": 322934
       },
       {
         "name": "NW#47",
@@ -1146,7 +1147,7 @@
         "aug": 427070,
         "sep": 765557,
         "oct": 1270703,
-        "nov": 77956
+        "nov": 387514
       },
       {
         "name": "NW#46",
@@ -1161,7 +1162,7 @@
         "aug": 407117,
         "sep": 803670,
         "oct": 1301456,
-        "nov": 21
+        "nov": 295881
       },
       {
         "name": "NW#48",
@@ -1176,7 +1177,7 @@
         "aug": 424488,
         "sep": 719724,
         "oct": 1250170,
-        "nov": 77111
+        "nov": 370656
       },
       {
         "name": "NW#31",
@@ -1191,7 +1192,7 @@
         "aug": 459065,
         "sep": 713967,
         "oct": 614296,
-        "nov": 69319
+        "nov": 371943
       },
       {
         "name": "NW#41",
@@ -1206,7 +1207,7 @@
         "aug": 338270,
         "sep": 238619,
         "oct": 477930,
-        "nov": 72653
+        "nov": 328300
       },
       {
         "name": "NW#57",
@@ -1221,7 +1222,7 @@
         "aug": 391313,
         "sep": 655954,
         "oct": 1189258,
-        "nov": 71332
+        "nov": 356845
       },
       {
         "name": "NW#29",
@@ -1236,7 +1237,7 @@
         "aug": 427083,
         "sep": 773050,
         "oct": 397374,
-        "nov": 47031
+        "nov": 164741
       },
       {
         "name": "NW#40",
@@ -1251,7 +1252,7 @@
         "aug": 404545,
         "sep": 717071,
         "oct": 576042,
-        "nov": 67303
+        "nov": 349603
       },
       {
         "name": "NW#52",
@@ -1266,7 +1267,7 @@
         "aug": 372053,
         "sep": 730554,
         "oct": 410466,
-        "nov": 53674
+        "nov": 338358
       },
       {
         "name": "NW#49",
@@ -1281,7 +1282,7 @@
         "aug": 385639,
         "sep": 745917,
         "oct": 1235821,
-        "nov": 70429
+        "nov": 363116
       },
       {
         "name": "NW#50",
@@ -1296,7 +1297,7 @@
         "aug": 426397,
         "sep": 297137,
         "oct": 530793,
-        "nov": 52207
+        "nov": 337038
       },
       {
         "name": "NW#32",
@@ -1311,7 +1312,7 @@
         "aug": 487789,
         "sep": 770401,
         "oct": 627445,
-        "nov": 72080
+        "nov": 90977
       },
       {
         "name": "NW#51",
@@ -1326,7 +1327,7 @@
         "aug": 372032,
         "sep": 703940,
         "oct": 559068,
-        "nov": 68374
+        "nov": 348672
       },
       {
         "name": "NW#42",
@@ -1341,7 +1342,7 @@
         "aug": 342881,
         "sep": 696774,
         "oct": 576845,
-        "nov": 68055
+        "nov": 325866
       },
       {
         "name": "NW#43",
@@ -1356,7 +1357,7 @@
         "aug": 342429,
         "sep": 707990,
         "oct": 384943,
-        "nov": 71884
+        "nov": 367462
       },
       {
         "name": "NW#55",
@@ -1371,7 +1372,7 @@
         "aug": 401334,
         "sep": 749495,
         "oct": 1226937,
-        "nov": 83229
+        "nov": 386673
       },
       {
         "name": "NW#23",
@@ -1386,7 +1387,7 @@
         "aug": 345978,
         "sep": 856287,
         "oct": 655088,
-        "nov": 76577
+        "nov": 393493
       },
       {
         "name": "NW#45",
@@ -1401,7 +1402,7 @@
         "aug": 389424,
         "sep": 836651,
         "oct": 1314744,
-        "nov": 84117
+        "nov": 403921
       },
       {
         "name": "NW#22",
@@ -1416,7 +1417,7 @@
         "aug": 396998,
         "sep": 821465,
         "oct": 633932,
-        "nov": 75377
+        "nov": 385455
       },
       {
         "name": "NW#36",
@@ -1431,7 +1432,7 @@
         "aug": 278191,
         "sep": 788201,
         "oct": 1292871,
-        "nov": 28033
+        "nov": 36753
       },
       {
         "name": "NW#13",
@@ -1446,7 +1447,7 @@
         "aug": 362093,
         "sep": 798572,
         "oct": 602069,
-        "nov": 0
+        "nov": 16249
       },
       {
         "name": "NW#35",
@@ -1461,7 +1462,7 @@
         "aug": 270147,
         "sep": 822580,
         "oct": 1311560,
-        "nov": 79682
+        "nov": 388422
       },
       {
         "name": "NW#28",
@@ -1476,7 +1477,7 @@
         "aug": null,
         "sep": 186653,
         "oct": 610022,
-        "nov": 71560
+        "nov": 367024
       },
       {
         "name": "NW#30",
@@ -1491,7 +1492,7 @@
         "aug": null,
         "sep": 181514,
         "oct": 608840,
-        "nov": 74630
+        "nov": 365274
       },
       {
         "name": "NW#8",
@@ -1506,7 +1507,7 @@
         "aug": null,
         "sep": 204345,
         "oct": 1295651,
-        "nov": 67992
+        "nov": 390617
       },
       {
         "name": "NW#11",
@@ -1521,7 +1522,7 @@
         "aug": null,
         "sep": 176071,
         "oct": 1033006,
-        "nov": 78348
+        "nov": 397275
       },
       {
         "name": "NW#20",
@@ -1536,7 +1537,7 @@
         "aug": null,
         "sep": 155692,
         "oct": 626363,
-        "nov": 75916
+        "nov": 390083
       },
       {
         "name": "NW#26",
@@ -1551,7 +1552,7 @@
         "aug": null,
         "sep": 170975,
         "oct": 1273023,
-        "nov": 70849
+        "nov": 378593
       },
       {
         "name": "NW#16",
@@ -1566,7 +1567,7 @@
         "aug": null,
         "sep": 100585,
         "oct": 1241511,
-        "nov": 67607
+        "nov": 371407
       },
       {
         "name": "NW#37",
@@ -1581,7 +1582,7 @@
         "aug": null,
         "sep": 96201,
         "oct": 1232117,
-        "nov": 71147
+        "nov": 369485
       },
       {
         "name": "NW#5",
@@ -1596,7 +1597,7 @@
         "aug": null,
         "sep": 92723,
         "oct": 1024230,
-        "nov": 5321
+        "nov": 330311
       },
       {
         "name": "NW#38",
@@ -1611,7 +1612,7 @@
         "aug": null,
         "sep": 73883,
         "oct": 584407,
-        "nov": 69028
+        "nov": 359808
       },
       {
         "name": "NW#39",
@@ -1626,7 +1627,7 @@
         "aug": null,
         "sep": 70066,
         "oct": 602989,
-        "nov": 66722
+        "nov": 361109
       },
       {
         "name": "NW#19",
@@ -1641,7 +1642,7 @@
         "aug": null,
         "sep": 63084,
         "oct": 651158,
-        "nov": 71632
+        "nov": 376495
       },
       {
         "name": "NW#2",
@@ -1656,7 +1657,7 @@
         "aug": null,
         "sep": null,
         "oct": 752658,
-        "nov": 75410
+        "nov": 405482
       },
       {
         "name": "NW#3",
@@ -1671,7 +1672,7 @@
         "aug": null,
         "sep": null,
         "oct": 428866,
-        "nov": 72964
+        "nov": 400444
       },
       {
         "name": "NW#4",
@@ -1686,7 +1687,7 @@
         "aug": null,
         "sep": null,
         "oct": 432161,
-        "nov": 73653
+        "nov": 403089
       },
       {
         "name": "NW#9",
@@ -1701,7 +1702,7 @@
         "aug": null,
         "sep": null,
         "oct": 396706,
-        "nov": 69416
+        "nov": 378284
       },
       {
         "name": "NW#7",
@@ -1716,7 +1717,7 @@
         "aug": null,
         "sep": null,
         "oct": 375719,
-        "nov": 66143
+        "nov": 389934
       },
       {
         "name": "NW#10",
@@ -1731,7 +1732,7 @@
         "aug": null,
         "sep": null,
         "oct": 48377,
-        "nov": 75669
+        "nov": 392830
       },
       {
         "name": "NW#17",
@@ -1746,7 +1747,7 @@
         "aug": null,
         "sep": null,
         "oct": 36609,
-        "nov": 59539
+        "nov": 367811
       },
       {
         "name": "NW#18",
@@ -1761,7 +1762,7 @@
         "aug": null,
         "sep": null,
         "oct": null,
-        "nov": 54606
+        "nov": 359529
       },
       {
         "name": "NW#27",
@@ -1776,7 +1777,7 @@
         "aug": null,
         "sep": null,
         "oct": null,
-        "nov": 52813
+        "nov": 348500
       },
       {
         "name": "NW#15",
@@ -1791,7 +1792,7 @@
         "aug": null,
         "sep": null,
         "oct": null,
-        "nov": 52561
+        "nov": 337369
       },
       {
         "name": "NW#6",
@@ -1821,7 +1822,7 @@
         "aug": null,
         "sep": null,
         "oct": null,
-        "nov": 0
+        "nov": 320681
       },
       {
         "name": "NW#44",
