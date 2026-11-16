@@ -460,10 +460,10 @@ const CONFIG = {
     projectName: "Nakwol I Offshore Wind Farm — Weekly Management Dashboard",
     specsLine: "364.8 MW · 64 × 5.7 MW · Nakwol, South Korea · Owner: Nakwol Blueheart Co., Ltd. · EPC: Consortium of Hoban Blue Energy and CEEC-Korea · OE: Hanmi Global Co., Ltd.",
     phaseBadge: "Construction Phase",
-    weekBadge: "1st Week of November 2026",
-    revBadge: "Rev. 2026-11-09",
-    reportWeekEnding: "2026-11-08",
-    dataCutoff: "2026-11-06",
+    weekBadge: "2nd Week of November 2026",
+    revBadge: "Rev. 2026-11-16",
+    reportWeekEnding: "2026-11-15",
+    dataCutoff: "2026-11-13",
     preparedBy: "Rattanawan M. / Thanawat V. / Lee Donghyun",
     reviewedBy: "Pollawat K.",
     approvedBy: "Paitool P."
@@ -472,52 +472,52 @@ const CONFIG = {
   thresholds: { amberFloor: -0.03 },
 
   kpi: {
-    overallPlanPct:   0.9952,
-    overallActualPct: 0.9931,
+    overallPlanPct:   0.9959,
+    overallActualPct: 0.9940,
     targetLabel: "Target COD Countdown",
     targetDate: "2026-12-31",
     targetDateLabel: "Target COD",
     openItemsLabel: "WTGs In Operation",
-    openItemsValue: "56 / 64",
-    openItemsSub: "64 installed · 56 in operation"
+    openItemsValue: "58 / 64",
+    openItemsSub: "64 installed · 58 in operation"
   },
 
   scurve: {
     weightsNote: "Weights per S-Curve, Overall (+BOP) blended basis: Engineering 9.75% · Procurement 19.5% · Construction 30% · BOP 40.75%. Chart, KPI tiles, and WP table all use this +BOP basis, sourced directly from the 'Overall (+BOP)' row of 0. S-Curve-Nakwol-20261030.xlsx (weekly series, one point picked per month-end; current-period point taken at the 30 Oct cut-off). Sep-26 remains closed at Plan 97.08% / Actual 97.48%; Oct-26 continues as the current-period point.",
     // labels and data arrays: Plan/Actual/Forecast as % values (0–100), actual=null for unreported
     labels:   ["Jan-25","Feb-25","Mar-25","Apr-25","May-25","Jun-25","Jul-25","Aug-25","Sep-25","Oct-25","Nov-25","Dec-25","Jan-26","Feb-26","Mar-26","Apr-26","May-26","Jun-26","Jul-26","Aug-26","Sep-26","Oct-26","Nov-26","Dec-26"],
-    planned:  [50.2,54.8,55.7,57.3,59.9,61.2,62.5,65.1,65.9,70.3,72.8,74.7,76.0,77.3,78.3,79.3,83.6,88.8,93.9,96.7,97.1,99.5,99.5,99.8],
-    actual:   [41.1,43.3,45.1,46.3,53.4,56.3,58.9,62.3,64.2,66.8,68.7,70.6,71.9,72.5,74.1,77.7,83.4,86.5,91.3,95.0,97.5,99.0,99.3,null],
-    forecast: [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,99.3,99.8],
-    todayIndex: 22  // index of current reporting period (Nov-26), value taken at 6-Nov cutoff
+    planned:  [50.2,54.8,55.7,57.3,59.9,61.2,62.5,65.1,65.9,70.3,72.8,74.7,76.0,77.3,78.3,79.3,83.6,88.8,93.9,96.7,97.1,99.5,99.6,99.8],
+    actual:   [41.1,43.3,45.1,46.3,53.4,56.3,58.9,62.3,64.2,66.8,68.7,70.6,71.9,72.5,74.1,77.7,83.4,86.5,91.3,95.0,97.5,99.0,99.4,null],
+    forecast: [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,99.4,99.8],
+    todayIndex: 22  // index of current reporting period (Nov-26), value taken at 13-Nov cutoff
   },
 
   wpVariance: [
     { name: "Engineering",  weight: 0.0975, plan: 1.00,   actual: 1.00,   note: "100% complete — no outstanding engineering items" },
     { name: "Procurement",  weight: 0.195,  plan: 1.00,   actual: 1.00,   note: "100% complete — no outstanding procurement items" },
-    { name: "Construction", weight: 0.30,   plan: 0.9840, actual: 0.9844, note: "MP/SQ/SB 64/64 · TP 64/64 · KESCO(Sub) 64/64 · Tower/Nacelle/HB 64/64 · KESCO(Super) 58/64 · 56 in operation · 120SQ laying 39/39" },
-    { name: "BOP",          weight: 0.4075, plan: 1.0000, actual: 0.9945, note: "ICT/BOP systems — Network 98%, Ship Monitoring 99%, GIS Integrated Control 85%, Submarine Cable Monitoring 50%" }
+    { name: "Construction", weight: 0.30,   plan: 0.9863, actual: 0.9863, note: "MP/SQ/SB 64/64 · TP 64/64 · KESCO(Sub) 64/64 · Tower/Nacelle/HB 64/64 · KESCO(Super) 59/64 · 58 in operation · 120SQ laying 39/39" },
+    { name: "BOP",          weight: 0.4075, plan: 1.0000, actual: 0.9953, note: "ICT/BOP systems — Network 99%, Ship Monitoring 100%, GIS Integrated Control 90%, Submarine Cable Monitoring 100%" }
   ],
 
   attentionItems: [
-    "Overall progress (+BOP) is Amber but narrowing: 99.31% actual vs. 99.52% planned (−0.21% variance, from −0.41%; S-Curve cut-off 6 Nov) — actual rose +0.27 pt vs. plan +0.06 pt; Construction is now ahead of plan (98.44% vs. 98.40%, +0.04%) and BOP is 99.45% vs. 100% plan (−0.55%).",
-    "WTG in operation rose to 56/64 (+1: NW#33 on 3 Nov). KESCO (Super) pre-use inspection stays at 58/64 (56 operating + NW#6 and NW#44 at 'KESCO Inspection'); the 6 turbines not yet inspected are NW#12, #14, #21, #24, #25 and #34 (NW#34 is back at Static Commissioning this period). NW#21's M&E punchlist is now completed (all 8 remaining turbines have M&E complete).",
-    "November month-to-date generation is 19,261,343 kWh through 8 Nov (56 active turbines, 6.62 m/s average wind) after October's record 40,979,173 kWh; all-time generation is 158.60M kWh.",
-    "Cable: 120SQ laying is complete (39/39, +1: NW#33–NW#24) and the report shows burial at 100% on all lines except 400SQ NW#40–NW#28 (76%); the report's headline cable figure is 96.2% (89.8% last period) and Export Cable Line 1/Line 2 burial are both 100%. The large single-week burial jump (e.g. 400SQ NW#57–NW#47 and NW#56–NW#46 from Waiting to 100%) is worth confirming with the site team.",
-    "November weather to date (2–8 Nov): 2 operable days vs. 6 non-operable days; Fleet unchanged (Hansan 1: 44 units). The Oct→Nov S-Curve month rollover has been applied with this update."
+    "Overall progress (+BOP) is Amber but narrowing: 99.40% actual vs. 99.59% planned (−0.19% variance, from −0.21%; S-Curve cut-off 13 Nov) — actual +0.09 pt vs. plan +0.07 pt; Construction is on plan (98.63% vs. 98.63%) and BOP is 99.53% vs. 100% plan (−0.47%).",
+    "WTG in operation rose to 58/64 (+2: NW#6 and NW#44, both on 12 Nov). KESCO (Super) pre-use inspection reached 59/64 (the report's '59': 58 operating + NW#21 at 'KESCO Inspection'); the 5 turbines not yet inspected are NW#12, #14, #24, #25 and #34, all at Static Commissioning with M&E complete.",
+    "November month-to-date generation is 32,156,049 kWh through 15 Nov (58 active turbines, 5.85 m/s average wind) after October's record 40,979,173 kWh; all-time generation is 171.49M kWh.",
+    "Cable: all laying complete (11×800SQ, 20×400SQ, 39×120SQ) and burial is 100% on every line except 400SQ NW#40–NW#28 (98%); the report's headline Submarine Cable figure is 98.5% (96.2% last period) and Export Cable Line 1/Line 2 are both 100%.",
+    "ICT: Ship Monitoring (100%, RADAR/TOD integrated) and Submarine Cable Monitoring (100%) completed; Network 99% (TP#24 switch communication commissioning) and GIS Integrated Control 90% remain. November weather to date (1–15 Nov): 5 operable vs. 10 non-operable days; Fleet unchanged (Hansan 1: 44 units)."
   ],
 
   narrative: {
-    title: "Headline Narrative · 1st Week of November 2026",
+    title: "Headline Narrative · 2nd Week of November 2026",
     paragraphs: [
-      "Overall project progress (+BOP blended) stands at 99.31% actual vs. 99.52% planned (−0.21% variance, Amber), improved from −0.41% as actual progress advanced +0.27 pt against a +0.06 pt plan step. Construction is now +0.04% ahead of plan (98.44% vs. 98.40%) and BOP is at 99.45% vs. 100% plan.",
+      "Overall project progress (+BOP blended) stands at 99.40% actual vs. 99.59% planned (−0.19% variance, Amber), slightly improved from −0.21%. Construction is on plan (98.63% vs. 98.63%) and BOP is at 99.53% vs. 100% plan.",
       "WTG Foundation, TP, KESCO foundation inspection, WTG pre-assembly and its KESCO inspection all remain 100% complete (64/64), and WTG installation remains complete at 64/64.",
-      "The 'WTG in operation' total rose to 56/64 (+1): NW#33 entered operation on 3 Nov. KESCO (Super) pre-use inspection stays at 58/64 (the report's '58' figure): the 56 operating turbines plus NW#6 and NW#44 at 'KESCO Inspection'. The 6 not yet inspected are NW#12, #14, #21, #24, #25 and #34 — all with installation and M&E punchlists completed (NW#21's punchlist closed this period; NW#34 is reported back at Static Commissioning).",
-      "Cable: laying is 100% for all 11×800SQ, 20×400SQ and — with NW#33–NW#24 now completed — 39/39 120SQ lines. The report shows burial at 100% on every line except 400SQ NW#40–NW#28 (76%), with Export Cable Line 1 and Line 2 both 100% buried; the report's headline Submarine Cable figure is 96.2%.",
-      "Generation: October closed at a record 40,979,173 kWh (52 exporting turbines, 6.18 m/s average wind). November month-to-date (through 8 Nov) is 19,261,343 kWh from 56 active turbines at 6.62 m/s average wind. All-time generation is 158,596,185 kWh. Marine conditions for November to date (2–8 Nov): 2 operable vs. 6 non-operable days.",
-      "ICT (BOP systems): Network 98% (1 offshore TP switch remaining), Ship Monitoring 99% (RADAR not integrated), GIS Integrated Control 85% (turbine/ICCP/SHM data not yet linked), Submarine Cable Monitoring 50% (screen not implemented) — unchanged this period. Fleet unchanged (Hansan 1: 44 units). Priority for next period: convert the remaining 8 turbines to operation and complete KESCO (Super) inspection on the last 6."
+      "The 'WTG in operation' total rose to 58/64 (+2): NW#6 and NW#44 entered operation on 12 Nov. KESCO (Super) pre-use inspection reached 59/64 (the report's '59' figure): the 58 operating turbines plus NW#21 at 'KESCO Inspection'. The 5 not yet inspected are NW#12, #14, #24, #25 and #34, all with installation and M&E punchlists completed and at Static Commissioning.",
+      "Cable: laying is complete on all lines (11×800SQ, 20×400SQ, 39×120SQ). Burial is 100% on every line except 400SQ NW#40–NW#28 (98%), with Export Cable Line 1 and Line 2 both 100%; the report's headline Submarine Cable figure is 98.5%.",
+      "Generation: October closed at a record 40,979,173 kWh (52 exporting turbines, 6.18 m/s average wind). November month-to-date (through 15 Nov) is 32,156,049 kWh from 58 active turbines at 5.85 m/s average wind. All-time generation is 171,490,891 kWh. Marine conditions for November to date (1–15 Nov): 5 operable vs. 10 non-operable days.",
+      "ICT (BOP systems): Ship Monitoring (100%) and Submarine Cable Monitoring (100%) are now complete; Network 99% (TP#24 industrial switch communication commissioning) and GIS Integrated Control 90% (Submarine Cable Monitoring data integration) remain. Fleet unchanged (Hansan 1: 44 units). Priority for next period: convert the remaining 6 turbines to operation and complete KESCO (Super) inspection on the last 5."
     ],
-    source: "Source: Nakwol I 1st Week of November 2026 Internal Report (period 2–8 Nov 2026, reported 9 Nov 2026) · S-Curve update dated 6 Nov 2026 · WTG Production Summary thru 8 Nov 2026."
+    source: "Source: Nakwol I 2nd Week of November 2026 Internal Report (period 9–15 Nov 2026, reported 16 Nov 2026) · S-Curve update dated 13 Nov 2026 · WTG Production Summary thru 15 Nov 2026."
   },
 
   weatherMeta: {
@@ -529,23 +529,23 @@ const CONFIG = {
   },
   weatherData: [],
 
-  permitsKpi: { total: 32, approved: 27, inProgress: 5, overallPct: 0.84375 },
+  permitsKpi: { total: 32, approved: 31, inProgress: 1, overallPct: 0.96875 },
   permitsCriticalPath: [
     { name: "Substation — Temporary Use Permit", status: "Extended to 2026.12.31 (approved 20 Jun 2026)", color: "green" },
-    { name: "Substation — Building Use Approval Permit", status: "Change in progress; preparing Sep-2026 extension", color: "amber" },
+    { name: "Substation — Building Use Approval Permit", status: "Received 29 Sep 2026", color: "green" },
     { name: "Substation — Pre-Use Inspection of Elec. Installations", status: "Extension to Dec-2026 planned", color: "amber" },
-    { name: "Substation — Temp. Access Road Permit", status: "Change in progress; preparing Sep-2026 extension", color: "amber" },
-    { name: "Public Waters Occupation/Use — Plan Changes", status: "Change in progress; extension + supervision agreement required", color: "amber" },
-    { name: "Lighted Buoys — Implementation Plan Notification", status: "Change in progress; extension planned (by HBE)", color: "amber" }
+    { name: "Substation — Temp. Access Road Permit", status: "Amendment approved 15 Jul 2026", color: "green" },
+    { name: "Public Waters Occupation/Use — Plan Changes", status: "Valid (period to 31 Dec 2026)", color: "green" },
+    { name: "Lighted Buoys — Implementation Plan Notification", status: "Valid; extension planned (by HBE)", color: "green" }
   ],
   permitsTable: [
     { num:1,  name:"Electric Utility License",                                                          area:"Offshore & General",           issueDate:"2023-08-01", status:"Valid",  color:"green", remark:"Construction plan approval period: Dec 2027; project preparation period: Dec 2029" },
     { num:2,  name:"Agreement between Air Force, Army and Company",                                      area:"Offshore & General",           issueDate:"2021-05-31", status:"Closed", color:"green", remark:"Valid until removal of wind turbines and associated facilities" },
     { num:3,  name:"Permission/Modification Approval — Occupation & Use of Public Waters (Lighted Buoys)",area:"Offshore & General",           issueDate:"2025-12-16", status:"Valid",  color:"green", remark:"Construction Jul 2022–Dec 2026; Operation Jul 2027–Jun 2040" },
-    { num:4,  name:"Notification of Implementation Plan — Occupy/Use Public Waters (Lighted Buoys)",     area:"Offshore & General",           issueDate:"2023-06-29", status:"Change in progress", color:"amber", remark:"Extension planned (by HBE)" },
+    { num:4,  name:"Notification of Implementation Plan — Occupy/Use Public Waters (Lighted Buoys)",     area:"Offshore & General",           issueDate:"2023-06-29", status:"Valid", color:"green", remark:"Period Jun 2024–Jun 2026 per OE report; extension planned (by HBE)" },
     { num:5,  name:"Permit for Occupation and Use of Public Waters and Approval for Changes",            area:"Offshore & General",           issueDate:"2023-07-24", status:"Valid",  color:"green", remark:"Construction Jun 2021–Dec 2026; Operation Jul 2026–Dec 2048" },
-    { num:6,  name:"Approval of Implementation Plans/Changes — Occupation & Use of Public Waters",       area:"Offshore & General",           issueDate:"2023-08-07", status:"Change in progress", color:"amber", remark:"Extension planned; supervision service agreement required" },
-    { num:7,  name:"Authorization of Plans for Works — Electric Installations for Wind Farm",            area:"Offshore & General",           issueDate:"2024-08-05", status:"Valid",  color:"green", remark:"Construction period revised 5 Jun 2026 (~31 Dec 2026)" },
+    { num:6,  name:"Approval of Implementation Plans/Changes — Occupation & Use of Public Waters",       area:"Offshore & General",           issueDate:"2023-09-07", status:"Valid", color:"green", remark:"Period Jul 2021–Dec 2026" },
+    { num:7,  name:"Authorization of Plans for Works — Electric Installations for Wind Farm",            area:"Offshore & General",           issueDate:"2024-09-05", status:"Valid",  color:"green", remark:"Period Mar 2023–Dec 2026; construction period revised 5 Jun 2026" },
     { num:8,  name:"Agreement for Use of Electric Installations (Transmission & Distribution)",          area:"Offshore & General",           issueDate:"2025-07-31", status:"Valid",  color:"green", remark:"Term: 1 yr after commencement of use (started 30 Sep 2025)" },
     { num:9,  name:"REC Sales Contract under Renewable Energy Supply Requirement (RPS)",                 area:"Offshore & General",           issueDate:"2024-02-07", status:"Valid",  color:"green", remark:"Effective from Commercial Operation Date (COD)" },
     { num:10, name:"Permit for Development Activities — U/G Transmission Line Installation",             area:"U/G TL (Songi Island)",        issueDate:"2025-03-20", status:"Valid",  color:"green", remark:"2 Jun 2026 — Approval for amendment (Permit No. 5094)" },
@@ -554,9 +554,9 @@ const CONFIG = {
     { num:13, name:"Permission for Development Activities",                                              area:"Substation (Songi Island)",    issueDate:"2025-12-10", status:"Valid",  color:"green", remark:"Amendment approval notified 2 Jun 2026 (Permit No. 5094)" },
     { num:14, name:"Permission for Conversion of Mountainous Districts",                                 area:"Substation (Songi Island)",    issueDate:"2025-12-08", status:"Valid",  color:"green", remark:"Amendment approval notified 2 Jun 2026" },
     { num:15, name:"Building Permission",                                                                area:"Substation (Songi Island)",    issueDate:"2025-12-15", status:"Closed", color:"green", remark:"Construction Permit" },
-    { num:16, name:"Building Use Approval Permit",                                                       area:"Substation (Songi Island)",    issueDate:null,          status:"Change in progress", color:"amber", remark:"Preparing for the Sep-2026 extension" },
-    { num:17, name:"Pre-Use Inspection of Electric Installations",                                       area:"Substation (Songi Island)",    issueDate:"2025-12-13", status:"Change in progress", color:"amber", remark:"Applying for extension before expiry; target end of Dec 2026" },
-    { num:18, name:"Permission for Development Activities (Temp. Access Road)",                          area:"Substation (Songi Island)",    issueDate:"2025-12-13", status:"Change in progress", color:"amber", remark:"Preparing for the Sep-2026 extension" },
+    { num:16, name:"Building Use Approval Permit",                                                       area:"Substation (Songi Island)",    issueDate:"2026-09-29",          status:"Valid", color:"green", remark:"Official notification of Building Use Approval received 29 Sep 2026" },
+    { num:17, name:"Pre-Use Inspection of Electric Installations",                                       area:"Substation (Songi Island)",    issueDate:"2025-11-13", status:"Change in progress", color:"amber", remark:"Applying for extension before expiry; extension to end of Dec 2026 planned" },
+    { num:18, name:"Permission for Development Activities (Temp. Access Road)",                          area:"Substation (Songi Island)",    issueDate:"2025-11-13", status:"Valid", color:"green", remark:"Approval notification for amendment (15 Jul 2026)" },
     { num:19, name:"Permission for Development Activities",                                              area:"U/G TL (MJ Industries)",       issueDate:"2024-04-19", status:"Closed", color:"green", remark:"" },
     { num:20, name:"Permission for Development Activities",                                              area:"Switching Station",            issueDate:"2021-08-20", status:"Closed", color:"green", remark:"Use Approval Certificate No. 2021-General Civil Affairs Office-New Construction Permit-110" },
     { num:21, name:"Permission for Conversion of Mountainous Districts",                                 area:"Switching Station",            issueDate:"2025-07-16", status:"Closed", color:"green", remark:"Certificate of Use Approval" },
@@ -572,7 +572,7 @@ const CONFIG = {
     { num:31, name:"Certificate of Report of Plans — Electric Installations for TL",                     area:"TL Establishment Report",       issueDate:"2025-05-05", status:"Valid",  color:"green", remark:"154kV substation (No.22-39)" },
     { num:32, name:"Certificate of Report of Plans — Electric Installations for TL",                     area:"TL Establishment Report",       issueDate:"2025-05-05", status:"Valid",  color:"green", remark:"Seohongnong Switching Station (No.22-20)" }
   ],
-  permitsFootnote: "Source: NW-OE-NB-MRT-0032, OE/CS Monthly Report (June 2026), Rev. 1.0, issued 10 Jul 2026 — Section 2.5 Permit Schedule Review.",
+  permitsFootnote: "Source: NW-OE-NB-MRT-0036, OE/CS Monthly Report (October 2026), Rev. 1.0, issued 10 Nov 2026 — Section 2.5 Permit Schedule Review.",
 
   footer: {
     dataSource: "Data source: Weekly JV progress report, site meeting minutes & data.json"
@@ -588,17 +588,17 @@ const CONFIG = {
 const FALLBACK = {
   "meta": {
     "reportTitle": "Nakwol I Offshore Wind Project",
-    "weekNumber": 19,
-    "weekLabel": "1st Week of November 2026",
-    "reportDate": "2026-11-08",
+    "weekNumber": 20,
+    "weekLabel": "2nd Week of November 2026",
+    "reportDate": "2026-11-15",
     "updatedBy": "Project Team"
   },
   "kpis": {
-    "overallProgress": 99.31,
-    "plannedProgress": 99.52,
+    "overallProgress": 99.4,
+    "plannedProgress": 99.59,
     "wtgInstalled": 64,
     "wtgTotal": 64,
-    "wtgInOperation": 56,
+    "wtgInOperation": 58,
     "monopileTotal": 64,
     "tpInstalled": 64,
     "cableStringTotal": 11,
@@ -654,7 +654,7 @@ const FALLBACK = {
       96.7,
       97.08,
       99.46,
-      99.52,
+      99.59,
       99.83
     ],
     "actual": [
@@ -680,7 +680,7 @@ const FALLBACK = {
       94.96,
       97.48,
       99.04,
-      99.31,
+      99.4,
       null
     ],
     "forecast": [
@@ -706,7 +706,7 @@ const FALLBACK = {
       null,
       null,
       null,
-      99.31,
+      99.4,
       99.83
     ],
     "todayIndex": 22
@@ -717,7 +717,7 @@ const FALLBACK = {
     "3": "op",
     "4": "op",
     "5": "op",
-    "6": "kesco",
+    "6": "op",
     "7": "op",
     "8": "op",
     "9": "op",
@@ -725,14 +725,14 @@ const FALLBACK = {
     "11": "op",
     "12": "comm",
     "13": "op",
-    "14": "wait",
+    "14": "comm",
     "15": "op",
     "16": "op",
     "17": "op",
     "18": "op",
     "19": "op",
     "20": "op",
-    "21": "comm",
+    "21": "kesco",
     "22": "op",
     "23": "op",
     "24": "comm",
@@ -755,7 +755,7 @@ const FALLBACK = {
     "41": "op",
     "42": "op",
     "43": "op",
-    "44": "kesco",
+    "44": "op",
     "45": "op",
     "46": "op",
     "47": "op",
@@ -811,32 +811,34 @@ const FALLBACK = {
     "13": "2026-08-04",
     "35": "2026-08-04",
     "22": "2026-08-05",
-    "NW#30": "2026-09-16",
-    "NW#28": "2026-09-16",
-    "NW#11": "2026-09-18",
-    "NW#8": "2026-09-18",
-    "NW#20": "2026-09-19",
-    "NW#26": "2026-09-20",
-    "NW#16": "2026-09-22",
-    "NW#37": "2026-09-22",
-    "NW#39": "2026-09-22",
-    "NW#5": "2026-09-23",
-    "NW#38": "2026-09-23",
-    "NW#19": "2026-09-25",
-    "NW#2": "2026-10-16",
-    "NW#3": "2026-10-17",
-    "NW#4": "2026-10-17",
-    "NW#9": "2026-10-17",
-    "NW#7": "2026-10-20",
-    "NW#10": "2026-10-29",
-    "NW#17": "2026-10-30",
-    "NW#18": "2026-11-01",
-    "NW#15": "2026-11-01",
-    "NW#27": "2026-11-01",
-    "33": "2026-11-03"
+    "33": "2026-11-03",
+    "30": "2026-09-16",
+    "28": "2026-09-16",
+    "11": "2026-09-18",
+    "8": "2026-09-18",
+    "20": "2026-09-19",
+    "26": "2026-09-20",
+    "16": "2026-09-22",
+    "37": "2026-09-22",
+    "39": "2026-09-22",
+    "5": "2026-09-23",
+    "38": "2026-09-23",
+    "19": "2026-09-25",
+    "2": "2026-10-16",
+    "3": "2026-10-17",
+    "4": "2026-10-17",
+    "9": "2026-10-17",
+    "7": "2026-10-20",
+    "10": "2026-10-29",
+    "17": "2026-10-30",
+    "18": "2026-11-01",
+    "15": "2026-11-01",
+    "27": "2026-11-01",
+    "6": "2026-11-12",
+    "44": "2026-11-12"
   },
   "cableCategories": {
-    "offshoreCable": 96.2,
+    "offshoreCable": 98.5,
     "substation": 100,
     "switchingStation": 100,
     "undergroundTL": 100,
@@ -1009,7 +1011,7 @@ const FALLBACK = {
             "to": "NW#28",
             "size": 400,
             "layingPct": 100,
-            "burialPct": 76.0
+            "burialPct": 98.0
           },
           {
             "from": "NW#28",
@@ -1454,14 +1456,14 @@ const FALLBACK = {
     },
     {
       "name": "KESCO (Super)",
-      "done": 58,
+      "done": 59,
       "total": 64
     }
   ],
   "operation": {
-    "periodLabel": "Dec 2025 – 8 Nov 2026 (MTD)",
-    "totalKwh": 158596185,
-    "activeTurbines": 56,
+    "periodLabel": "Dec 2025 – 15 Nov 2026 (MTD)",
+    "totalKwh": 171490891,
+    "activeTurbines": 58,
     "lidarWind": {
       "hubHeight": 112,
       "source": "Measured from LiDAR during development @112m hub height (pre-construction wind resource baseline, typical-year cycle)",
@@ -1549,10 +1551,10 @@ const FALLBACK = {
       },
       {
         "label": "Nov-26",
-        "turbines": 56,
-        "kwh": 19261343,
-        "windMs": 6.62,
-        "note": "8 Nov 2026 (MTD)"
+        "turbines": 58,
+        "kwh": 32156049,
+        "windMs": 5.85,
+        "note": "15 Nov 2026 (MTD)"
       }
     ],
     "turbines": [
@@ -1569,7 +1571,7 @@ const FALLBACK = {
         "aug": 467674,
         "sep": 684747,
         "oct": 595257,
-        "nov": 371768
+        "nov": 604894
       },
       {
         "name": "NW#64",
@@ -1584,7 +1586,7 @@ const FALLBACK = {
         "aug": 467408,
         "sep": 653444,
         "oct": 561882,
-        "nov": 369014
+        "nov": 593511
       },
       {
         "name": "NW#62",
@@ -1599,7 +1601,7 @@ const FALLBACK = {
         "aug": 450999,
         "sep": 568532,
         "oct": 593057,
-        "nov": 360701
+        "nov": 569628
       },
       {
         "name": "NW#53",
@@ -1614,7 +1616,7 @@ const FALLBACK = {
         "aug": 419421,
         "sep": 636126,
         "oct": 541785,
-        "nov": 343973
+        "nov": 550400
       },
       {
         "name": "NW#61",
@@ -1629,7 +1631,7 @@ const FALLBACK = {
         "aug": 415336,
         "sep": 644230,
         "oct": 591124,
-        "nov": 339120
+        "nov": 549971
       },
       {
         "name": "NW#58",
@@ -1644,7 +1646,7 @@ const FALLBACK = {
         "aug": 395109,
         "sep": 682134,
         "oct": 1191393,
-        "nov": 356345
+        "nov": 567583
       },
       {
         "name": "NW#59",
@@ -1659,7 +1661,7 @@ const FALLBACK = {
         "aug": 413857,
         "sep": 694398,
         "oct": 1223523,
-        "nov": 345438
+        "nov": 517591
       },
       {
         "name": "NW#60",
@@ -1674,7 +1676,7 @@ const FALLBACK = {
         "aug": 65401,
         "sep": 262049,
         "oct": 513145,
-        "nov": 352420
+        "nov": 542128
       },
       {
         "name": "NW#63",
@@ -1689,7 +1691,7 @@ const FALLBACK = {
         "aug": 427392,
         "sep": 563227,
         "oct": 1108820,
-        "nov": 361916
+        "nov": 582120
       },
       {
         "name": "NW#56",
@@ -1704,7 +1706,7 @@ const FALLBACK = {
         "aug": 424737,
         "sep": 722519,
         "oct": 1224423,
-        "nov": 368342
+        "nov": 590205
       },
       {
         "name": "NW#1",
@@ -1719,7 +1721,7 @@ const FALLBACK = {
         "aug": 416340,
         "sep": 629383,
         "oct": 1140540,
-        "nov": 322934
+        "nov": 545048
       },
       {
         "name": "NW#47",
@@ -1734,7 +1736,7 @@ const FALLBACK = {
         "aug": 427070,
         "sep": 765557,
         "oct": 1270703,
-        "nov": 387514
+        "nov": 635894
       },
       {
         "name": "NW#46",
@@ -1749,7 +1751,7 @@ const FALLBACK = {
         "aug": 407117,
         "sep": 803670,
         "oct": 1301456,
-        "nov": 295881
+        "nov": 528901
       },
       {
         "name": "NW#48",
@@ -1764,7 +1766,7 @@ const FALLBACK = {
         "aug": 424488,
         "sep": 719724,
         "oct": 1250170,
-        "nov": 370656
+        "nov": 590383
       },
       {
         "name": "NW#31",
@@ -1779,7 +1781,7 @@ const FALLBACK = {
         "aug": 459065,
         "sep": 713967,
         "oct": 614296,
-        "nov": 371943
+        "nov": 607220
       },
       {
         "name": "NW#41",
@@ -1794,7 +1796,7 @@ const FALLBACK = {
         "aug": 338270,
         "sep": 238619,
         "oct": 477930,
-        "nov": 328300
+        "nov": 545775
       },
       {
         "name": "NW#57",
@@ -1809,7 +1811,7 @@ const FALLBACK = {
         "aug": 391313,
         "sep": 655954,
         "oct": 1189258,
-        "nov": 356845
+        "nov": 552545
       },
       {
         "name": "NW#29",
@@ -1824,7 +1826,7 @@ const FALLBACK = {
         "aug": 427083,
         "sep": 773050,
         "oct": 397374,
-        "nov": 164741
+        "nov": 396697
       },
       {
         "name": "NW#40",
@@ -1839,7 +1841,7 @@ const FALLBACK = {
         "aug": 404545,
         "sep": 717071,
         "oct": 576042,
-        "nov": 349603
+        "nov": 559113
       },
       {
         "name": "NW#52",
@@ -1854,7 +1856,7 @@ const FALLBACK = {
         "aug": 372053,
         "sep": 730554,
         "oct": 410466,
-        "nov": 338358
+        "nov": 546723
       },
       {
         "name": "NW#49",
@@ -1869,7 +1871,7 @@ const FALLBACK = {
         "aug": 385639,
         "sep": 745917,
         "oct": 1235821,
-        "nov": 363116
+        "nov": 580922
       },
       {
         "name": "NW#50",
@@ -1884,7 +1886,7 @@ const FALLBACK = {
         "aug": 426397,
         "sep": 297137,
         "oct": 530793,
-        "nov": 337038
+        "nov": 546545
       },
       {
         "name": "NW#32",
@@ -1899,7 +1901,7 @@ const FALLBACK = {
         "aug": 487789,
         "sep": 770401,
         "oct": 627445,
-        "nov": 90977
+        "nov": 333658
       },
       {
         "name": "NW#51",
@@ -1914,7 +1916,7 @@ const FALLBACK = {
         "aug": 372032,
         "sep": 703940,
         "oct": 559068,
-        "nov": 348672
+        "nov": 565721
       },
       {
         "name": "NW#42",
@@ -1929,7 +1931,7 @@ const FALLBACK = {
         "aug": 342881,
         "sep": 696774,
         "oct": 576845,
-        "nov": 325866
+        "nov": 479365
       },
       {
         "name": "NW#43",
@@ -1944,7 +1946,7 @@ const FALLBACK = {
         "aug": 342429,
         "sep": 707990,
         "oct": 384943,
-        "nov": 367462
+        "nov": 604666
       },
       {
         "name": "NW#55",
@@ -1959,7 +1961,7 @@ const FALLBACK = {
         "aug": 401334,
         "sep": 749495,
         "oct": 1226937,
-        "nov": 386673
+        "nov": 622932
       },
       {
         "name": "NW#23",
@@ -1974,7 +1976,7 @@ const FALLBACK = {
         "aug": 345978,
         "sep": 856287,
         "oct": 655088,
-        "nov": 393493
+        "nov": 636078
       },
       {
         "name": "NW#45",
@@ -1989,7 +1991,7 @@ const FALLBACK = {
         "aug": 389424,
         "sep": 836651,
         "oct": 1314744,
-        "nov": 403921
+        "nov": 639890
       },
       {
         "name": "NW#22",
@@ -2004,7 +2006,7 @@ const FALLBACK = {
         "aug": 396998,
         "sep": 821465,
         "oct": 633932,
-        "nov": 385455
+        "nov": 641186
       },
       {
         "name": "NW#36",
@@ -2019,7 +2021,7 @@ const FALLBACK = {
         "aug": 278191,
         "sep": 788201,
         "oct": 1292871,
-        "nov": 36753
+        "nov": 170989
       },
       {
         "name": "NW#13",
@@ -2034,7 +2036,7 @@ const FALLBACK = {
         "aug": 362093,
         "sep": 798572,
         "oct": 602069,
-        "nov": 16249
+        "nov": 270525
       },
       {
         "name": "NW#35",
@@ -2049,7 +2051,7 @@ const FALLBACK = {
         "aug": 270147,
         "sep": 822580,
         "oct": 1311560,
-        "nov": 388422
+        "nov": 626309
       },
       {
         "name": "NW#28",
@@ -2064,7 +2066,7 @@ const FALLBACK = {
         "aug": null,
         "sep": 186653,
         "oct": 610022,
-        "nov": 367024
+        "nov": 589557
       },
       {
         "name": "NW#30",
@@ -2079,7 +2081,7 @@ const FALLBACK = {
         "aug": null,
         "sep": 181514,
         "oct": 608840,
-        "nov": 365274
+        "nov": 606001
       },
       {
         "name": "NW#8",
@@ -2094,7 +2096,7 @@ const FALLBACK = {
         "aug": null,
         "sep": 204345,
         "oct": 1295651,
-        "nov": 390617
+        "nov": 623175
       },
       {
         "name": "NW#11",
@@ -2109,7 +2111,7 @@ const FALLBACK = {
         "aug": null,
         "sep": 176071,
         "oct": 1033006,
-        "nov": 397275
+        "nov": 654627
       },
       {
         "name": "NW#20",
@@ -2124,7 +2126,7 @@ const FALLBACK = {
         "aug": null,
         "sep": 155692,
         "oct": 626363,
-        "nov": 390083
+        "nov": 638122
       },
       {
         "name": "NW#26",
@@ -2139,7 +2141,7 @@ const FALLBACK = {
         "aug": null,
         "sep": 170975,
         "oct": 1273023,
-        "nov": 378593
+        "nov": 599516
       },
       {
         "name": "NW#16",
@@ -2154,7 +2156,7 @@ const FALLBACK = {
         "aug": null,
         "sep": 100585,
         "oct": 1241511,
-        "nov": 371407
+        "nov": 595021
       },
       {
         "name": "NW#37",
@@ -2169,7 +2171,7 @@ const FALLBACK = {
         "aug": null,
         "sep": 96201,
         "oct": 1232117,
-        "nov": 369485
+        "nov": 597097
       },
       {
         "name": "NW#5",
@@ -2184,7 +2186,7 @@ const FALLBACK = {
         "aug": null,
         "sep": 92723,
         "oct": 1024230,
-        "nov": 330311
+        "nov": 587758
       },
       {
         "name": "NW#38",
@@ -2199,7 +2201,7 @@ const FALLBACK = {
         "aug": null,
         "sep": 73883,
         "oct": 584407,
-        "nov": 359808
+        "nov": 581024
       },
       {
         "name": "NW#39",
@@ -2214,7 +2216,7 @@ const FALLBACK = {
         "aug": null,
         "sep": 70066,
         "oct": 602989,
-        "nov": 361109
+        "nov": 577657
       },
       {
         "name": "NW#19",
@@ -2229,7 +2231,7 @@ const FALLBACK = {
         "aug": null,
         "sep": 63084,
         "oct": 651158,
-        "nov": 376495
+        "nov": 607286
       },
       {
         "name": "NW#2",
@@ -2244,7 +2246,7 @@ const FALLBACK = {
         "aug": null,
         "sep": null,
         "oct": 752658,
-        "nov": 405482
+        "nov": 671970
       },
       {
         "name": "NW#3",
@@ -2259,7 +2261,7 @@ const FALLBACK = {
         "aug": null,
         "sep": null,
         "oct": 428866,
-        "nov": 400444
+        "nov": 661599
       },
       {
         "name": "NW#4",
@@ -2274,7 +2276,7 @@ const FALLBACK = {
         "aug": null,
         "sep": null,
         "oct": 432161,
-        "nov": 403089
+        "nov": 656101
       },
       {
         "name": "NW#9",
@@ -2289,7 +2291,7 @@ const FALLBACK = {
         "aug": null,
         "sep": null,
         "oct": 396706,
-        "nov": 378284
+        "nov": 610175
       },
       {
         "name": "NW#7",
@@ -2304,7 +2306,7 @@ const FALLBACK = {
         "aug": null,
         "sep": null,
         "oct": 375719,
-        "nov": 389934
+        "nov": 626521
       },
       {
         "name": "NW#10",
@@ -2319,7 +2321,7 @@ const FALLBACK = {
         "aug": null,
         "sep": null,
         "oct": 48377,
-        "nov": 392830
+        "nov": 638685
       },
       {
         "name": "NW#17",
@@ -2334,7 +2336,7 @@ const FALLBACK = {
         "aug": null,
         "sep": null,
         "oct": 36609,
-        "nov": 367811
+        "nov": 594633
       },
       {
         "name": "NW#18",
@@ -2349,7 +2351,7 @@ const FALLBACK = {
         "aug": null,
         "sep": null,
         "oct": null,
-        "nov": 359529
+        "nov": 577461
       },
       {
         "name": "NW#27",
@@ -2364,7 +2366,7 @@ const FALLBACK = {
         "aug": null,
         "sep": null,
         "oct": null,
-        "nov": 348500
+        "nov": 566017
       },
       {
         "name": "NW#15",
@@ -2379,7 +2381,7 @@ const FALLBACK = {
         "aug": null,
         "sep": null,
         "oct": null,
-        "nov": 337369
+        "nov": 575283
       },
       {
         "name": "NW#6",
@@ -2394,7 +2396,7 @@ const FALLBACK = {
         "aug": null,
         "sep": null,
         "oct": null,
-        "nov": 0
+        "nov": 127010
       },
       {
         "name": "NW#33",
@@ -2409,7 +2411,7 @@ const FALLBACK = {
         "aug": null,
         "sep": null,
         "oct": null,
-        "nov": 320681
+        "nov": 588858
       },
       {
         "name": "NW#44",
@@ -2424,7 +2426,7 @@ const FALLBACK = {
         "aug": null,
         "sep": null,
         "oct": null,
-        "nov": 0
+        "nov": 109779
       }
     ]
   }
@@ -2750,10 +2752,10 @@ function renderFoundationICT() {
     {label:"Virtualization",        pct:100, note:""},
     {label:"Information Security",  pct:100, note:""},
     {label:"EMS-RTU",              pct:100, note:""},
-    {label:"Network",              pct:98,  note:"⚠ Industrial switches pending at 16 offshore locations"},
-    {label:"Ship Monitoring Sys.", pct:99,  note:"⚠ TP#63: TOD and RADAR not installed"},
-    {label:"GIS Integrated Control",pct:80, note:"⚠ Turbine, ICCP, SHM data not linked"},
-    {label:"Submarine Cable Monitoring",pct:50,note:"⚠ Monitoring screen not implemented"},
+    {label:"Network",              pct:99,  note:"⚠ Industrial switch communication commissioning pending (TP#24)"},
+    {label:"Ship Monitoring Sys.", pct:100, note:""},
+    {label:"GIS Integrated Control",pct:90, note:"⚠ Submarine Cable Monitoring data integration pending"},
+    {label:"Submarine Cable Monitoring",pct:100,note:""},
     {label:"Bird/Nav/Army/UPS",    pct:100, note:""}
   ].map(it => {
     const c = it.pct>=100?"var(--green)":it.pct>=80?"var(--blue-mid)":it.pct>=50?"#d97706":"var(--red)";
